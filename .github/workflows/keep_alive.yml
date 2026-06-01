@@ -1,0 +1,23 @@
+name: Keep Streamlit Alive
+
+on:
+  schedule:
+    # 每 10 小時自動執行一次
+    - cron: '0 */10 * * *'
+  workflow_dispatch: # 允許手動觸發
+
+jobs:
+  keep_alive:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+        
+      - name: Create Empty Commit
+        run: |
+          git config --global user.name "GitHub Action Bot"
+          git config --global user.email "action@github.com"
+          git commit --allow-empty -m "隱形定時打卡，維持網頁清醒"
+          git push
