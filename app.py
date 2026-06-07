@@ -67,7 +67,28 @@ if selected_categories:
 # --- 5. 主畫面呈現 ---
 st.title("🌐 醫學教育與國際會議查詢系統")
 st.caption("🔄 目前更新版本日期: 2026 / 05 / 25") 
-# 新增「高榮-出國經費導航員」可愛精緻區塊
+
+# === 新增：「高榮-出國經費導航員」可愛精緻區塊 ===
+st.markdown(
+    """
+    <div style="background-color: #f4fbf7; padding: 18px; border-radius: 12px; border-left: 5px solid #2e7d32; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 25px;">
+        <div style="display: flex; align-items: center;">
+            <div style="font-size: 42px; margin-right: 18px; filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.1));">✈️🦁</div>
+            <div>
+                <h4 style="margin: 0; color: #1b5e20; font-family: 'Microsoft JhengHei', sans-serif; font-weight: bold;">
+                    高榮-出國經費導航員 🚀
+                </h4>
+                <p style="margin: 6px 0 0 0; color: #374151; font-size: 14.5px; line-height: 1.5;">
+                    關於海外培訓公費申請、生活補助等相關院內法規，歡迎點擊下方連結諮詢專屬 AI 助理：<br>
+                    👉 <a href="https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing" target="_blank" style="color: #1565c0; font-weight: bold; text-decoration: underline;">點我開啟「高榮-出國經費導航員」諮詢視窗</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    """,
+    unsafe_html=True
+)
+# ===============================================
 
 st.write(f"共找到 **{len(filtered_df)}** 筆符合的會議資料：")
 
