@@ -1,10 +1,10 @@
-name: Keep Streamlit Alive
+name: Keep Streamlit Alive (Real Modify)
 
 on:
   schedule:
-    # 每 10 小時自動執行一次
+    # 每 10 小時自動改字一次，完美避開 12 小時休眠限制
     - cron: '0 */10 * * *'
-  workflow_dispatch: # 允許手動觸發
+  workflow_dispatch: # 允許手動點擊測試
 
 jobs:
   keep_alive:
@@ -15,9 +15,17 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
         
-      - name: Create Empty Commit
+      - name: Real Modify Code (Append Timestamp to app.py)
+        run: |
+          # 刪除之前可能存在的老舊時間標籤
+          sed -i '/# TIMESTAMPMARK/d' app.py
+          # 在 app.py 最末端加上全新的時間備註，強迫 Streamlit 判定檔案已被實質修改
+          echo -e "\n# TIMESTAMPMARK $(date +'%Y-%m-%d %H:%M:%S')" >> app.py
+          
+      - name: Commit and Push Changes
         run: |
           git config --global user.name "GitHub Action Bot"
           git config --global user.email "action@github.com"
-          git commit --allow-empty -m "隱形定時打卡，維持網頁清醒"
+          git add app.py
+          git commit -m "自動實體打卡：更新程式碼時間戳記，強制喚醒網頁"
           git push
