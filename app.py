@@ -86,7 +86,7 @@ st.markdown(
         </div>
     </div>
     """,
-    unsafe_html=True
+    unsafe_allow_html=True
 )
 # ===============================================
 
