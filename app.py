@@ -57,61 +57,54 @@ st.markdown(
 )
 
 
-# --- 4. 偽裝型「會議條件篩選條件面板🧪」控制台 ---
-# 透過高精準的 stExpander 專屬標籤進行魔改，避開不穩定的 container 類別
+# --- 4. 進階型「會議條件篩選條件面板🧪」控制台 ---
 st.markdown(
     """
     <style>
-    /* 1. 改造摺疊面板外殼：換上深黑底色、加粗科技藍左側邊條 */
+    /* 1. 改造外殼：換上深黑底色、加粗科技藍左側邊條 */
     div[data-testid="stExpander"], .stExpander {
         background-color: #1e222b !important;
         border: 1px solid #2d323f !important;
-        border-left: 5px solid #38bdf8 !important; /* 科技藍邊框強制歸位 */
+        border-left: 5px solid #38bdf8 !important; /* 科技藍邊框 */
         border-radius: 12px !important;
         box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
         margin-bottom: 25px !important;
-        padding: 5px !important;
+        padding: 0px !important; /* 清空外層多餘內距 */
     }
     
-    /* 2. 移除內部詳情區塊的預設白底與邊框 */
+    /* 2. 終極關鍵：完全隱藏原生的標題整行（summary），徹底根除任何隱藏字重疊與小箭頭 */
+    div[data-testid="stExpander"] summary, .stExpander summary {
+        display: none !important;
+    }
+    
+    /* 3. 重新定義內層區塊的間距，讓元件排版完美舒適 */
     div[data-testid="stExpanderDetails"] {
         background-color: transparent !important;
         border: none !important;
-        padding-top: 10px !important;
+        padding: 22px !important; /* 精緻內距移到卡片內層 */
     }
     
-    /* 3. 對齊標題字體：17.5px 粗體、指定科技藍色，完美對稱上方紫色區塊 */
-    div[data-testid="stExpander"] summary p,
-    div[data-testid="stExpander"] summary span,
-    .stExpander summary p {
+    /* 4. 完美雙生字體：獨立渲染標題，與上方紫色區塊完美對齊（17.5px 粗體科技藍） */
+    .custom-filter-title {
         color: #38bdf8 !important;
         font-family: 'Microsoft JhengHei', sans-serif !important;
         font-weight: bold !important;
         font-size: 17.5px !important;
-    }
-    
-    /* 4. 拔除點擊魔咒：讓標題欄無法被滑鼠點擊收合，固化成靜態卡片 */
-    div[data-testid="stExpander"] summary,
-    .stExpander summary {
-        pointer-events: none !important;
-        cursor: default !important;
-        background-color: transparent !important;
-    }
-    
-    /* 5. 隱藏右側的展開/折疊 SVG 小箭頭，不留任何破綻 */
-    div[data-testid="stExpander"] summary svg,
-    .stExpander summary svg {
-        display: none !important;
+        margin: 0 0 18px 0 !important;
+        display: block !important;
     }
     </style>
     """,
     unsafe_allow_html=True
 )
 
-# 啟用帶有堅固 CSS 錨點的進階組件（初始狀態設為展開，且已被上方 CSS 鎖死、美化）
-with st.expander("會議條件篩選條件面板 🧪", expanded=True):
+# 啟用永久展開的容器（標題列已被上面的 CSS 完美隱藏）
+with st.expander("Filter_Panel", expanded=True):
     
-    # 搜尋組件排版，完美內嵌在科技藍黑卡片中
+    # 直接在盒子內部渲染乾淨、不重疊的純科技藍高質感標題
+    st.markdown('<h4 class="custom-filter-title">會議條件篩選條件面板 🧪</h4>', unsafe_allow_html=True)
+    
+    # 搜尋元件排版，井然有序
     col1, col2 = st.columns([1, 1])
     with col1:
         search_keyword = st.text_input("🔎 輸入關鍵字 (如: 組織名稱、國家或城市)")
@@ -163,4 +156,4 @@ if not filtered_df.empty:
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
 
-# TIMESTAMPMARK 2026-06-09 01:24:00
+# TIMESTAMPMARK 2026-06-09 01:26:00
