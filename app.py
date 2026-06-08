@@ -40,31 +40,29 @@ all_categories = sorted(list(all_categories))
 st.title("🌐 醫學教育與國際會議查詢系統")
 st.caption("🔄 目前更新版本日期: 2026 / 05 / 25") 
 
-# === 「高榮-出國經費導航員」可愛精緻區塊 (安全新分頁版) ===
+# === 「高榮-出國經費導航員」高級暗黑層次感區塊 ===
 st.markdown(
     """
-    <div style="background-color: #f4fbf7; padding: 18px; border-radius: 12px; border-left: 5px solid #2e7d32; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 25px;">
-        <div style="display: flex; align-items: center;">
-            <div style="font-size: 42px; margin-right: 18px; filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.1));"></div>
-            <div>
-                <h4 style="margin: 0; color: #1b5e20; font-family: 'Microsoft JhengHei', sans-serif; font-weight: bold;">
-                    高榮-出國經費導航員 🚀
-                </h4>
-                <p style="margin: 6px 0 0 0; color: #374151; font-size: 14.5px; line-height: 1.5;">
-                    關於海外培訓公費申請、生活補助等相關院內法規，歡迎點擊下方連結諮詢專屬 AI 助理：<br>
-                    👉 <a href="https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing" target="_blank" style="color: #1565c0; font-weight: bold; text-decoration: underline;">點我開啟「高榮-出國經費導航員」諮詢視窗</a>
-                </p>
-                <p style="margin: 4px 0 0 0; color: #6b7280; font-size: 13px;">
-                    💡 註：若在 LINE 內點擊無反應，可點擊下方按鈕複製網址，並至手機瀏覽器（如 Chrome、Safari）貼上開啟。
-                </p>
-            </div>
-        </div>
+    <div style="background-color: #1e222b; padding: 20px; border-radius: 12px; border: 1px solid #2d323f; border-left: 5px solid #2e7d32; box-shadow: 0 4px 6px rgba(0,0,0,0.3); margin-bottom: 20px;">
+        <h4 style="margin: 0 0 10px 0; color: #4ade80; font-family: 'Microsoft JhengHei', sans-serif; font-weight: bold; font-size: 17px;">
+            高榮-出國經費導航員 🚀
+        </h4>
+        <p style="margin: 0; color: #e2e8f0; font-size: 14.5px; line-height: 1.6;">
+            關於海外培訓公費申請、生活補助等相關院內法規，歡迎點擊下方連結諮詢專屬 AI 助理：<br>
+            👉 <a href="https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing" target="_blank" style="color: #60a5fa; font-weight: bold; text-decoration: underline;">點我開啟「高榮-出國經費導航員」諮詢視窗</a>
+        </p>
+        <hr style="border: 0; border-top: 1px solid #2d323f; margin: 15px 0 10px 0;">
+        <p style="margin: 0; color: #94a3b8; font-size: 13px; line-height: 1.5;">
+            💡 <b>LINE 用戶操作提示：</b><br>
+            1. 若在 LINE 內點擊上方連結無反應，請點擊下方按鈕複製網址，並至手機瀏覽器（如 Chrome、Brave）貼上開啟。<br>
+            2. <b>分享小秘訣：</b>將本系統分享給同仁時，可在網址最後加上 <code style="background-color: #11141a; padding: 2px 6px; border-radius: 4px; color: #f43f5e; font-family: monospace;">?openExternalBrowser=1</code>，同仁在 LINE 點開時就會自動強制用手機預設瀏覽器開啟，體驗最流暢！
+        </p>
     </div>
     """,
     unsafe_allow_html=True
 )
 
-# 保留貼心的複製按鈕防線
+# 複製按鈕防線（精緻化調整）
 btn_col, _ = st.columns([1, 3])
 with btn_col:
     if st.button("📋 複製 AI 助理諮詢網址"):
@@ -124,4 +122,4 @@ if not filtered_df.empty:
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
 
-# TIMESTAMPMARK 2026-06-08 23:43:50
+# TIMESTAMPMARK 2026-06-08 23:55:00
