@@ -8,7 +8,7 @@ st.set_page_config(page_title="醫學教育與國際會議查詢系統", layout=
 # --- 2. 資料讀取與處理 ---
 @st.cache_data
 def load_data():
-    # 根據你的診斷清單，直接讀取資料夾裡的 WHO2026.xlsx
+    # 讀取資料夾裡的 WHO2026.xlsx
     df = pd.read_excel("WHO2026.xlsx")
     
     # 處理 Excel 內建的日期格式
@@ -35,19 +35,50 @@ for items in df['專業類別分類']:
             all_categories.add(item.strip())
 all_categories = sorted(list(all_categories))
 
-# --- 3. 側邊欄 (使用者操作區) ---
-st.sidebar.header("🔍 篩選條件")
 
-# 關鍵字搜尋
-search_keyword = st.sidebar.text_input("輸入關鍵字 (如: 組織名稱、國家或城市)")
+# --- 3. 主畫面標題與導航員專區 ---
+st.title("🌐 醫學教育與國際會議查詢系統")
+st.caption("🔄 目前更新版本日期: 2026 / 05 / 25") 
 
-# 多選分類下拉選單
-selected_categories = st.sidebar.multiselect(
-    "選擇感興趣的專業類別 (可多選)", 
-    options=all_categories
+# === 「高榮-出國經費導航員」可愛精緻區塊 ===
+st.markdown(
+    """
+    <div style="background-color: #f4fbf7; padding: 18px; border-radius: 12px; border-left: 5px solid #2e7d32; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 25px;">
+        <div style="display: flex; align-items: center;">
+            <div style="font-size: 42px; margin-right: 18px; filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.1));">✈️🦁</div>
+            <div>
+                <h4 style="margin: 0; color: #1b5e20; font-family: 'Microsoft JhengHei', sans-serif; font-weight: bold;">
+                    高榮-出國經費導航員 🚀
+                </h4>
+                <p style="margin: 6px 0 0 0; color: #374151; font-size: 14.5px; line-height: 1.5;">
+                    關於海外培訓公費申請、生活補助等相關院內法規，歡迎點擊下方連結諮詢專屬 AI 助理：<br>
+                    👉 <a href="https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing" target="_blank" style="color: #1565c0; font-weight: bold; text-decoration: underline;">點我開啟「高榮-出國經費導航員」諮詢視窗</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True
 )
 
-# --- 4. 資料過濾邏輯 ---
+
+# --- 4. 方案二核心：主畫面「摺疊式」篩選面板 ---
+# 預設為展開狀態 (expanded=True)，讓大家一進網頁就知道可以篩選
+with st.expander("📂 🔍 點擊展開 / 隱藏篩選條件面板", expanded=True):
+    # 使用 st.columns 讓關鍵字與多選分類在電腦版併排，手機版則會自動垂直堆疊（完美適應！）
+    col1, col2 = st.columns([1, 1])
+    
+    with col1:
+        search_keyword = st.text_input("🔎 輸入關鍵字 (如: 組織名稱、國家或城市)")
+        
+    with col2:
+        selected_categories = st.multiselect(
+            "🏷️ 選擇感興趣的專業類別 (可多選)", 
+            options=all_categories
+        )
+
+
+# --- 5. 資料過濾邏輯 ---
 filtered_df = df.copy()
 
 # 邏輯A: 關鍵字過濾
@@ -64,38 +95,14 @@ if selected_categories:
     mask = filtered_df['專業類別分類'].apply(check_category)
     filtered_df = filtered_df[mask]
 
-# --- 5. 主畫面呈現 ---
-st.title("🌐 醫學教育與國際會議查詢系統")
-st.caption("🔄 目前更新版本日期: 2026 / 05 / 25") 
 
-# === 新增：「高榮-出國經費導航員」可愛精緻區塊 ===
-st.markdown(
-    """
-    <div style="background-color: #f4fbf7; padding: 18px; border-radius: 12px; border-left: 5px solid #2e7d32; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 25px;">
-        <div style="display: flex; align-items: center;">
-            <div style="font-size: 42px; margin-right: 18px; filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.1));">✈️</div>
-            <div>
-                <h4 style="margin: 0; color: #1b5e20; font-family: 'Microsoft JhengHei', sans-serif; font-weight: bold;">
-                    高榮-出國經費導航員 
-                </h4>
-                <p style="margin: 6px 0 0 0; color: #374151; font-size: 14.5px; line-height: 1.5;">
-                    關於海外培訓公費申請、生活補助等相關院內法規，歡迎點擊下方連結諮詢專屬 AI 助理：<br>
-                    👉 <a href="https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing" target="_blank" style="color: #1565c0; font-weight: bold; text-decoration: underline;">點我開啟「高榮-出國經費導航員」諮詢視窗</a>
-                </p>
-            </div>
-        </div>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
-# ===============================================
-
+# --- 6. 查詢結果呈現與下載 ---
 st.write(f"共找到 **{len(filtered_df)}** 筆符合的會議資料：")
 
 # 將 DataFrame 顯示在網頁上
 st.dataframe(filtered_df, use_container_width=True, hide_index=True)
 
-# --- 6. 下載 Excel 功能 ---
+# 下載 Excel 功能
 def convert_df_to_excel(dataframe):
     output = BytesIO()
     with pd.ExcelWriter(output, engine='openpyxl') as writer:
@@ -112,6 +119,4 @@ if not filtered_df.empty:
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
 
-
-
-
+# TIMESTAMPMARK 2026-06-08 23:24:00
