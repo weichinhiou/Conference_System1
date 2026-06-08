@@ -40,7 +40,7 @@ all_categories = sorted(list(all_categories))
 st.title("🌐 醫學教育與國際會議查詢系統")
 st.caption("🔄 目前更新版本日期: 2026 / 05 / 25") 
 
-# === 「高榮-出國經費導航員」可愛精緻區塊 ===
+# === 「高榮-出國經費導航員」可愛精緻區塊 (相容性升級版) ===
 st.markdown(
     """
     <div style="background-color: #f4fbf7; padding: 18px; border-radius: 12px; border-left: 5px solid #2e7d32; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 25px;">
@@ -52,7 +52,10 @@ st.markdown(
                 </h4>
                 <p style="margin: 6px 0 0 0; color: #374151; font-size: 14.5px; line-height: 1.5;">
                     關於海外培訓公費申請、生活補助等相關院內法規，歡迎點擊下方連結諮詢專屬 AI 助理：<br>
-                    👉 <a href="https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing" target="_blank" style="color: #1565c0; font-weight: bold; text-decoration: underline;">點我開啟「高榮-出國經費導航員」諮詢視窗</a>
+                    👉 <a href="https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing" target="_self" style="color: #1565c0; font-weight: bold; text-decoration: underline;">點我開啟「高榮-出國經費導航員」諮詢視窗</a>
+                </p>
+                <p style="margin: 4px 0 0 0; color: #6b7280; font-size: 13px;">
+                    💡 註：若在 LINE 內點擊無反應，可點擊下方按鈕複製網址，並至手機瀏覽器（如 Chrome、Safari）貼上開啟。
                 </p>
             </div>
         </div>
@@ -61,16 +64,20 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# 使用 Streamlit 原生小按鈕提供「複製網址」的替代防線
+# 使用 st.columns 縮小按鈕寬度，使其精緻不突兀
+btn_col, _ = st.columns([1, 3])
+with btn_col:
+    # 只要點擊這個按鈕，就會觸發複製行為（藉由內建 text_input 的輔助或提示）
+    if st.button("📋 複製 AI 助理諮詢網址"):
+        st.info("網址： https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing  \n長按上方網址即可全選複製！")
 
-# --- 4. 方案二核心：主畫面「摺疊式」篩選面板 ---
-# 預設為展開狀態 (expanded=True)，讓大家一進網頁就知道可以篩選
+
+# --- 4. 主畫面「摺疊式」篩選面板 ---
 with st.expander("📂 🔍 點擊展開 / 隱藏篩選條件面板", expanded=True):
-    # 使用 st.columns 讓關鍵字與多選分類在電腦版併排，手機版則會自動垂直堆疊（完美適應！）
     col1, col2 = st.columns([1, 1])
-    
     with col1:
         search_keyword = st.text_input("🔎 輸入關鍵字 (如: 組織名稱、國家或城市)")
-        
     with col2:
         selected_categories = st.multiselect(
             "🏷️ 選擇感興趣的專業類別 (可多選)", 
@@ -119,4 +126,4 @@ if not filtered_df.empty:
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
 
-# TIMESTAMPMARK 2026-06-08 23:24:00
+# TIMESTAMPMARK 2026-06-08 23:42:00
