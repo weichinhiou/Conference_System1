@@ -40,27 +40,21 @@ all_categories = sorted(list(all_categories))
 st.title("🌐 醫學教育與國際會議查詢系統")
 st.caption("🔄 目前更新版本日期: 2026 / 05 / 25") 
 
-# === 「高榮-出國經費導航員」高級鈦灰搭配優雅深紫區塊 ===
+# === 「高榮-出國經費導航員」優雅深紫極簡區塊（俏皮口語標語版） ===
 st.markdown(
     """
-    <div style="background-color: #262b36; padding: 22px; border-radius: 12px; border: 1px solid #3b4254; border-left: 5px solid #a855f7; box-shadow: 0 4px 12px rgba(0,0,0,0.4); margin-bottom: 20px;">
+    <div style="background-color: #262b36; padding: 22px; border-radius: 12px; border: 1px solid #3b4254; border-left: 5px solid #a855f7; box-shadow: 0 4px 12px rgba(0,0,0,0.4); margin-bottom: 25px;">
         <h4 style="margin: 0 0 10px 0; color: #c084fc; font-family: 'Microsoft JhengHei', sans-serif; font-weight: bold; font-size: 17.5px;">
             高榮-出國經費導航員 🚀
         </h4>
         <p style="margin: 0; color: #f1f5f9; font-size: 14.5px; line-height: 1.6;">
-            關於海外培訓公費申請、生活補助等相關院內法規，歡迎點擊下方連結諮詢專屬 AI 助理：<br>
-            👉 <a href="https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing" target="_blank" style="color: #60a5fa; font-weight: bold; text-decoration: underline;">點我開啟「高榮-出國經費導航員」諮詢視窗</a>
+            海外培訓公費怎麼請？機票、生活費補助怎麼算？有關院內法規與申請流程：<br>
+            👉 <a href="https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing" target="_blank" style="color: #60a5fa; font-weight: bold; text-decoration: underline;">戳我一下，看看有哪些經費補助可以申請</a>
         </p>
     </div>
     """,
     unsafe_allow_html=True
 )
-
-# 複製按鈕防線
-btn_col, _ = st.columns([1, 3])
-with btn_col:
-    if st.button("📋 複製 AI 助理諮詢網址"):
-        st.info("網址： https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing  \n長按上方網址即可全選複製！")
 
 
 # --- 4. 主畫面「摺疊式」篩選面板 ---
@@ -116,4 +110,4 @@ if not filtered_df.empty:
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
 
-# TIMESTAMPMARK 2026-06-09 00:02:00
+# TIMESTAMPMARK 2026-06-09 00:15:00
