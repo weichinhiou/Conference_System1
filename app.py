@@ -1,5 +1,5 @@
-import streamlit st
-import pandas pd
+import streamlit as st
+import pandas as pd
 from io import BytesIO
 
 # --- 1. 網頁基本設定 ---
@@ -57,12 +57,11 @@ st.markdown(
 )
 
 
-# --- 4. 終極完美進化：內嵌式「會議條件篩選條件面板🧪」 ---
-# 注入全域網頁外觀控制微調（CSS），強行把下方特定邊框容器改造成專屬科技黑卡片
+# --- 4. 內嵌式「會議條件篩選條件面板🧪」 ---
+# 注入全域網頁外觀控制微調（CSS），將邊框容器改造成專屬科技黑卡片
 st.markdown(
     """
     <style>
-    /* 核心魔法：將包有我們指定ID的邊框容器，換裝成跟上面落差的深石墨黑底色與科技藍邊框 */
     div[data-testid="stBorderedContainer"]:has(#filter-panel-trigger) {
         background-color: #1e222b !important;
         border: 1px solid #2d323f !important;
@@ -72,7 +71,6 @@ st.markdown(
         box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
         margin-bottom: 25px !important;
     }
-    /* 深度控制卡片內的標題排版 */
     #filter-panel-title {
         color: #38bdf8 !important;
         font-family: 'Microsoft JhengHei', sans-serif !important;
@@ -85,7 +83,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# 透過啟用邊框的容器，並在內部安插隱形地標，讓上面的 CSS 能夠精準捕捉並完美融合
+# 啟用邊框的容器，並在內部安插隱形地標，讓 CSS 完美融合
 with st.container(border=True):
     st.markdown(
         """
@@ -96,7 +94,7 @@ with st.container(border=True):
         unsafe_allow_html=True
     )
     
-    # 搜尋元件現在完美的並排且包覆在卡片內部囉！
+    # 搜尋元件完美包覆在卡片內部
     col1, col2 = st.columns([1, 1])
     with col1:
         search_keyword = st.text_input("🔎 輸入關鍵字 (如: 組織名稱、國家或城市)")
@@ -148,4 +146,4 @@ if not filtered_df.empty:
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
 
-# TIMESTAMPMARK 2026-06-09 00:45:00
+# TIMESTAMPMARK 2026-06-09 00:48:00
