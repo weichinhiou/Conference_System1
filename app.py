@@ -3,7 +3,7 @@ import pandas as pd
 from io import BytesIO
 
 # --- 1. 網頁基本設定 ---
-st.set_page_config(page_title="醫學教育與國際會議查詢系統", layout="wide")
+st.set_page_config(page_title="世衛醫教會議捕手 WHO&MedEd Conf Catcher", layout="wide")
 
 # --- 2. 資料讀取與處理 ---
 @st.cache_data
@@ -37,7 +37,7 @@ all_categories = sorted(list(all_categories))
 
 
 # --- 3. 主畫面標題與導航員專區 ---
-st.title("🌐 醫學教育與國際會議查詢系統")
+st.title("🌐 世衛醫教會議捕手 WHO&MedEd Conf Catcher")
 st.caption("🔄 目前更新版本日期: 2026 / 05 / 25") 
 
 # === 「高榮-出國經費導航員」優雅深紫區塊 ===
@@ -69,19 +69,19 @@ st.markdown(
         border-radius: 12px !important;
         box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
         margin-bottom: 25px !important;
-        padding: 0px !important; /* 清空外層多餘內距 */
+        padding: 0px !important; 
     }
     
-    /* 2. 終極關鍵：完全隱藏原生的標題整行（summary），徹底根除任何隱藏字重疊與小箭頭 */
+    /* 2. 完全隱藏原生的標題整行（summary），徹底根除任何隱藏字重疊與小箭頭 */
     div[data-testid="stExpander"] summary, .stExpander summary {
         display: none !important;
     }
     
-    /* 3. 重新定義內層區塊的間距，讓元件排版完美舒適 */
+    /* 3. 重新定義內層區塊的間距 */
     div[data-testid="stExpanderDetails"] {
         background-color: transparent !important;
         border: none !important;
-        padding: 22px !important; /* 精緻內距移到卡片內層 */
+        padding: 22px !important; 
     }
     
     /* 4. 完美雙生字體：獨立渲染標題，與上方紫色區塊完美對齊（17.5px 粗體科技藍） */
@@ -98,13 +98,11 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# 啟用永久展開的容器（標題列已被上面的 CSS 完美隱藏）
+# 啟用永久展開的容器
 with st.expander("Filter_Panel", expanded=True):
-    
-    # 直接在盒子內部渲染乾淨、不重疊的純科技藍高質感標題
     st.markdown('<h4 class="custom-filter-title">會議條件篩選條件面板 🧪</h4>', unsafe_allow_html=True)
     
-    # 搜尋元件排版，井然有序
+    # 搜尋元件排版
     col1, col2 = st.columns([1, 1])
     with col1:
         search_keyword = st.text_input("🔎 輸入關鍵字 (如: 組織名稱、國家或城市)")
@@ -136,8 +134,20 @@ if selected_categories:
 # --- 6. 查詢結果呈現與下載 ---
 st.write(f"共找到 **{len(filtered_df)}** 筆符合的會議資料：")
 
-# 將 DataFrame 顯示在網頁上
-st.dataframe(filtered_df, use_container_width=True, hide_index=True)
+# 🛠️ 行動端優化：自動鎖定第一個欄位並將其寬度設為 small 
+# 這樣可以防止第一欄在手機上拉得太長，自然露出右側欄位邊緣，提示使用者可以往右滑動！
+custom_column_config = {}
+if len(filtered_df.columns) > 0:
+    first_column_name = filtered_df.columns[0]
+    custom_column_config[first_column_name] = st.column_config.TextColumn(width="small")
+
+# 將 DataFrame 顯示在網頁上（套用寬度限制設定）
+st.dataframe(
+    filtered_df, 
+    use_container_width=True, 
+    hide_index=True,
+    column_config=custom_column_config
+)
 
 # 下載 Excel 功能
 def convert_df_to_excel(dataframe):
@@ -155,5 +165,3 @@ if not filtered_df.empty:
         file_name="會議查詢結果_導出.xlsx",
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
-
-# TIMESTAMPMARK 2026-06-09 01:26:00
