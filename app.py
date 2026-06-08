@@ -1,5 +1,5 @@
-import streamlit as st
-import pandas as pd
+import streamlit st
+import pandas pd
 from io import BytesIO
 
 # --- 1. 網頁基本設定 ---
@@ -57,22 +57,46 @@ st.markdown(
 )
 
 
-# --- 4. 嶄新進化：客製化「會議條件篩選條件面板🔍」 ---
-# 先用 HTML 渲染出漂亮且有落差感的精緻外框與粗體彩色標題
+# --- 4. 終極完美進化：內嵌式「會議條件篩選條件面板🧪」 ---
+# 注入全域網頁外觀控制微調（CSS），強行把下方特定邊框容器改造成專屬科技黑卡片
 st.markdown(
     """
-    <div style="background-color: #1e222b; padding: 20px 22px 5px 22px; border-radius: 12px; border: 1px solid #2d323f; border-left: 5px solid #60a5fa; box-shadow: 0 4px 12px rgba(0,0,0,0.3); margin-bottom: 5px;">
-        <h4 style="margin: 0; color: #38bdf8; font-family: 'Microsoft JhengHei', sans-serif; font-weight: bold; font-size: 17px;">
-            會議條件篩選條件面板 🔍
-        </h4>
-    </div>
+    <style>
+    /* 核心魔法：將包有我們指定ID的邊框容器，換裝成跟上面落差的深石墨黑底色與科技藍邊框 */
+    div[data-testid="stBorderedContainer"]:has(#filter-panel-trigger) {
+        background-color: #1e222b !important;
+        border: 1px solid #2d323f !important;
+        border-left: 5px solid #38bdf8 !important;
+        border-radius: 12px !important;
+        padding: 22px !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
+        margin-bottom: 25px !important;
+    }
+    /* 深度控制卡片內的標題排版 */
+    #filter-panel-title {
+        color: #38bdf8 !important;
+        font-family: 'Microsoft JhengHei', sans-serif !important;
+        font-weight: bold !important;
+        font-size: 17.5px !important;
+        margin: 0 0 15px 0 !important;
+    }
+    </style>
     """,
     unsafe_allow_html=True
 )
 
-# 使用一個隱形容器，把輸入元件完美嵌入在下方，並在手機版自動切換並排或垂直
-with st.container():
-    # 這裡底色稍微調亮，讓輸入框跟面板有更漂亮的階梯落差
+# 透過啟用邊框的容器，並在內部安插隱形地標，讓上面的 CSS 能夠精準捕捉並完美融合
+with st.container(border=True):
+    st.markdown(
+        """
+        <div id="filter-panel-trigger">
+            <h4 id="filter-panel-title">會議條件篩選條件面板 🧪</h4>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+    
+    # 搜尋元件現在完美的並排且包覆在卡片內部囉！
     col1, col2 = st.columns([1, 1])
     with col1:
         search_keyword = st.text_input("🔎 輸入關鍵字 (如: 組織名稱、國家或城市)")
@@ -81,7 +105,6 @@ with st.container():
             "🏷️ 選擇感興趣的專業類別 (可多選)", 
             options=all_categories
         )
-st.markdown("<br>", unsafe_allow_html=True) # 留個優雅的空白防線
 
 
 # --- 5. 資料過濾邏輯 ---
@@ -125,4 +148,4 @@ if not filtered_df.empty:
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
 
-# TIMESTAMPMARK 2026-06-09 00:35:00
+# TIMESTAMPMARK 2026-06-09 00:45:00
