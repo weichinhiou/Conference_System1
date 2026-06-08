@@ -40,7 +40,7 @@ all_categories = sorted(list(all_categories))
 st.title("🌐 醫學教育與國際會議查詢系統")
 st.caption("🔄 目前更新版本日期: 2026 / 05 / 25") 
 
-# === 「高榮-出國經費導航員」可愛精緻區塊 (相容性升級版) ===
+# === 「高榮-出國經費導航員」可愛精緻區塊 (安全新分頁版) ===
 st.markdown(
     """
     <div style="background-color: #f4fbf7; padding: 18px; border-radius: 12px; border-left: 5px solid #2e7d32; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 25px;">
@@ -52,7 +52,7 @@ st.markdown(
                 </h4>
                 <p style="margin: 6px 0 0 0; color: #374151; font-size: 14.5px; line-height: 1.5;">
                     關於海外培訓公費申請、生活補助等相關院內法規，歡迎點擊下方連結諮詢專屬 AI 助理：<br>
-                    👉 <a href="https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing" target="_self" style="color: #1565c0; font-weight: bold; text-decoration: underline;">點我開啟「高榮-出國經費導航員」諮詢視窗</a>
+                    👉 <a href="https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing" target="_blank" style="color: #1565c0; font-weight: bold; text-decoration: underline;">點我開啟「高榮-出國經費導航員」諮詢視窗</a>
                 </p>
                 <p style="margin: 4px 0 0 0; color: #6b7280; font-size: 13px;">
                     💡 註：若在 LINE 內點擊無反應，可點擊下方按鈕複製網址，並至手機瀏覽器（如 Chrome、Safari）貼上開啟。
@@ -64,11 +64,9 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# 使用 Streamlit 原生小按鈕提供「複製網址」的替代防線
-# 使用 st.columns 縮小按鈕寬度，使其精緻不突兀
+# 保留貼心的複製按鈕防線
 btn_col, _ = st.columns([1, 3])
 with btn_col:
-    # 只要點擊這個按鈕，就會觸發複製行為（藉由內建 text_input 的輔助或提示）
     if st.button("📋 複製 AI 助理諮詢網址"):
         st.info("網址： https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing  \n長按上方網址即可全選複製！")
 
@@ -126,4 +124,4 @@ if not filtered_df.empty:
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
 
-# TIMESTAMPMARK 2026-06-08 23:42:00
+# TIMESTAMPMARK 2026-06-08 23:43:50
