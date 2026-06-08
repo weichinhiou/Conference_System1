@@ -40,7 +40,7 @@ all_categories = sorted(list(all_categories))
 st.title("🌐 醫學教育與國際會議查詢系統")
 st.caption("🔄 目前更新版本日期: 2026 / 05 / 25") 
 
-# === 「高榮-出國經費導航員」優雅深紫（文字精準微調版） ===
+# === 「高榮-出國經費導航員」優雅深紫區塊 ===
 st.markdown(
     """
     <div style="background-color: #262b36; padding: 22px; border-radius: 12px; border: 1px solid #3b4254; border-left: 5px solid #a855f7; box-shadow: 0 4px 12px rgba(0,0,0,0.4); margin-bottom: 25px;">
@@ -57,8 +57,22 @@ st.markdown(
 )
 
 
-# --- 4. 主畫面「摺疊式」篩選面板 ---
-with st.expander("📂 🔍 點擊展開 / 隱藏篩選條件面板", expanded=True):
+# --- 4. 嶄新進化：客製化「會議條件篩選條件面板🔍」 ---
+# 先用 HTML 渲染出漂亮且有落差感的精緻外框與粗體彩色標題
+st.markdown(
+    """
+    <div style="background-color: #1e222b; padding: 20px 22px 5px 22px; border-radius: 12px; border: 1px solid #2d323f; border-left: 5px solid #60a5fa; box-shadow: 0 4px 12px rgba(0,0,0,0.3); margin-bottom: 5px;">
+        <h4 style="margin: 0; color: #38bdf8; font-family: 'Microsoft JhengHei', sans-serif; font-weight: bold; font-size: 17px;">
+            會議條件篩選條件面板 🔍
+        </h4>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+# 使用一個隱形容器，把輸入元件完美嵌入在下方，並在手機版自動切換並排或垂直
+with st.container():
+    # 這裡底色稍微調亮，讓輸入框跟面板有更漂亮的階梯落差
     col1, col2 = st.columns([1, 1])
     with col1:
         search_keyword = st.text_input("🔎 輸入關鍵字 (如: 組織名稱、國家或城市)")
@@ -67,6 +81,7 @@ with st.expander("📂 🔍 點擊展開 / 隱藏篩選條件面板", expanded=T
             "🏷️ 選擇感興趣的專業類別 (可多選)", 
             options=all_categories
         )
+st.markdown("<br>", unsafe_allow_html=True) # 留個優雅的空白防線
 
 
 # --- 5. 資料過濾邏輯 ---
@@ -110,4 +125,4 @@ if not filtered_df.empty:
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
 
-# TIMESTAMPMARK 2026-06-09 00:20:00
+# TIMESTAMPMARK 2026-06-09 00:35:00
