@@ -1,31 +1,53 @@
-name: Keep Streamlit Alive (Real Modify)
+name: Keep Streamlit Alive via Virtual Visitor
 
 on:
   schedule:
-    # 每 10 小時自動改字一次，完美避開 12 小時休眠限制
-    - cron: '0 */10 * * *'
+    # 每 6 小時派一個隱形瀏覽器去開啟網頁，完美維持開機
+    - cron: '0 */6 * * *'
   workflow_dispatch: # 允許手動點擊測試
 
 jobs:
-  keep_alive:
+  wake_up:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v4
-        
-      - name: Real Modify Code (Append Timestamp to app.py)
-        run: |
-          # 刪除之前可能存在的老舊時間標籤
-          sed -i '/# TIMESTAMPMARK/d' app.py
-          # 在 app.py 最末端加上全新的時間備註，強迫 Streamlit 判定檔案已被實質修改
-          echo -e "\n# TIMESTAMPMARK $(date +'%Y-%m-%d %H:%M:%S')" >> app.py
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
           
-      - name: Commit and Push Changes
+      - name: Install Google Chrome Engine (Playwright)
         run: |
-          git config --global user.name "GitHub Action Bot"
-          git config --global user.email "action@github.com"
-          git add app.py
-          git commit -m "自動實體打卡：更新程式碼時間戳記，強制喚醒網頁"
-          git push
+          pip install playwright
+          playwright install chromium
+          
+      - name: Simulate Human Visiting Webpage
+        run: |
+          python << EOF
+          from playwright.sync_api import sync_playwright
+          import time
+          
+          url = 'https://conferencesystem1-fmwepjtajgmyue6vftrbga.streamlit.app/'
+          print(f"🚀 [啟動] 正在派遣隱形瀏覽器前往：{url}")
+          
+          try:
+              with sync_playwright() as p:
+                  # 啟動隱形的 Chrome 瀏覽器
+                  browser = p.chromium.launch(headless=True)
+                  page = browser.new_page()
+                  
+                  # 模擬真實視窗大小與人類行為
+                  page.set_viewport_size({"width": 1280, "height": 800})
+                  
+                  # 正式開網頁，給它 60 秒的時間甦醒
+                  page.goto(url, timeout=60000)
+                  print("✨ [成功] 網頁已順利開啟！")
+                  
+                  # 停留 10 秒，讓 Streamlit 內部的連線機制（WebSocket）完全建立完畢
+                  print("⏳ 停留 10 秒建立連線機制，維持伺服器熱度...")
+                  time.sleep(10)
+                  
+                  print("🔒 [完工] 連線確認完畢，關閉隱形瀏覽器。")
+                  browser.close()
+          except Exception as e:
+              print(f"❌ [錯誤] 這次點擊遇到問題: {e}")
+          EOF
