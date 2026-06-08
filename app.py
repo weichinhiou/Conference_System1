@@ -58,25 +58,28 @@ st.markdown(
 
 
 # --- 4. 內嵌式「會議條件篩選條件面板🧪」 ---
-# 終極無差別 CSS 覆蓋術：管他新版舊版標籤，只要是邊框容器一律強制上色！
+# 終極結構鎖定 CSS：利用不變的元件嵌套結構，無視所有 class 隨機變動，強制上色！
 st.markdown(
     """
     <style>
-    /* 暴力覆蓋所有可能的邊框容器元件類別，逼出科技藍左邊條與深石墨底色 */
-    div[data-testid="stBorderedContainer"], 
-    div[data-testid="stVerticalBlockBorderedWrapper"],
-    div[class*="stBorderedContainer"],
-    div[class*="BorderedWrapper"] {
+    /* 核心魔法：精準捕獲內含自訂標題的 Streamlit 容器外殼，強行灌入科技藍與石墨黑 */
+    div:has(> div[data-testid="stVerticalBlock"] > div:not(:has([data-testid="stVerticalBlock"])) .custom-filter-title) {
         background-color: #1e222b !important;
         border: 1px solid #2d323f !important;
-        border-left: 5px solid #38bdf8 !important;
+        border-left: 5px solid #38bdf8 !important; /* 科技藍左邊條強制歸位 */
         border-radius: 12px !important;
         padding: 22px !important;
         box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
         margin-bottom: 25px !important;
     }
     
-    /* 確保篩選面板標題大小（17.5px粗體）與上方導航員完美等大，並指定科技藍色 */
+    /* 移除原生容器自帶的淡淡灰邊框與重複底色，讓我們的特調控制卡片完美顯色 */
+    div[data-testid="stVerticalBlock"]:has(> div:not(:has([data-testid="stVerticalBlock"])) .custom-filter-title) {
+        background-color: transparent !important;
+        border: none !important;
+    }
+
+    /* 雙區塊標題字體大小等大對齊（17.5px），並指定耀眼科技藍 */
     .custom-filter-title {
         color: #38bdf8 !important;
         font-family: 'Microsoft JhengHei', sans-serif !important;
@@ -90,12 +93,12 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# 啟用帶邊框的容器
+# 啟用帶邊框容器（由上方結構 CSS 進行終極外觀改造）
 with st.container(border=True):
-    # 渲染出大小完全對齊、顏色也是科技藍的標準標題
+    # 標題與上方導航員完美對齊
     st.markdown('<h4 class="custom-filter-title">會議條件篩選條件面板 🧪</h4>', unsafe_allow_html=True)
     
-    # 搜尋組件並排包覆
+    # 內部元件排版
     col1, col2 = st.columns([1, 1])
     with col1:
         search_keyword = st.text_input("🔎 輸入關鍵字 (如: 組織名稱、國家或城市)")
@@ -147,4 +150,4 @@ if not filtered_df.empty:
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
 
-# TIMESTAMPMARK 2026-06-09 01:10:00
+# TIMESTAMPMARK 2026-06-09 01:20:00
