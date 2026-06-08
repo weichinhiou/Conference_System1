@@ -45,7 +45,7 @@ st.markdown(
     """
     <div style="background-color: #f4fbf7; padding: 18px; border-radius: 12px; border-left: 5px solid #2e7d32; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 25px;">
         <div style="display: flex; align-items: center;">
-            <div style="font-size: 42px; margin-right: 18px; filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.1));">✈️🦁</div>
+            <div style="font-size: 42px; margin-right: 18px; filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.1));"></div>
             <div>
                 <h4 style="margin: 0; color: #1b5e20; font-family: 'Microsoft JhengHei', sans-serif; font-weight: bold;">
                     高榮-出國經費導航員 🚀
