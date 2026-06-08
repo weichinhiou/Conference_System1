@@ -58,11 +58,12 @@ st.markdown(
 
 
 # --- 4. 內嵌式「會議條件篩選條件面板🧪」 ---
-# 注入全域網頁外觀控制微調（CSS），將邊框容器改造成專屬科技黑卡片
+# 升級版全域強效 CSS：直接狙擊 st.container 產生的邊框容器，不論結構怎麼變都能強制上色
 st.markdown(
     """
     <style>
-    div[data-testid="stBorderedContainer"]:has(#filter-panel-trigger) {
+    /* 狙擊並重塑下方容器的外觀：科技藍邊框 + 深石墨黑底色 */
+    div[data-testid="stBorderedContainer"] {
         background-color: #1e222b !important;
         border: 1px solid #2d323f !important;
         border-left: 5px solid #38bdf8 !important;
@@ -71,7 +72,9 @@ st.markdown(
         box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
         margin-bottom: 25px !important;
     }
-    #filter-panel-title {
+    
+    /* 強制將篩選面板的標題字體大小、粗體對齊上方的導航員，並染上科技藍 */
+    .custom-filter-title {
         color: #38bdf8 !important;
         font-family: 'Microsoft JhengHei', sans-serif !important;
         font-weight: bold !important;
@@ -83,18 +86,12 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# 啟用邊框的容器，並在內部安插隱形地標，讓 CSS 完美融合
+# 啟用邊框容器（將透過上面的升級版 CSS 強制美化）
 with st.container(border=True):
-    st.markdown(
-        """
-        <div id="filter-panel-trigger">
-            <h4 id="filter-panel-title">會議條件篩選條件面板 🧪</h4>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+    # 使用獨立的 class 確保標題大小與顏色完美被 CSS 控制
+    st.markdown('<h4 class="custom-filter-title">會議條件篩選條件面板 🧪</h4>', unsafe_allow_html=True)
     
-    # 搜尋元件完美包覆在卡片內部
+    # 搜尋組件完美並排並內嵌於卡片內
     col1, col2 = st.columns([1, 1])
     with col1:
         search_keyword = st.text_input("🔎 輸入關鍵字 (如: 組織名稱、國家或城市)")
@@ -146,4 +143,4 @@ if not filtered_df.empty:
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
 
-# TIMESTAMPMARK 2026-06-09 00:48:00
+# TIMESTAMPMARK 2026-06-09 00:52:00
