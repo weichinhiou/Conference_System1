@@ -58,28 +58,25 @@ st.markdown(
 
 
 # --- 4. 內嵌式「會議條件篩選條件面板🧪」 ---
-# 終極結構鎖定 CSS：利用不變的元件嵌套結構，無視所有 class 隨機變動，強制上色！
+# 終極精準狙擊 CSS：直接對準 stBlock 與其變體，只要裝有我們自訂藍標題的盒子，就強制變身！
 st.markdown(
     """
     <style>
-    /* 核心魔法：精準捕獲內含自訂標題的 Streamlit 容器外殼，強行灌入科技藍與石墨黑 */
-    div:has(> div[data-testid="stVerticalBlock"] > div:not(:has([data-testid="stVerticalBlock"])) .custom-filter-title) {
-        background-color: #1e222b !important;
+    /* 多重保險鎖定器：精準捕捉內含 .custom-filter-title 的 Block 容器外盒 */
+    div[data-testid="stBlock"]:has(.custom-filter-title),
+    div[data-testid="stBorderedContainer"]:has(.custom-filter-title),
+    div[data-testid="stVerticalBlockBorderedWrapper"]:has(.custom-filter-title),
+    div[class*="BorderedWrapper"]:has(.custom-filter-title) {
+        background-color: #1e222b !important; /* 換上深石墨黑 */
         border: 1px solid #2d323f !important;
-        border-left: 5px solid #38bdf8 !important; /* 科技藍左邊條強制歸位 */
+        border-left: 5px solid #38bdf8 !important; /* 科技藍左邊條強制歸位！ */
         border-radius: 12px !important;
         padding: 22px !important;
         box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
         margin-bottom: 25px !important;
     }
     
-    /* 移除原生容器自帶的淡淡灰邊框與重複底色，讓我們的特調控制卡片完美顯色 */
-    div[data-testid="stVerticalBlock"]:has(> div:not(:has([data-testid="stVerticalBlock"])) .custom-filter-title) {
-        background-color: transparent !important;
-        border: none !important;
-    }
-
-    /* 雙區塊標題字體大小等大對齊（17.5px），並指定耀眼科技藍 */
+    /* 雙區塊標題字體大小完美等大對齊（17.5px粗體），並指定明亮科技藍 */
     .custom-filter-title {
         color: #38bdf8 !important;
         font-family: 'Microsoft JhengHei', sans-serif !important;
@@ -93,12 +90,12 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# 啟用帶邊框容器（由上方結構 CSS 進行終極外觀改造）
+# 啟動帶邊框容器（將被上方的精準 CSS 徹底重塑外觀）
 with st.container(border=True):
-    # 標題與上方導航員完美對齊
+    # 渲染出大小與上方完全對齊、顏色也是科技藍的漂亮標題
     st.markdown('<h4 class="custom-filter-title">會議條件篩選條件面板 🧪</h4>', unsafe_allow_html=True)
     
-    # 內部元件排版
+    # 搜尋元件並排且完美包覆在內部
     col1, col2 = st.columns([1, 1])
     with col1:
         search_keyword = st.text_input("🔎 輸入關鍵字 (如: 組織名稱、國家或城市)")
@@ -150,4 +147,4 @@ if not filtered_df.empty:
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
 
-# TIMESTAMPMARK 2026-06-09 01:20:00
+# TIMESTAMPMARK 2026-06-09 01:22:00
