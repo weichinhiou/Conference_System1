@@ -134,14 +134,14 @@ if selected_categories:
 # --- 6. 查詢結果呈現與下載 ---
 st.write(f"共找到 **{len(filtered_df)}** 筆符合的會議資料：")
 
-# 🛠️ 行動端優化：自動鎖定第一個欄位並將其寬度設為 small 
-# 這樣可以防止第一欄在手機上拉得太長，自然露出右側欄位邊緣，提示使用者可以往右滑動！
+# 🛠️ 寬度微調平衡：將第一個欄位從 "small" 放寬調整為 "medium"
+# 既能防止文字過度截斷，又能保持合適的表格比例，在手機上依然有極佳的引導滑動視覺。
 custom_column_config = {}
 if len(filtered_df.columns) > 0:
     first_column_name = filtered_df.columns[0]
-    custom_column_config[first_column_name] = st.column_config.TextColumn(width="small")
+    custom_column_config[first_column_name] = st.column_config.TextColumn(width="medium")
 
-# 將 DataFrame 顯示在網頁上（套用寬度限制設定）
+# 將 DataFrame 顯示在網頁上（套用新版舒適寬度設定）
 st.dataframe(
     filtered_df, 
     use_container_width=True, 
