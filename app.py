@@ -40,11 +40,11 @@ all_categories = sorted(list(all_categories))
 st.title("🌐 醫學教育與國際會議查詢系統")
 st.caption("🔄 目前更新版本日期: 2026 / 05 / 25") 
 
-# === 「高榮-出國經費導航員」高級鈦灰層次感區塊（調淡色號、移除提示版） ===
+# === 「高榮-出國經費導航員」高級鈦灰搭配優雅深紫區塊 ===
 st.markdown(
     """
-    <div style="background-color: #262b36; padding: 22px; border-radius: 12px; border: 1px solid #3b4254; border-left: 5px solid #2e7d32; box-shadow: 0 4px 12px rgba(0,0,0,0.4); margin-bottom: 20px;">
-        <h4 style="margin: 0 0 10px 0; color: #4ade80; font-family: 'Microsoft JhengHei', sans-serif; font-weight: bold; font-size: 17.5px;">
+    <div style="background-color: #262b36; padding: 22px; border-radius: 12px; border: 1px solid #3b4254; border-left: 5px solid #a855f7; box-shadow: 0 4px 12px rgba(0,0,0,0.4); margin-bottom: 20px;">
+        <h4 style="margin: 0 0 10px 0; color: #c084fc; font-family: 'Microsoft JhengHei', sans-serif; font-weight: bold; font-size: 17.5px;">
             高榮-出國經費導航員 🚀
         </h4>
         <p style="margin: 0; color: #f1f5f9; font-size: 14.5px; line-height: 1.6;">
@@ -116,4 +116,4 @@ if not filtered_df.empty:
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
 
-# TIMESTAMPMARK 2026-06-08 23:59:00
+# TIMESTAMPMARK 2026-06-09 00:02:00
