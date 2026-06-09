@@ -36,19 +36,11 @@ for items in df['專業類別分類']:
 all_categories = sorted(list(all_categories))
 
 
-# --- 3. 主畫面標題與作者署名專區 ---
-# 恢復：純淨白主標題、移除小連結圖示、英文完美的右移對齊層次
-st.markdown(
-    """
-    <div style="margin-bottom: 12px;">
-        <p style="margin: 0; padding-bottom: 0px; font-size: 32px; font-weight: bold; color: #ffffff; font-family: 'Microsoft JhengHei', sans-serif;">🌐 世衛&醫教主題會議捕手</p>
-        <p style="margin: 8px 0 0 50px; font-size: 21px; font-weight: bold; color: #e2e8f0; font-family: 'Microsoft JhengHei', sans-serif; letter-spacing: 0.5px;">WHO & MedEd Thematic Conf Catcher</p>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+# --- 3. 主畫面標題專區 (升級為自適應美學 Banner 圖片) ---
+# 自動讀取同資料夾下的 banner.png，並啟動 RWD 響應式自適應縮放
+st.image("banner.png", use_container_width=True)
 
-# 作者與版本資訊：回歸單純的一左一右雙欄對齊
+# 作者與版本資訊：完美緊貼在 Banner 下方，一左一右對齊
 col_meta1, col_meta2 = st.columns([1, 1])
 with col_meta1:
     st.caption("🔄 目前更新版本日期: 2026 / 05 / 25")
@@ -56,7 +48,7 @@ with col_meta2:
     st.markdown("<p style='text-align: right; color: #868e96; font-size: 14px; margin: 0;'>系統維護：魏今秀 (教學研究部 醫學教學科)</p>", unsafe_allow_html=True)
 
 
-# 🎨 智慧三色調 CSS 注入（保持經典精準比例）
+# 🎨 智慧三色調 CSS 注入
 st.markdown(
     """
     <style>
