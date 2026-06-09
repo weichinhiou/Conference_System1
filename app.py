@@ -36,10 +36,10 @@ for items in df['專業類別分類']:
 all_categories = sorted(list(all_categories))
 
 
-# --- 3. 主畫面標題與導航員專區 ---
+# --- 3. 主畫面標題與作者署名專區 ---
 st.title("🌐 世衛醫教會議捕手 WHO&MedEd Conf Catcher")
 
-# 作者與版本資訊：一左一右完美對齊，低調又具備署名權威
+# 作者與版本資訊：一左一右完美對齊，在手機上也能精緻呈現
 col_meta1, col_meta2 = st.columns([1, 1])
 with col_meta1:
     st.caption("🔄 目前更新版本日期: 2026 / 05 / 25")
@@ -47,21 +47,15 @@ with col_meta2:
     st.markdown("<p style='text-align: right; color: #868e96; font-size: 14px; margin: 0;'>系統維護：魏今秀 (教學研究部 醫學教學科)</p>", unsafe_allow_html=True)
 
 
-# 🛠️ 抽屜式宗旨說明：換上最完美的「標竿機構」權威用詞
-st.markdown(
-    """
-    <details style="background-color: #1a1d24; padding: 14px 18px; border-radius: 8px; border: 1px solid #2d323f; margin-top: 12px; margin-bottom: 25px; color: #cbd5e1; font-family: 'Microsoft JhengHei', sans-serif;">
-        <summary style="color: #38bdf8; font-weight: bold; font-size: 14.5px; cursor: pointer; outline: none; user-select: none;">
-            💡 關於系統收錄的 223 個國際組織 (點擊展開查看)
-        </summary>
-        <div style="margin-top: 12px; font-size: 14px; line-height: 1.6; color: #cbd5e1;">
-            本系統之資料庫核心匯集自 <b>WHO（世界衛生組織）官方認定之轄下機構、非政府組織（NGO）</b>，以及<b>全球重要醫學教育標竿機構</b>（共計 223 個權威組織）。<br><br>
-            部分組織近年雖暫無常態性研討會公告（系統顯示為待公布），但在國際醫學界仍具關鍵影響力。健全的基礎庫不僅呈現當下現況，更具備前瞻追蹤價值，確保同仁未來有相關學術發表、國際交流或跨國合作需求時，能隨時掌握最權威的口袋名單。
-        </div>
-    </details>
-    """,
-    unsafe_allow_html=True
-)
+# 🛠️ 宗旨小抽屜：改用 100% 穩定的原生組件，預設不展開 (expanded=False)
+with st.expander("💡 關於系統收錄的 223 個國際組織 (點擊展開查看)", expanded=False):
+    st.markdown(
+        """
+        本系統之資料庫核心匯集自 **WHO（世界衛生組織）官方認定之轄下機構、非政府組織（NGO）**，以及**全球重要醫學教育標竿機構**（共計 223 個權威組織）。
+        
+        部分組織近年雖暫無常態性研討會公告（系統顯示為待公布），但在國際醫學界仍具關鍵影響力。健全的基礎庫不僅呈現當下現況，更具備前瞻追蹤價值，確保同仁未來有相關學術發表、國際交流或跨國合作需求時，能隨時掌握最權威的口袋名單。
+        """
+    )
 
 
 # === 「高榮-出國經費導航員」優雅深紫區塊 ===
@@ -81,52 +75,8 @@ st.markdown(
 )
 
 
-# --- 4. 進階型「會議條件篩選條件面板🧪」控制台 ---
-st.markdown(
-    """
-    <style>
-    /* 1. 改造外殼：換上深黑底色、加粗科技藍左側邊條 */
-    div[data-testid="stExpander"], .stExpander {
-        background-color: #1e222b !important;
-        border: 1px solid #2d323f !important;
-        border-left: 5px solid #38bdf8 !important; /* 科技藍邊框 */
-        border-radius: 12px !important;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
-        margin-bottom: 25px !important;
-        padding: 0px !important; 
-    }
-    
-    /* 2. 完全隱藏原生的標題整行（summary），徹底根除 any 隱藏字重疊與小箭頭 */
-    div[data-testid="stExpander"] summary, .stExpander summary {
-        display: none !important;
-    }
-    
-    /* 3. 重新定義內層區塊的間距 */
-    div[data-testid="stExpanderDetails"] {
-        background-color: transparent !important;
-        border: none !important;
-        padding: 22px !important; 
-    }
-    
-    /* 4. 完美雙生字體：獨立渲染標題，與上方紫色區塊完美對齊（17.5px 粗體科技藍） */
-    .custom-filter-title {
-        color: #38bdf8 !important;
-        font-family: 'Microsoft JhengHei', sans-serif !important;
-        font-weight: bold !important;
-        font-size: 17.5px !important;
-        margin: 0 0 18px 0 !important;
-        display: block !important;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-# 啟用永久展開的容器
-with st.expander("Filter_Panel", expanded=True):
-    st.markdown('<h4 class="custom-filter-title">會議條件篩選條件面板 🧪</h4>', unsafe_allow_html=True)
-    
-    # 搜尋元件排版
+# --- 4. 篩選控制台：改用原生安全外殼，完美防護不破版 ---
+with st.expander("🧪 會議條件篩選條件面板 (點擊可收合)", expanded=True):
     col1, col2 = st.columns([1, 1])
     with col1:
         search_keyword = st.text_input("🔎 輸入關鍵字 (如: 組織名稱、國家或城市)")
@@ -158,7 +108,7 @@ if selected_categories:
 # --- 6. 查詢結果呈現與下載 ---
 st.write(f"共找到 **{len(filtered_df)}** 筆符合的會議資料：")
 
-# 寬度微調平衡：將第一個欄位調整為 "medium"
+# 寬度微調平衡：將第一個欄位調整為 "medium"，手機版兼顧閱讀與滑動提示
 custom_column_config = {}
 if len(filtered_df.columns) > 0:
     first_column_name = filtered_df.columns[0]
