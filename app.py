@@ -39,7 +39,7 @@ all_categories = sorted(list(all_categories))
 # --- 3. 主畫面標題與作者署名專區 ---
 st.title("🌐 世衛醫教會議捕手 WHO&MedEd Conf Catcher")
 
-# 作者與版本資訊：一左一右完美對齊，精緻內斂
+# 作者與版本資訊：一左一右完美對齊
 col_meta1, col_meta2 = st.columns([1, 1])
 with col_meta1:
     st.caption("🔄 目前更新版本日期: 2026 / 05 / 25")
@@ -47,7 +47,39 @@ with col_meta2:
     st.markdown("<p style='text-align: right; color: #868e96; font-size: 14px; margin: 0;'>系統維護：魏今秀 (教學研究部 醫學教學科)</p>", unsafe_allow_html=True)
 
 
-# 🛠️ 宗旨小抽屜：非標題文字全面鎖定 14.5px，移除粗體，並補上溫暖的避險與初心
+# 🎨 全新安全版高質感 CSS 注入：全面升級網頁摺疊框外觀
+st.markdown(
+    """
+    <style>
+    /* 🎯 精準改造所有原生 Expander 的外殼：換上深黑底色、圓角、科技藍左側邊條與立體陰影 */
+    div[data-testid="stExpander"] {
+        background-color: #1e222b !important;
+        border: 1px solid #2d323f !important;
+        border-left: 5px solid #38bdf8 !important; /* 妳最愛的藍色靈魂邊條 */
+        border-radius: 12px !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
+        margin-bottom: 25px !important;
+    }
+    
+    /* 讓摺疊按鈕點擊列的標題文字顏色與外觀更具科技感 */
+    div[data-testid="stExpander"] summary p {
+        color: #38bdf8 !important;
+        font-weight: bold !important;
+        font-size: 15px !important;
+        font-family: 'Microsoft JhengHei', sans-serif !important;
+    }
+    
+    /* 優雅微調內襯間距，讓文字與元件排版不擁擠 */
+    div[data-testid="stExpanderDetails"] {
+        padding: 22px !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+
+# 🛠️ 宗旨小抽屜：非標題文字全面鎖定 14.5px，移除粗體，內嵌避險與服務初心
 with st.expander("💡 關於系統收錄的 223 個國際組織 (點擊展開查看)", expanded=False):
     st.markdown(
         """
