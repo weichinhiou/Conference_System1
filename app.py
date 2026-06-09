@@ -47,7 +47,7 @@ with col_meta2:
     st.markdown("<p style='text-align: right; color: #868e96; font-size: 14px; margin: 0;'>系統維護：魏今秀 (教學研究部 醫學教學科)</p>", unsafe_allow_html=True)
 
 
-# 🎨 智慧雙色調 CSS 注入：滿足低調宗旨與亮眼主面板的完美平衡
+# 🎨 智慧雙色調 CSS 注入
 st.markdown(
     """
     <style>
@@ -91,7 +91,7 @@ st.markdown(
 )
 
 
-# 🛠️ 宗旨小抽屜：拿掉提示文字，框框已透過 CSS 智慧調整為低調灰
+# 🛠️ 宗旨小抽屜
 with st.expander("💡 關於系統收錄的 223 個國際組織", expanded=False):
     st.markdown(
         """
@@ -107,15 +107,16 @@ with st.expander("💡 關於系統收錄的 223 個國際組織", expanded=Fals
 
 
 # === 「高榮-出國經費導航員」優雅深紫區塊 ===
+# 修正：🚀 移至最前面，優化內文去掉逗號、拿掉手勢 👉 Icon
 st.markdown(
     """
     <div style="background-color: #262b36; padding: 22px; border-radius: 12px; border: 1px solid #3b4254; border-left: 5px solid #a855f7; box-shadow: 0 4px 12px rgba(0,0,0,0.4); margin-bottom: 25px;">
         <h4 style="margin: 0 0 10px 0; color: #c084fc; font-family: 'Microsoft JhengHei', sans-serif; font-weight: bold; font-size: 17.5px;">
-            高榮-出國經費導航員 🚀
+            🚀 高榮-出國經費導航員
         </h4>
         <p style="margin: 0; color: #f1f5f9; font-size: 14.5px; line-height: 1.6;">
-            出國補助申請、流程與相關規定諮詢線上問AI小助手：<br>
-            👉 <a href="https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing" target="_blank" style="color: #60a5fa; font-weight: bold; text-decoration: underline;">戳我一下，看看有哪些經費補助可以申請~</a>
+            出國補助申請流程與相關規定諮詢線上問AI小助手：<br>
+            <a href="https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing" target="_blank" style="color: #60a5fa; font-weight: bold; text-decoration: underline;">戳我一下，看看有哪些經費補助可以申請~</a>
         </p>
     </div>
     """,
@@ -123,11 +124,12 @@ st.markdown(
 )
 
 
-# --- 4. 篩選控制台：拿掉提示文字，外框透過 CSS 自動換上精緻科技藍 ---
+# --- 4. 篩選控制台 ---
+# 修正：關鍵字輸入框提示文字改為指定格式
 with st.expander("🧪 會議條件篩選條件面板", expanded=True):
     col1, col2 = st.columns([1, 1])
     with col1:
-        search_keyword = st.text_input("🔎 輸入關鍵字 (如: 組織名稱、國家或城市)")
+        search_keyword = st.text_input("🔎 輸入關鍵字 (如: 國際組織/會議名稱、主題)")
     with col2:
         selected_categories = st.multiselect(
             "🏷️ 選擇感興趣的專業類別 (可多選)", 
@@ -156,7 +158,7 @@ if selected_categories:
 # --- 6. 查詢結果呈現與下載 ---
 st.write(f"共找到 **{len(filtered_df)}** 筆符合的會議資料：")
 
-# 寬度微調平衡：將第一個欄位調整為 "medium"
+# 寬度微調平衡
 custom_column_config = {}
 if len(filtered_df.columns) > 0:
     first_column_name = filtered_df.columns[0]
