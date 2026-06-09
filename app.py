@@ -37,12 +37,12 @@ all_categories = sorted(list(all_categories))
 
 
 # --- 3. 主畫面標題與作者署名專區 ---
-# 修正：全面改為純 p 標籤阻斷小連結圖示、中英文皆改為藍色、英文放大並右移對齊
+# 修正：中英文標題全面回歸經典質感白，並保持完美的右移對齊層次
 st.markdown(
     """
     <div style="margin-bottom: 12px;">
-        <p style="margin: 0; padding-bottom: 0px; font-size: 32px; font-weight: bold; color: #38bdf8; font-family: 'Microsoft JhengHei', sans-serif;">🌐 世衛&醫教主題會議捕手</p>
-        <p style="margin: 8px 0 0 50px; font-size: 21px; font-weight: bold; color: #60a5fa; font-family: 'Microsoft JhengHei', sans-serif; letter-spacing: 0.5px;">WHO & MedEd Thematic Conf Catcher</p>
+        <p style="margin: 0; padding-bottom: 0px; font-size: 32px; font-weight: bold; color: #ffffff; font-family: 'Microsoft JhengHei', sans-serif;">🌐 世衛&醫教主題會議捕手</p>
+        <p style="margin: 8px 0 0 50px; font-size: 21px; font-weight: bold; color: #e2e8f0; font-family: 'Microsoft JhengHei', sans-serif; letter-spacing: 0.5px;">WHO & MedEd Thematic Conf Catcher</p>
     </div>
     """,
     unsafe_allow_html=True
@@ -56,7 +56,7 @@ with col_meta2:
     st.markdown("<p style='text-align: right; color: #868e96; font-size: 14px; margin: 0;'>系統維護：魏今秀 (教學研究部 醫學教學科)</p>", unsafe_allow_html=True)
 
 
-# 🎨 智慧三色調 CSS 注入（全新調配莫蘭迪綠面板）
+# 🎨 智慧三色調 CSS 注入
 st.markdown(
     """
     <style>
@@ -96,7 +96,6 @@ st.markdown(
     
     /* ---------------------------------------------------- */
     /* 🟢 種類 3：智慧偵測高級感莫蘭迪綠（給「🧪 條件篩選面板」使用） */
-    /* 當偵測到面板內含有輸入框或多選器時，自動重載為莫蘭迪綠調 */
     div[data-testid="stExpander"]:has(div[data-testid="stTextInput"]),
     div[data-testid="stExpander"]:has(div[data-testid="stMultiSelect"]) {
         border-left: 5px solid #829986 !important; /* 莫蘭迪灰綠邊條 */
@@ -160,7 +159,7 @@ with st.expander("🚀 高榮-出國經費導航員", expanded=True):
     )
 
 
-# --- 4. 篩選控制台（外框將透過 CSS 自動重載為高質感莫蘭迪綠） ---
+# --- 4. 篩選控制台 ---
 with st.expander("🧪 會議條件篩選條件面板", expanded=True):
     col1, col2 = st.columns([1, 1])
     with col1:
