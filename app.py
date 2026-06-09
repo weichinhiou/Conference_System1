@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 from io import BytesIO
 
-# --- 1. 網頁基本設定 (同步更新分頁標題) ---
+# --- 1. 網頁基本設定 ---
 st.set_page_config(page_title="世衛&醫教主題會議捕手 WHO & MedEd Thematic Conf Catcher", layout="wide")
 
 # --- 2. 資料讀取與處理 ---
@@ -36,10 +36,18 @@ for items in df['專業類別分類']:
 all_categories = sorted(list(all_categories))
 
 
-# --- 3. 主畫面標題與作者署名專區 (全面換上全新的中英文主題標題！) ---
-st.title("🌐 世衛&醫教主題會議捕手 WHO & MedEd Thematic Conf Catcher")
+# --- 3. 主畫面標題與作者署名專區 (升級為中英雙行美學排版) ---
+st.markdown(
+    """
+    <div style="margin-bottom: 10px;">
+        <h1 style="margin: 0; padding-bottom: 0px; font-family: 'Microsoft JhengHei', sans-serif;">🌐 世衛&醫教主題會議捕手</h1>
+        <p style="margin: 6px 0 0 0; font-size: 18px; color: #94a3b8; font-family: 'Microsoft JhengHei', sans-serif; letter-spacing: 0.5px;">WHO & MedEd Thematic Conf Catcher</p>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
-# 作者與版本資訊：一左一右完美對齊
+# 作者與版本資訊：緊跟在副標題下方，一左一右完美對齊
 col_meta1, col_meta2 = st.columns([1, 1])
 with col_meta1:
     st.caption("🔄 目前更新版本日期: 2026 / 05 / 25")
@@ -130,7 +138,7 @@ with st.expander("💡 關於系統收錄的 223 個國際組織", expanded=Fals
         本系統之資料庫核心匯集自 WHO（世界衛生組織）官方認定之轄下機構、非政府組織（NGO），以及全球重要醫學教育標竿機構（共計 223 個權威組織）。部分組織近年雖暫無常態性研討會公告（系統顯示為待公布），但在國際醫學界仍具關鍵影響力。健全的基礎庫不僅呈現當下現況，更具備前瞻追蹤價值，以利同仁未來規劃學術發表或國際交流時參考。
         <br><br>
         📢 <b>系統服務初心與小叮嚀</b>：<br>
-        因全球國際研討會數量龐大且資訊變動频繁，系統較難做到即時隨時更新，各項訊息的變化往往難以完全掌握。本平台建立的初心旨在提供同仁一個便利的查閱方向與規劃參考，實際會議詳情與會期請務必以各組織官網之最新公告為準。若同仁在使用上有任何建議，或發現有需要修正與補充的資訊，非常歡迎隨時與教學研究部醫學教學科（魏今秀）聯繫，讓我們共同維護、完善這個專屬高榮的資料庫。
+        因全球國際研討會數量龐大且資訊變動頻繁，系統較難做到即時隨時更新，各項訊息的變化往往難以完全掌握。本平台建立的初心旨在提供同仁一個便利的查閱方向與規劃參考，實際會議詳情與會期請務必以各組織官網之最新公告為準。若同仁在使用上有任何建議，或發現有需要修正與補充的資訊，非常歡迎隨時與教學研究部醫學教學科（魏今秀）聯繫，讓我們共同維護、完善這個專屬高榮的資料庫。
         </p>
         """,
         unsafe_allow_html=True
