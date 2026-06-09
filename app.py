@@ -41,12 +41,10 @@ col_b1, col_b2, col_b3 = st.columns([1, 8, 1])
 with col_b2:
     st.image("banner.png", use_container_width=True)
 
-# 作者與版本資訊
-col_meta1, col_meta2 = st.columns([1, 1])
-with col_meta1:
-    st.caption("🔄 目前更新版本日期: 2026 / 05 / 25")
-with col_meta2:
-    st.markdown("<p style='text-align: right; color: #868e96; font-size: 14px; margin: 0;'>系統維護：魏今秀 (教學研究部 醫學教學科)</p>", unsafe_html=True)
+# --- 修正後的作者與版本資訊 (直接調用模式，避開 TypeError) ---
+col_meta1, col_meta2 = st.columns(2)
+col_meta1.caption("🔄 目前更新版本日期: 2026 / 05 / 25")
+col_meta2.markdown("<p style='text-align: right; color: #868e96; font-size: 14px; margin: 0;'>系統維護：魏今秀 (教學研究部 醫學教學科)</p>", unsafe_allow_html=True)
 
 
 # --- 🎨 智慧三色調 CSS ---
