@@ -47,39 +47,57 @@ with col_meta2:
     st.markdown("<p style='text-align: right; color: #868e96; font-size: 14px; margin: 0;'>系統維護：魏今秀 (教學研究部 醫學教學科)</p>", unsafe_allow_html=True)
 
 
-# 🎨 智慧雙色調 CSS 注入
+# 🎨 智慧三色調 CSS 注入：完美統馭灰、紫、藍三種摺疊面板
 st.markdown(
     """
     <style>
-    /* 🎯 預設將所有面版外殼設為：低調沉穩灰框（不喧賓祖，給宗旨小抽屜使用） */
+    /* 🎯 基礎設定：將所有面板外殼設為深黑底色、圓角與立體陰影 */
     div[data-testid="stExpander"] {
         background-color: #1e222b !important;
         border: 1px solid #2d323f !important;
-        border-left: 5px solid #64748b !important; /* 柔軟低調的灰色邊條 */
         border-radius: 12px !important;
         box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
         margin-bottom: 25px !important;
     }
     
-    /* 所有折疊標題文字字級統一調為 16px */
+    /* 統一所有折疊面板的標題字級為 16px 粗體 */
     div[data-testid="stExpander"] summary p {
-        color: #94a3b8 !important;
         font-weight: bold !important;
         font-size: 16px !important; 
         font-family: 'Microsoft JhengHei', sans-serif !important;
     }
     
-    /* ⚡ 智慧偵測：如果摺疊框裡面「含有篩選輸入元件」，代表它是主面板，自動換回經典科技藍！ */
-    div[data-testid="stExpander"]:has(div[data-testid="stTextInput"]),
-    div[data-testid="stExpander"]:has(div[data-testid="stMultiSelect"]) {
-        border-left: 5px solid #38bdf8 !important; /* 經典科技藍邊條 */
+    /* ---------------------------------------------------- */
+    /* 🟢 種類 1：預設低調深邃灰（給「💡 223 國際組織宗旨」使用） */
+    div[data-testid="stExpander"] {
+        border-left: 5px solid #64748b !important;
+    }
+    div[data-testid="stExpander"] summary p {
+        color: #94a3b8 !important;
     }
     
-    /* 主面板的標題文字顏色同步亮眼換回科技藍 */
+    /* ---------------------------------------------------- */
+    /* 🟣 種類 2：智慧偵測優雅紫（給「🚀 出國經費導航員」使用） */
+    /* 當偵測到面板內含有 Gemini AI 的連結時，自動重載為紫調 */
+    div[data-testid="stExpander"]:has(a[href*="gemini.google.com"]) {
+        border-left: 5px solid #a855f7 !important;
+    }
+    div[data-testid="stExpander"]:has(a[href*="gemini.google.com"]) summary p {
+        color: #c084fc !important;
+    }
+    
+    /* ---------------------------------------------------- */
+    /* 🔵 種類 3：智慧偵測科技藍（給「🧪 條件篩選面板」使用） */
+    /* 當偵測到面板內含有輸入框或多選器時，自動重載為藍調 */
+    div[data-testid="stExpander"]:has(div[data-testid="stTextInput"]),
+    div[data-testid="stExpander"]:has(div[data-testid="stMultiSelect"]) {
+        border-left: 5px solid #38bdf8 !important;
+    }
     div[data-testid="stExpander"]:has(div[data-testid="stTextInput"]) summary p,
     div[data-testid="stExpander"]:has(div[data-testid="stMultiSelect"]) summary p {
         color: #38bdf8 !important;
     }
+    /* ---------------------------------------------------- */
     
     /* 優雅微調內襯間距 */
     div[data-testid="stExpanderDetails"] {
@@ -91,7 +109,7 @@ st.markdown(
 )
 
 
-# 🛠️ 宗旨小抽屜
+# 🛠️ 宗旨小抽屜（低調灰面板，預設不展開）
 with st.expander("💡 關於系統收錄的 223 個國際組織", expanded=False):
     st.markdown(
         """
@@ -106,22 +124,18 @@ with st.expander("💡 關於系統收錄的 223 個國際組織", expanded=Fals
     )
 
 
-# === 「高榮-出國經費導航員」優雅深紫區塊 ===
-# 修正：將 h4 換成純 p 標籤，徹底規避並消除 Streamlit 的自動錨點連結圖示
-st.markdown(
-    """
-    <div style="background-color: #262b36; padding: 22px; border-radius: 12px; border: 1px solid #3b4254; border-left: 5px solid #a855f7; box-shadow: 0 4px 12px rgba(0,0,0,0.4); margin-bottom: 25px;">
-        <p style="margin: 0 0 10px 0; color: #c084fc; font-family: 'Microsoft JhengHei', sans-serif; font-weight: bold; font-size: 16px;">
-            🚀 高榮-出國經費導航員
-        </p>
-        <p style="margin: 0; color: #f1f5f9; font-size: 14.5px; line-height: 1.6;">
+# === 🚀 「高榮-出國經費導航員」全新進化可伸縮抽屜 ===
+# 改為 st.expander 完美融入一體化設計，預設展開（expanded=True）方便查閱
+with st.expander("🚀 高榮-出國經費導航員", expanded=True):
+    st.markdown(
+        """
+        <p style="margin: 0; color: #f1f5f9; font-size: 14.5px; line-height: 1.6; font-family: 'Microsoft JhengHei', sans-serif;">
             出國補助申請流程與相關規定諮詢線上問AI小助手：<br>
             <a href="https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing" target="_blank" style="color: #60a5fa; font-weight: bold; text-decoration: underline;">戳我一下，看看有哪些經費補助可以申請~</a>
         </p>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+        """,
+        unsafe_allow_html=True
+    )
 
 
 # --- 4. 篩選控制台 ---
