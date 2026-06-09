@@ -51,7 +51,7 @@ with col_meta2:
 st.markdown(
     """
     <style>
-    /* 🎯 預設將所有面版外殼設為：低調沉穩灰框（不喧賓奪主，給宗旨小抽屜使用） */
+    /* 🎯 預設將所有面版外殼設為：低調沉穩灰框（不喧賓祖，給宗旨小抽屜使用） */
     div[data-testid="stExpander"] {
         background-color: #1e222b !important;
         border: 1px solid #2d323f !important;
@@ -61,11 +61,11 @@ st.markdown(
         margin-bottom: 25px !important;
     }
     
-    /* 修正：將所有折疊標題文字字級統一調為 16px */
+    /* 所有折疊標題文字字級統一調為 16px */
     div[data-testid="stExpander"] summary p {
         color: #94a3b8 !important;
         font-weight: bold !important;
-        font-size: 16px !important; /* 統一標題字級 */
+        font-size: 16px !important; 
         font-family: 'Microsoft JhengHei', sans-serif !important;
     }
     
@@ -91,7 +91,7 @@ st.markdown(
 )
 
 
-# 🛠️ 宗旨小抽屜（外框標題已透過 CSS 統一調為 16px）
+# 🛠️ 宗旨小抽屜
 with st.expander("💡 關於系統收錄的 223 個國際組織", expanded=False):
     st.markdown(
         """
@@ -107,13 +107,13 @@ with st.expander("💡 關於系統收錄的 223 個國際組織", expanded=Fals
 
 
 # === 「高榮-出國經費導航員」優雅深紫區塊 ===
-# 修正：將標題的 font-size 從 17.5px 調降為 16px，與下方所有面板完美平齊
+# 修正：將 h4 換成純 p 標籤，徹底規避並消除 Streamlit 的自動錨點連結圖示
 st.markdown(
     """
     <div style="background-color: #262b36; padding: 22px; border-radius: 12px; border: 1px solid #3b4254; border-left: 5px solid #a855f7; box-shadow: 0 4px 12px rgba(0,0,0,0.4); margin-bottom: 25px;">
-        <h4 style="margin: 0 0 10px 0; color: #c084fc; font-family: 'Microsoft JhengHei', sans-serif; font-weight: bold; font-size: 16px;">
+        <p style="margin: 0 0 10px 0; color: #c084fc; font-family: 'Microsoft JhengHei', sans-serif; font-weight: bold; font-size: 16px;">
             🚀 高榮-出國經費導航員
-        </h4>
+        </p>
         <p style="margin: 0; color: #f1f5f9; font-size: 14.5px; line-height: 1.6;">
             出國補助申請流程與相關規定諮詢線上問AI小助手：<br>
             <a href="https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing" target="_blank" style="color: #60a5fa; font-weight: bold; text-decoration: underline;">戳我一下，看看有哪些經費補助可以申請~</a>
@@ -124,7 +124,7 @@ st.markdown(
 )
 
 
-# --- 4. 篩選控制台（外框標題已透過 CSS 統一調為 16px） ---
+# --- 4. 篩選控制台 ---
 with st.expander("🧪 會議條件篩選條件面板", expanded=True):
     col1, col2 = st.columns([1, 1])
     with col1:
