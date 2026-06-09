@@ -38,7 +38,31 @@ all_categories = sorted(list(all_categories))
 
 # --- 3. 主畫面標題與導航員專區 ---
 st.title("🌐 世衛醫教會議捕手 WHO&MedEd Conf Catcher")
-st.caption("🔄 目前更新版本日期: 2026 / 05 / 25") 
+
+# 作者與版本資訊：一左一右完美對齊，低調又具備署名權威
+col_meta1, col_meta2 = st.columns([1, 1])
+with col_meta1:
+    st.caption("🔄 目前更新版本日期: 2026 / 05 / 25")
+with col_meta2:
+    st.markdown("<p style='text-align: right; color: #868e96; font-size: 14px; margin: 0;'>系統維護：魏今秀 (教學研究部 醫學教學科)</p>", unsafe_allow_html=True)
+
+
+# 🛠️ 抽屜式宗旨說明：換上最完美的「標竿機構」權威用詞
+st.markdown(
+    """
+    <details style="background-color: #1a1d24; padding: 14px 18px; border-radius: 8px; border: 1px solid #2d323f; margin-top: 12px; margin-bottom: 25px; color: #cbd5e1; font-family: 'Microsoft JhengHei', sans-serif;">
+        <summary style="color: #38bdf8; font-weight: bold; font-size: 14.5px; cursor: pointer; outline: none; user-select: none;">
+            💡 關於系統收錄的 223 個國際組織 (點擊展開查看)
+        </summary>
+        <div style="margin-top: 12px; font-size: 14px; line-height: 1.6; color: #cbd5e1;">
+            本系統之資料庫核心匯集自 <b>WHO（世界衛生組織）官方認定之轄下機構、非政府組織（NGO）</b>，以及<b>全球重要醫學教育標竿機構</b>（共計 223 個權威組織）。<br><br>
+            部分組織近年雖暫無常態性研討會公告（系統顯示為待公布），但在國際醫學界仍具關鍵影響力。健全的基礎庫不僅呈現當下現況，更具備前瞻追蹤價值，確保同仁未來有相關學術發表、國際交流或跨國合作需求時，能隨時掌握最權威的口袋名單。
+        </div>
+    </details>
+    """,
+    unsafe_allow_html=True
+)
+
 
 # === 「高榮-出國經費導航員」優雅深紫區塊 ===
 st.markdown(
@@ -72,7 +96,7 @@ st.markdown(
         padding: 0px !important; 
     }
     
-    /* 2. 完全隱藏原生的標題整行（summary），徹底根除任何隱藏字重疊與小箭頭 */
+    /* 2. 完全隱藏原生的標題整行（summary），徹底根除 any 隱藏字重疊與小箭頭 */
     div[data-testid="stExpander"] summary, .stExpander summary {
         display: none !important;
     }
@@ -134,14 +158,13 @@ if selected_categories:
 # --- 6. 查詢結果呈現與下載 ---
 st.write(f"共找到 **{len(filtered_df)}** 筆符合的會議資料：")
 
-# 🛠️ 寬度微調平衡：將第一個欄位從 "small" 放寬調整為 "medium"
-# 既能防止文字過度截斷，又能保持合適的表格比例，在手機上依然有極佳的引導滑動視覺。
+# 寬度微調平衡：將第一個欄位調整為 "medium"
 custom_column_config = {}
 if len(filtered_df.columns) > 0:
     first_column_name = filtered_df.columns[0]
     custom_column_config[first_column_name] = st.column_config.TextColumn(width="medium")
 
-# 將 DataFrame 顯示在網頁上（套用新版舒適寬度設定）
+# 將 DataFrame 顯示在網頁上
 st.dataframe(
     filtered_df, 
     use_container_width=True, 
