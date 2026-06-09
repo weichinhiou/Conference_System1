@@ -61,11 +61,11 @@ st.markdown(
         margin-bottom: 25px !important;
     }
     
-    /* 預設的折疊標題文字顏色（低調灰藍色） */
+    /* 修正：將所有折疊標題文字字級統一調為 16px */
     div[data-testid="stExpander"] summary p {
         color: #94a3b8 !important;
         font-weight: bold !important;
-        font-size: 15px !important;
+        font-size: 16px !important; /* 統一標題字級 */
         font-family: 'Microsoft JhengHei', sans-serif !important;
     }
     
@@ -91,7 +91,7 @@ st.markdown(
 )
 
 
-# 🛠️ 宗旨小抽屜
+# 🛠️ 宗旨小抽屜（外框標題已透過 CSS 統一調為 16px）
 with st.expander("💡 關於系統收錄的 223 個國際組織", expanded=False):
     st.markdown(
         """
@@ -107,11 +107,11 @@ with st.expander("💡 關於系統收錄的 223 個國際組織", expanded=Fals
 
 
 # === 「高榮-出國經費導航員」優雅深紫區塊 ===
-# 修正：🚀 移至最前面，優化內文去掉逗號、拿掉手勢 👉 Icon
+# 修正：將標題的 font-size 從 17.5px 調降為 16px，與下方所有面板完美平齊
 st.markdown(
     """
     <div style="background-color: #262b36; padding: 22px; border-radius: 12px; border: 1px solid #3b4254; border-left: 5px solid #a855f7; box-shadow: 0 4px 12px rgba(0,0,0,0.4); margin-bottom: 25px;">
-        <h4 style="margin: 0 0 10px 0; color: #c084fc; font-family: 'Microsoft JhengHei', sans-serif; font-weight: bold; font-size: 17.5px;">
+        <h4 style="margin: 0 0 10px 0; color: #c084fc; font-family: 'Microsoft JhengHei', sans-serif; font-weight: bold; font-size: 16px;">
             🚀 高榮-出國經費導航員
         </h4>
         <p style="margin: 0; color: #f1f5f9; font-size: 14.5px; line-height: 1.6;">
@@ -124,8 +124,7 @@ st.markdown(
 )
 
 
-# --- 4. 篩選控制台 ---
-# 修正：關鍵字輸入框提示文字改為指定格式
+# --- 4. 篩選控制台（外框標題已透過 CSS 統一調為 16px） ---
 with st.expander("🧪 會議條件篩選條件面板", expanded=True):
     col1, col2 = st.columns([1, 1])
     with col1:
