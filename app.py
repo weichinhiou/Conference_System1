@@ -47,29 +47,41 @@ with col_meta2:
     st.markdown("<p style='text-align: right; color: #868e96; font-size: 14px; margin: 0;'>系統維護：魏今秀 (教學研究部 醫學教學科)</p>", unsafe_allow_html=True)
 
 
-# 🎨 全新安全版高質感 CSS 注入：全面升級網頁摺疊框外觀
+# 🎨 智慧雙色調 CSS 注入：滿足低調宗旨與亮眼主面板的完美平衡
 st.markdown(
     """
     <style>
-    /* 🎯 精準改造所有原生 Expander 的外殼：換上深黑底色、圓角、科技藍左側邊條與立體陰影 */
+    /* 🎯 預設將所有面版外殼設為：低調沉穩灰框（不喧賓奪主，給宗旨小抽屜使用） */
     div[data-testid="stExpander"] {
         background-color: #1e222b !important;
         border: 1px solid #2d323f !important;
-        border-left: 5px solid #38bdf8 !important; /* 妳最愛的藍色靈魂邊條 */
+        border-left: 5px solid #64748b !important; /* 柔軟低調的灰色邊條 */
         border-radius: 12px !important;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
         margin-bottom: 25px !important;
     }
     
-    /* 讓摺疊按鈕點擊列的標題文字顏色與外觀更具科技感 */
+    /* 預設的折疊標題文字顏色（低調灰藍色） */
     div[data-testid="stExpander"] summary p {
-        color: #38bdf8 !important;
+        color: #94a3b8 !important;
         font-weight: bold !important;
         font-size: 15px !important;
         font-family: 'Microsoft JhengHei', sans-serif !important;
     }
     
-    /* 優雅微調內襯間距，讓文字與元件排版不擁擠 */
+    /* ⚡ 智慧偵測：如果摺疊框裡面「含有篩選輸入元件」，代表它是主面板，自動換回經典科技藍！ */
+    div[data-testid="stExpander"]:has(div[data-testid="stTextInput"]),
+    div[data-testid="stExpander"]:has(div[data-testid="stMultiSelect"]) {
+        border-left: 5px solid #38bdf8 !important; /* 經典科技藍邊條 */
+    }
+    
+    /* 主面板的標題文字顏色同步亮眼換回科技藍 */
+    div[data-testid="stExpander"]:has(div[data-testid="stTextInput"]) summary p,
+    div[data-testid="stExpander"]:has(div[data-testid="stMultiSelect"]) summary p {
+        color: #38bdf8 !important;
+    }
+    
+    /* 優雅微調內襯間距 */
     div[data-testid="stExpanderDetails"] {
         padding: 22px !important;
     }
@@ -79,8 +91,8 @@ st.markdown(
 )
 
 
-# 🛠️ 宗旨小抽屜：非標題文字全面鎖定 14.5px，移除粗體，內嵌避險與服務初心
-with st.expander("💡 關於系統收錄的 223 個國際組織 (點擊展開查看)", expanded=False):
+# 🛠️ 宗旨小抽屜：拿掉提示文字，框框已透過 CSS 智慧調整為低調灰
+with st.expander("💡 關於系統收錄的 223 個國際組織", expanded=False):
     st.markdown(
         """
         <p style="font-size: 14.5px; line-height: 1.6; color: #cbd5e1; margin: 0; font-family: 'Microsoft JhengHei', sans-serif;">
@@ -111,8 +123,8 @@ st.markdown(
 )
 
 
-# --- 4. 篩選控制台 ---
-with st.expander("🧪 會議條件篩選條件面板 (點擊可收合)", expanded=True):
+# --- 4. 篩選控制台：拿掉提示文字，外框透過 CSS 自動換上精緻科技藍 ---
+with st.expander("🧪 會議條件篩選條件面板", expanded=True):
     col1, col2 = st.columns([1, 1])
     with col1:
         search_keyword = st.text_input("🔎 輸入關鍵字 (如: 組織名稱、國家或城市)")
@@ -144,7 +156,7 @@ if selected_categories:
 # --- 6. 查詢結果呈現與下載 ---
 st.write(f"共找到 **{len(filtered_df)}** 筆符合的會議資料：")
 
-# 寬度微調平衡：將第一個欄位調整為 "medium"，手機版兼顧閱讀與滑動提示
+# 寬度微調平衡：將第一個欄位調整為 "medium"
 custom_column_config = {}
 if len(filtered_df.columns) > 0:
     first_column_name = filtered_df.columns[0]
