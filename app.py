@@ -2,8 +2,8 @@ import streamlit as st
 import pandas as pd
 from io import BytesIO
 
-# --- 1. 網頁基本設定 ---
-st.set_page_config(page_title="世衛醫教會議捕手 WHO&MedEd Conf Catcher", layout="wide")
+# --- 1. 網頁基本設定 (同步更新分頁標題) ---
+st.set_page_config(page_title="世衛&醫教主題會議捕手 WHO & MedEd Thematic Conf Catcher", layout="wide")
 
 # --- 2. 資料讀取與處理 ---
 @st.cache_data
@@ -36,8 +36,8 @@ for items in df['專業類別分類']:
 all_categories = sorted(list(all_categories))
 
 
-# --- 3. 主畫面標題與作者署名專區 ---
-st.title("🌐 世衛醫教會議捕手 WHO&MedEd Conf Catcher")
+# --- 3. 主畫面標題與作者署名專區 (全面換上全新的中英文主題標題！) ---
+st.title("🌐 世衛&醫教主題會議捕手 WHO & MedEd Thematic Conf Catcher")
 
 # 作者與版本資訊：一左一右完美對齊
 col_meta1, col_meta2 = st.columns([1, 1])
@@ -47,7 +47,7 @@ with col_meta2:
     st.markdown("<p style='text-align: right; color: #868e96; font-size: 14px; margin: 0;'>系統維護：魏今秀 (教學研究部 醫學教學科)</p>", unsafe_allow_html=True)
 
 
-# 🎨 智慧三色調 CSS 注入：完美統馭灰、紫、藍三種摺疊面板
+# 🎨 智慧三色調 CSS 注入
 st.markdown(
     """
     <style>
@@ -78,7 +78,6 @@ st.markdown(
     
     /* ---------------------------------------------------- */
     /* 🟣 種類 2：智慧偵測優雅紫（給「🚀 出國經費導航員」使用） */
-    /* 當偵測到面板內含有 Gemini AI 的連結時，自動重載為紫調 */
     div[data-testid="stExpander"]:has(a[href*="gemini.google.com"]) {
         border-left: 5px solid #a855f7 !important;
     }
@@ -88,7 +87,6 @@ st.markdown(
     
     /* ---------------------------------------------------- */
     /* 🔵 種類 3：智慧偵測科技藍（給「🧪 條件篩選面板」使用） */
-    /* 當偵測到面板內含有輸入框或多選器時，自動重載為藍調 */
     div[data-testid="stExpander"]:has(div[data-testid="stTextInput"]),
     div[data-testid="stExpander"]:has(div[data-testid="stMultiSelect"]) {
         border-left: 5px solid #38bdf8 !important;
@@ -98,6 +96,21 @@ st.markdown(
         color: #38bdf8 !important;
     }
     /* ---------------------------------------------------- */
+    
+    /* 🧪 關鍵字輸入框與多選器外殼背景調淡一點點（高質感煙燻藍灰） */
+    div[data-testid="stTextInput"] div[data-baseweb="input"] {
+        background-color: #282f3b !important;
+        border-color: #3f4857 !important;
+    }
+    div[data-testid="stMultiSelect"] div[data-baseweb="select"] {
+        background-color: #282f3b !important;
+        border-color: #3f4857 !important;
+    }
+    
+    /* 確保輸入文字與下拉選單文字顏色清晰漂亮 */
+    div[data-testid="stTextInput"] input {
+        color: #f1f5f9 !important;
+    }
     
     /* 優雅微調內襯間距 */
     div[data-testid="stExpanderDetails"] {
@@ -109,7 +122,7 @@ st.markdown(
 )
 
 
-# 🛠️ 宗旨小抽屜（低調灰面板，預設不展開）
+# 🛠️ 宗旨小抽屜
 with st.expander("💡 關於系統收錄的 223 個國際組織", expanded=False):
     st.markdown(
         """
@@ -117,15 +130,14 @@ with st.expander("💡 關於系統收錄的 223 個國際組織", expanded=Fals
         本系統之資料庫核心匯集自 WHO（世界衛生組織）官方認定之轄下機構、非政府組織（NGO），以及全球重要醫學教育標竿機構（共計 223 個權威組織）。部分組織近年雖暫無常態性研討會公告（系統顯示為待公布），但在國際醫學界仍具關鍵影響力。健全的基礎庫不僅呈現當下現況，更具備前瞻追蹤價值，以利同仁未來規劃學術發表或國際交流時參考。
         <br><br>
         📢 <b>系統服務初心與小叮嚀</b>：<br>
-        因全球國際研討會數量龐大且資訊變動頻繁，系統較難做到即時隨時更新，各項訊息的變化往往難以完全掌握。本平台建立的初心旨在提供同仁一個便利的查閱方向與規劃參考，實際會議詳情與會期請務必以各組織官網之最新公告為準。若同仁在使用上有任何建議，或發現有需要修正與補充的資訊，非常歡迎隨時與教學研究部醫學教學科（魏今秀）聯繫，讓我們共同維護、完善這個專屬高榮的資料庫。
+        因全球國際研討會數量龐大且資訊變動频繁，系統較難做到即時隨時更新，各項訊息的變化往往難以完全掌握。本平台建立的初心旨在提供同仁一個便利的查閱方向與規劃參考，實際會議詳情與會期請務必以各組織官網之最新公告為準。若同仁在使用上有任何建議，或發現有需要修正與補充的資訊，非常歡迎隨時與教學研究部醫學教學科（魏今秀）聯繫，讓我們共同維護、完善這個專屬高榮的資料庫。
         </p>
         """,
         unsafe_allow_html=True
     )
 
 
-# === 🚀 「高榮-出國經費導航員」全新進化可伸縮抽屜 ===
-# 改為 st.expander 完美融入一體化設計，預設展開（expanded=True）方便查閱
+# === 🚀 「高榮-出國經費導航員」伸縮抽屜 ===
 with st.expander("🚀 高榮-出國經費導航員", expanded=True):
     st.markdown(
         """
