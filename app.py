@@ -36,11 +36,13 @@ for items in df['專業類別分類']:
 all_categories = sorted(list(all_categories))
 
 
-# --- 3. 主畫面標題專區 (升級為自適應美學 Banner 圖片) ---
-# 自動讀取同資料夾下的 banner.png，並啟動 RWD 響應式自適應縮放
-st.image("banner.png", use_container_width=True)
+# --- 3. 主畫面標題專區 (黃金比例置中縮小版 Banner) ---
+# 使用 3:4:3 槓桿比例，將中間的 Banner 縮小大約六成（佔寬度 40%），達到絕佳護眼與平衡效果
+col_b1, col_b2, col_b3 = st.columns([3, 4, 3])
+with col_b2:
+    st.image("banner.png", use_container_width=True)
 
-# 作者與版本資訊：完美緊貼在 Banner 下方，一左一右對齊
+# 作者與版本資訊：一左一右完美對齊
 col_meta1, col_meta2 = st.columns([1, 1])
 with col_meta1:
     st.caption("🔄 目前更新版本日期: 2026 / 05 / 25")
