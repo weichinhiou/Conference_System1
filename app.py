@@ -60,11 +60,11 @@ st.markdown("""
 
 # --- 5. 功能區 ---
 with st.expander("💡 關於系統收錄的 223 個國際組織"):
-    st.markdown("<p style='font-size: 14.5px;'>本系統匯集 WHO 及國際重要醫學教育機構資料，供同仁交流參考。最新會期請以官網為準。</p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-size: 14.5px; margin: 0;'>本系統匯集 WHO 及國際重要醫學教育機構資料，供同仁交流參考。最新會期請以官網為準。</p>", unsafe_allow_html=True)
 
 with st.expander("🚀 高榮-出國經費導航員", expanded=True):
-    # 強制設定 14.5px 以確保與其他文字一致
-    st.markdown("<p style='font-size: 14.5px;'>[點此開啟：出國經費補助申請諮詢 AI 小助手](https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing)</p>", unsafe_allow_html=True)
+    # 使用 HTML 標籤確保連結與大小皆正確
+    st.markdown("<p style='font-size: 14.5px; margin: 0;'>點此開啟：<a href='https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing' style='color: #60a5fa; font-weight: bold; text-decoration: underline;'>出國經費補助申請諮詢 AI 小助手</a></p>", unsafe_allow_html=True)
 
 with st.expander("🧪 會議條件篩選", expanded=True):
     col1, col2 = st.columns(2)
