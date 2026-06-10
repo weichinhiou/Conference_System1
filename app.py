@@ -33,7 +33,7 @@ col_meta1, col_meta2 = st.columns(2)
 col_meta1.caption("🔄 更新日期: 2026 / 05 / 25")
 col_meta2.markdown("<p style='text-align: right; color: #868e96; font-size: 14px;'>系統維護：教學研究部 醫學教學科</p>", unsafe_allow_html=True)
 
-# --- 4. CSS (更新輸入框底色，更淡雅) ---
+# --- 4. CSS ---
 st.markdown("""
     <style>
     /* 基礎外觀 */
@@ -48,11 +48,11 @@ st.markdown("""
     div[data-testid="stExpander"]:has(input), div[data-testid="stExpander"]:has(select) { border-left: 5px solid #66CC66 !important; }
     div[data-testid="stExpander"]:has(input) summary p, div[data-testid="stExpander"]:has(select) summary p { color: #66CC66 !important; }
     
-    /* 💡 更新輸入框底色 (調亮兩個色階) */
+    /* 輸入框底色 */
     div[data-testid="stTextInput"] div[data-baseweb="input"], 
     div[data-testid="stMultiSelect"] div[data-baseweb="select"] {
-        background-color: #3e4756 !important; /* 顯著調亮後的底色 */
-        border-color: #566175 !important;      /* 對應調亮的邊框色 */
+        background-color: #3e4756 !important;
+        border-color: #566175 !important;
     }
     div[data-testid="stTextInput"] input { color: #ffffff !important; }
     </style>
@@ -60,10 +60,11 @@ st.markdown("""
 
 # --- 5. 功能區 ---
 with st.expander("💡 關於系統收錄的 223 個國際組織"):
-    st.write("本系統匯集 WHO 及國際重要醫學教育機構資料，供同仁交流參考。最新會期請以官網為準。")
+    st.markdown("<p style='font-size: 14.5px;'>本系統匯集 WHO 及國際重要醫學教育機構資料，供同仁交流參考。最新會期請以官網為準。</p>", unsafe_allow_html=True)
 
 with st.expander("🚀 高榮-出國經費導航員", expanded=True):
-    st.markdown("[點此開啟：出國經費補助申請諮詢 AI 小助手](https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing)")
+    # 強制設定 14.5px 以確保與其他文字一致
+    st.markdown("<p style='font-size: 14.5px;'>[點此開啟：出國經費補助申請諮詢 AI 小助手](https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing)</p>", unsafe_allow_html=True)
 
 with st.expander("🧪 會議條件篩選", expanded=True):
     col1, col2 = st.columns(2)
