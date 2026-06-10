@@ -20,18 +20,16 @@ def load_data():
 df = load_data()
 all_categories = sorted(list({item.strip() for items in df['專業類別分類'] if items for item in str(items).split('.')}))
 
-# --- 3. 標題區 (乾淨純文字版) ---
-st.markdown("""
-    <div style='text-align: center; padding: 20px 0;'>
-        <h1 style='color: #f1f5f9; margin: 0;'>世衛&醫教主題會議捕手</h1>
-        <h3 style='color: #94a3b8; margin: 5px 0 0 0;'>WHO & MedEd Thematic Conf Catcher</h3>
-        <p style='color: #64748b; font-size: 14px; margin: 5px 0 0 0;'>GLOBAL MEDICAL EDUCATION PLATFORM</p>
-    </div>
-""", unsafe_html=True)
+# --- 3. 標題區 (改良版：分段處理，避免解析錯誤) ---
+st.markdown("<div style='text-align: center; padding: 20px 0;'>", unsafe_allow_html=True)
+st.markdown("<h1 style='color: #f1f5f9; margin: 0;'>世衛&醫教主題會議捕手</h1>", unsafe_allow_html=True)
+st.markdown("<h3 style='color: #94a3b8; margin: 5px 0 0 0;'>WHO & MedEd Thematic Conf Catcher</h3>", unsafe_allow_html=True)
+st.markdown("<p style='color: #64748b; font-size: 14px; margin: 5px 0 0 0;'>GLOBAL MEDICAL EDUCATION PLATFORM</p>", unsafe_allow_html=True)
+st.markdown("</div>", unsafe_allow_html=True)
 
 col_meta1, col_meta2 = st.columns(2)
 col_meta1.caption("🔄 更新日期: 2026 / 05 / 25")
-col_meta2.markdown("<p style='text-align: right; color: #868e96; font-size: 14px;'>系統維護：教學研究部 醫學教學科</p>", unsafe_html=True)
+col_meta2.markdown("<p style='text-align: right; color: #868e96; font-size: 14px;'>系統維護：教學研究部 醫學教學科</p>", unsafe_allow_html=True)
 
 # --- 4. CSS ---
 st.markdown("""
@@ -41,11 +39,11 @@ st.markdown("""
     div[data-testid="stExpander"]:has(a) { border-left: 5px solid #a855f7; }
     div[data-testid="stExpander"]:has(input), div[data-testid="stExpander"]:has(select) { border-left: 5px solid #829986; }
     </style>
-""", unsafe_html=True)
+""", unsafe_allow_html=True)
 
 # --- 5. 功能區 ---
 with st.expander("💡 關於系統收錄的 223 個國際組織"):
-    st.markdown("本系統匯集 WHO 及國際重要醫學教育機構資料，供同仁交流參考。最新會期請以官網為準。")
+    st.write("本系統匯集 WHO 及國際重要醫學教育機構資料，供同仁交流參考。最新會期請以官網為準。")
 
 with st.expander("🚀 高榮-出國經費導航員", expanded=True):
     st.markdown("[點此開啟：出國經費補助申請諮詢 AI 小助手](https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing)")
@@ -55,7 +53,7 @@ with st.expander("🧪 會議條件篩選", expanded=True):
     search_keyword = col1.text_input("🔎 關鍵字搜尋")
     selected_categories = col2.multiselect("🏷️ 專業類別", options=all_categories)
 
-# --- 6. 邏輯 ---
+# --- 6. 邏輯與呈現 ---
 filtered_df = df.copy()
 if search_keyword:
     mask = filtered_df.astype(str).apply(lambda x: x.str.contains(search_keyword, case=False)).any(axis=1)
