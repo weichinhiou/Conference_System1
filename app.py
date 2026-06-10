@@ -31,8 +31,8 @@ st.write("")
 
 col_meta1, col_meta2 = st.columns(2)
 col_meta1.caption("🔄 更新日期: 2026 / 05 / 25")
-# 已補回您的姓名
-col_meta2.markdown("<p style='text-align: right; color: #868e96; font-size: 14px;'>系統維護：魏今秀 (教學研究部 醫學教學科)</p>", unsafe_allow_html=True)
+# 調整後的維護資訊顯示順序
+col_meta2.markdown("<p style='text-align: right; color: #868e96; font-size: 14px;'>系統維護：教學研究部 醫學教學科 魏今秀</p>", unsafe_allow_html=True)
 
 # --- 4. CSS ---
 st.markdown("""
