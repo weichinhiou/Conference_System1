@@ -63,8 +63,8 @@ with st.expander("💡 關於系統收錄的 223 個國際組織"):
     st.markdown("<p style='font-size: 14.5px; margin: 0;'>本系統匯集 WHO 及國際重要醫學教育機構資料，供同仁交流參考。最新會期請以官網為準。</p>", unsafe_allow_html=True)
 
 with st.expander("🚀 高榮-出國經費導航員", expanded=True):
-    # 使用 HTML 標籤確保連結與大小皆正確
-    st.markdown("<p style='font-size: 14.5px; margin: 0;'>點此開啟：<a href='https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing' style='color: #60a5fa; font-weight: bold; text-decoration: underline;'>出國經費補助申請諮詢 AI 小助手</a></p>", unsafe_allow_html=True)
+    # 恢復您喜歡的親切語氣，同時維持 HTML 排版
+    st.markdown("<p style='font-size: 14.5px; margin: 0;'><a href='https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing' style='color: #60a5fa; font-weight: bold; text-decoration: underline;'>戳我一下，看看有哪些經費補助可以申請~</a></p>", unsafe_allow_html=True)
 
 with st.expander("🧪 會議條件篩選", expanded=True):
     col1, col2 = st.columns(2)
