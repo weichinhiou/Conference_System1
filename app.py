@@ -20,7 +20,7 @@ def load_data():
 df = load_data()
 all_categories = sorted(list({item.strip() for items in df['專業類別分類'] if items for item in str(items).split('.')}))
 
-# --- 3. 標題區 (使用 st.columns 置中，完全不使用 # 語法，避開錨點連結與解析錯誤) ---
+# --- 3. 標題區 (改良版：分段處理，避免解析錯誤) ---
 st.write("")
 col_t1, col_t2, col_t3 = st.columns([1, 8, 1])
 with col_t2:
@@ -33,13 +33,20 @@ col_meta1, col_meta2 = st.columns(2)
 col_meta1.caption("🔄 更新日期: 2026 / 05 / 25")
 col_meta2.markdown("<p style='text-align: right; color: #868e96; font-size: 14px;'>系統維護：教學研究部 醫學教學科</p>", unsafe_allow_html=True)
 
-# --- 4. CSS ---
+# --- 4. CSS (更新為鮮亮蘋果綠) ---
 st.markdown("""
     <style>
+    /* 基礎外觀 */
     div[data-testid="stExpander"] { background-color: #1e222b; border: 1px solid #2d323f; border-radius: 12px; margin-bottom: 20px; border-left: 5px solid #64748b; }
     div[data-testid="stExpander"] summary p { font-weight: bold; color: #94a3b8; }
+    
+    /* 經費導航員顏色 (紫) */
     div[data-testid="stExpander"]:has(a) { border-left: 5px solid #a855f7; }
-    div[data-testid="stExpander"]:has(input), div[data-testid="stExpander"]:has(select) { border-left: 5px solid #829986; }
+    div[data-testid="stExpander"]:has(a) summary p { color: #d8b4fe; }
+    
+    /* 篩選條件面板 - 更新為蘋果綠 */
+    div[data-testid="stExpander"]:has(input), div[data-testid="stExpander"]:has(select) { border-left: 5px solid #66CC66 !important; }
+    div[data-testid="stExpander"]:has(input) summary p, div[data-testid="stExpander"]:has(select) summary p { color: #66CC66 !important; }
     </style>
 """, unsafe_allow_html=True)
 
