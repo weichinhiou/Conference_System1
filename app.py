@@ -20,7 +20,7 @@ def load_data():
 df = load_data()
 all_categories = sorted(list({item.strip() for items in df['專業類別分類'] if items for item in str(items).split('.')}))
 
-# --- 3. 標題區 (改良版：分段處理，避免解析錯誤) ---
+# --- 3. 標題區 ---
 st.write("")
 col_t1, col_t2, col_t3 = st.columns([1, 8, 1])
 with col_t2:
@@ -33,7 +33,7 @@ col_meta1, col_meta2 = st.columns(2)
 col_meta1.caption("🔄 更新日期: 2026 / 05 / 25")
 col_meta2.markdown("<p style='text-align: right; color: #868e96; font-size: 14px;'>系統維護：教學研究部 醫學教學科</p>", unsafe_allow_html=True)
 
-# --- 4. CSS (更新為鮮亮蘋果綠) ---
+# --- 4. CSS (更新輸入框底色，更淡雅) ---
 st.markdown("""
     <style>
     /* 基礎外觀 */
@@ -44,9 +44,17 @@ st.markdown("""
     div[data-testid="stExpander"]:has(a) { border-left: 5px solid #a855f7; }
     div[data-testid="stExpander"]:has(a) summary p { color: #d8b4fe; }
     
-    /* 篩選條件面板 - 更新為蘋果綠 */
+    /* 篩選條件面板 (蘋果綠) */
     div[data-testid="stExpander"]:has(input), div[data-testid="stExpander"]:has(select) { border-left: 5px solid #66CC66 !important; }
     div[data-testid="stExpander"]:has(input) summary p, div[data-testid="stExpander"]:has(select) summary p { color: #66CC66 !important; }
+    
+    /* 💡 更新輸入框底色 (調亮兩個色階) */
+    div[data-testid="stTextInput"] div[data-baseweb="input"], 
+    div[data-testid="stMultiSelect"] div[data-baseweb="select"] {
+        background-color: #3e4756 !important; /* 顯著調亮後的底色 */
+        border-color: #566175 !important;      /* 對應調亮的邊框色 */
+    }
+    div[data-testid="stTextInput"] input { color: #ffffff !important; }
     </style>
 """, unsafe_allow_html=True)
 
