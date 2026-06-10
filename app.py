@@ -9,7 +9,6 @@ st.set_page_config(page_title="世衛&醫教主題會議捕手", layout="wide")
 @st.cache_data
 def load_data():
     df = pd.read_excel("WHO2026.xlsx")
-    # 日期處理
     def fix_date(val):
         if pd.isna(val): return "待公布"
         if isinstance(val, (int, float)): return pd.to_datetime(val, unit='D', origin='1899-12-30').strftime('%Y-%m-%d')
@@ -21,18 +20,18 @@ def load_data():
 df = load_data()
 all_categories = sorted(list({item.strip() for items in df['專業類別分類'] if items for item in str(items).split('.')}))
 
-# --- 3. 標題區 (使用 HTML 避免錨點連結) ---
-st.markdown("""
-    <div style='text-align: center; padding: 20px 0;'>
-        <div style='font-size: 3rem; font-weight: bold; color: #f1f5f9; margin: 0;'>世衛&醫教主題會議捕手</div>
-        <div style='font-size: 1.5rem; color: #94a3b8; margin: 5px 0 0 0;'>WHO & MedEd Thematic Conf Catcher</div>
-        <div style='color: #64748b; font-size: 14px; margin: 5px 0 0 0;'>GLOBAL MEDICAL EDUCATION PLATFORM</div>
-    </div>
-""", unsafe_html=True)
+# --- 3. 標題區 (使用 st.columns 置中，完全不使用 # 語法，避開錨點連結與解析錯誤) ---
+st.write("")
+col_t1, col_t2, col_t3 = st.columns([1, 8, 1])
+with col_t2:
+    st.markdown("<div style='text-align: center; font-size: 32px; font-weight: bold; color: #f1f5f9;'>世衛&醫教主題會議捕手</div>", unsafe_allow_html=True)
+    st.markdown("<div style='text-align: center; font-size: 20px; color: #94a3b8;'>WHO & MedEd Thematic Conf Catcher</div>", unsafe_allow_html=True)
+    st.markdown("<div style='text-align: center; font-size: 14px; color: #64748b;'>GLOBAL MEDICAL EDUCATION PLATFORM</div>", unsafe_allow_html=True)
+st.write("")
 
 col_meta1, col_meta2 = st.columns(2)
 col_meta1.caption("🔄 更新日期: 2026 / 05 / 25")
-col_meta2.markdown("<p style='text-align: right; color: #868e96; font-size: 14px;'>系統維護：教學研究部 醫學教學科</p>", unsafe_html=True)
+col_meta2.markdown("<p style='text-align: right; color: #868e96; font-size: 14px;'>系統維護：教學研究部 醫學教學科</p>", unsafe_allow_html=True)
 
 # --- 4. CSS ---
 st.markdown("""
@@ -42,7 +41,7 @@ st.markdown("""
     div[data-testid="stExpander"]:has(a) { border-left: 5px solid #a855f7; }
     div[data-testid="stExpander"]:has(input), div[data-testid="stExpander"]:has(select) { border-left: 5px solid #829986; }
     </style>
-""", unsafe_html=True)
+""", unsafe_allow_html=True)
 
 # --- 5. 功能區 ---
 with st.expander("💡 關於系統收錄的 223 個國際組織"):
