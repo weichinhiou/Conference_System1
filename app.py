@@ -6,10 +6,9 @@ import os
 # --- 1. 網頁基本設定 ---
 st.set_page_config(page_title="世衛&醫教主題會議捕手", layout="wide")
 
-# --- 2. 資料讀取 (升級版：加入快取防卡機制) ---
+# --- 2. 資料讀取 ---
 @st.cache_data
 def load_data(file_path, mtime):
-    # 傳入 mtime 參數，只要檔案一有變動，快取就會自動失效重讀
     df = pd.read_excel(file_path)
     
     # 智慧偵測：尋找名稱包含「日期」或「時間」的欄位進行格式優化
@@ -26,14 +25,12 @@ def load_data(file_path, mtime):
         
     return df.fillna("")
 
-# 自動偵測 LIST.xlsx 的最新修改時間
 target_file = "LIST.xlsx"
 try:
     file_mtime = os.path.getmtime(target_file)
 except:
     file_mtime = 0
 
-# 將時間戳記餵給函數，確保檔案更新時系統會同步重刷
 df = load_data(target_file, file_mtime)
 
 # 智慧偵測：尋找名稱包含「類別」或「分類」的欄位作為篩選依據
@@ -105,16 +102,16 @@ if search_keyword:
 if selected_categories and category_col:
     filtered_df = filtered_df[filtered_df[category_col].apply(lambda x: any(cat in str(x) for cat in selected_categories))]
 
-st.write(f"共找到 **{len(filtered_df)}** 筆資料：")
+# 🛠️ 調整：增加專業提示語，優化寬螢幕與手機板的閱讀體驗
+st.write(f"共找到 **{len(filtered_df)}** 筆資料： *(💡 提示：表格支援左右滑動/滾動以檢視完整欄位)*")
 
-# --- 🛠️ 全自動偵測內容包含網址的欄位並美化成超連結 ---
+# --- 全自動偵測內容包含網址的欄位並美化成超連結 ---
 table_column_config = {}
 for col in filtered_df.columns:
     sample_series = filtered_df[col].astype(str)
     if sample_series.str.contains('http://|https://|www\.', case=False, regex=True).any():
         table_column_config[col] = st.column_config.LinkColumn(col, display_text="🔗 點擊前往")
 
-# 呈現全新 A~L 欄位的智慧配置表格
 st.dataframe(
     filtered_df, 
     use_container_width=True, 
