@@ -37,17 +37,19 @@ df = load_data(target_file, file_mtime)
 # 智慧偵測：尋找名稱包含「類別」或「分類」的欄位作為篩選依據
 category_col = next((col for col in df.columns if '類別' in str(col) or '分類' in str(col)), None)
 
-# 🛠️ 核心改動：萬能分隔符號拆解技術，把既有組合打散成單一標籤
+# 🛠️ 升級：拆解標籤，並自動過濾「與、及、and」等無效連接詞
 all_categories = []
 if category_col:
     cat_set = set()
     for items in df[category_col]:
         if pd.notna(items) and str(items).strip():
-            # 自動識別並切開：頓號、斜線、英文逗號、中文逗號、分號、句點及各式空格
+            # 自動識別並切開各式分隔符號
             tokens = re.split(r'[.,、\/;；，\s]+', str(items))
             for token in tokens:
-                if token.strip():
-                    cat_set.add(token.strip())
+                t = token.strip()
+                # 💡 核心修正：排除掉單的連接詞，避免它們變成獨立選項
+                if t and t not in ['與', '及', 'and', '&']:
+                    cat_set.add(t)
     all_categories = sorted(list(cat_set))
 
 # --- 3. 標題區 ---
@@ -110,7 +112,7 @@ if search_keyword:
     mask = filtered_df.astype(str).apply(lambda x: x.str.contains(search_keyword, case=False)).any(axis=1)
     filtered_df = filtered_df[mask]
     
-# 🛠️ 修正篩選邏輯：只要包含使用者點選的任一標籤，就符合條件
+# 篩選邏輯：包含同仁點選的任一標籤即呈現
 if selected_categories and category_col:
     filtered_df = filtered_df[filtered_df[category_col].apply(lambda x: any(cat in str(x) for cat in selected_categories))]
 
