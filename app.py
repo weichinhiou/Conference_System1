@@ -37,7 +37,7 @@ df = load_data(target_file, file_mtime)
 # 智慧偵測：尋找名稱包含「類別」或「分類」的欄位作為篩選依據
 category_col = next((col for col in df.columns if '類別' in str(col) or '分類' in str(col)), None)
 
-# 🛠️ 升級：拆解標籤，並自動過濾「與、及、and」等無效連接詞
+# 拆解標籤，並自動過濾「與、及、and」等無效連接詞
 all_categories = []
 if category_col:
     cat_set = set()
@@ -47,7 +47,6 @@ if category_col:
             tokens = re.split(r'[.,、\/;；，\s]+', str(items))
             for token in tokens:
                 t = token.strip()
-                # 💡 核心修正：排除掉單的連接詞，避免它們變成獨立選項
                 if t and t not in ['與', '及', 'and', '&']:
                     cat_set.add(t)
     all_categories = sorted(list(cat_set))
@@ -112,18 +111,30 @@ if search_keyword:
     mask = filtered_df.astype(str).apply(lambda x: x.str.contains(search_keyword, case=False)).any(axis=1)
     filtered_df = filtered_df[mask]
     
-# 篩選邏輯：包含同仁點選的任一標籤即呈現
 if selected_categories and category_col:
     filtered_df = filtered_df[filtered_df[category_col].apply(lambda x: any(cat in str(x) for cat in selected_categories))]
 
-st.write(f"共找到 **{len(filtered_df)}** 筆資料： *(💡 提示：表格支援左右滑動/滾動以檢視完整欄位)*")
+# 🛠️ 調整：更新專業提示語，明確加入點擊標題列排序（如：月份）的引導
+st.write(f"共找到 **{len(filtered_df)}** 筆資料： *(💡 提示：點擊標題列可進行排序（如：月份），表格支援左右滑動以檢視完整欄位)*")
 
-# --- 全自動偵測內容包含網址的欄位並美化成超連結 ---
+# --- 🛠️ 核心改動：智慧結合網址美化與第 3、4、5 欄置中配置 ---
 table_column_config = {}
-for col in filtered_df.columns:
+for idx, col in enumerate(filtered_df.columns):
     sample_series = filtered_df[col].astype(str)
-    if sample_series.str.contains('http://|https://|www\.', case=False, regex=True).any():
-        table_column_config[col] = st.column_config.LinkColumn(col, display_text="🔗 點擊前往")
+    is_link = sample_series.str.contains('http://|https://|www\.', case=False, regex=True).any()
+    
+    # 判斷是否為第 3, 4, 5 欄 (Python 索引值對應為 2, 3, 4)
+    align_center = idx in [2, 3, 4]
+    
+    if is_link:
+        table_column_config[col] = st.column_config.LinkColumn(
+            col, 
+            display_text="🔗 點擊前往", 
+            alignment="center" if align_center else None
+        )
+    elif align_center:
+        # 非網址但屬於 3, 4, 5 欄，套用置中設定
+        table_column_config[col] = st.column_config.Column(alignment="center")
 
 st.dataframe(
     filtered_df, 
