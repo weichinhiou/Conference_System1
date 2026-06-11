@@ -79,7 +79,7 @@ st.markdown("""
     div[data-testid="stExpander"]:has(input), div[data-testid="stExpander"]:has(select) { border-left: 5px solid #66CC66 !important; }
     div[data-testid="stExpander"]:has(input) summary p, div[data-testid="stExpander"]:has(select) summary p { color: #66CC66 !important; }
     
-    /* 輸入框與按鈕底色 */
+    /* 輸入框與下拉選單底色 */
     div[data-testid="stTextInput"] div[data-baseweb="input"], 
     div[data-testid="stMultiSelect"] div[data-baseweb="select"] {
         background-color: #3e4756 !important;
@@ -87,17 +87,19 @@ st.markdown("""
     }
     div[data-testid="stTextInput"] input { color: #ffffff !important; }
     
-    /* 搜尋按鈕微調：讓放大鏡看起來更像整合在欄位旁 */
+    /* 🛠️ 核心改動：將按鈕重塑為簡潔的「GO」純色塊 */
     div[data-testid="stButton"] button {
-        background-color: #475569 !important;
+        background-color: #3b82f6 !important; /* 精緻的科技藍純色塊 */
         color: white !important;
-        border: 1px solid #64748b !important;
-        height: 40px;
-        margin-top: 1px;
+        border: none !important;
+        border-radius: 8px !important;
+        height: 40px !important;
+        font-weight: bold !important;
+        font-size: 14px !important;
+        transition: background-color 0.2s ease;
     }
     div[data-testid="stButton"] button:hover {
-        background-color: #64748b !important;
-        border-color: #94a3b8 !important;
+        background-color: #2563eb !important; /* 懸停時稍微加深 */
     }
     </style>
 """, unsafe_allow_html=True)
@@ -112,13 +114,14 @@ with st.expander("🚀 高榮-出國經費導航員", expanded=True):
 with st.expander("🧪 會議條件篩選", expanded=True):
     col1, col2 = st.columns(2)
     
-    # 🛠️ 核心改動：將左側切成「輸入框(4/5寬)」與「實體按鈕(1/5寬)」
-    sub_col_input, sub_col_btn = col1.columns([4, 1])
+    # 🛠️ 微調比例：改為 5:1，讓按鈕佔比縮小更精緻
+    sub_col_input, sub_col_btn = col1.columns([5, 1])
     search_keyword = sub_col_input.text_input("🔎 關鍵字搜尋")
     
-    # 透過 HTML 補上對齊標籤的高度，讓按鈕與輸入框完美並排
+    # 對齊美化
     sub_col_btn.markdown("<div style='padding-top: 28px;'></div>", unsafe_allow_html=True)
-    sub_col_btn.button("🔍", use_container_width=True, help="點擊套用關鍵字搜尋")
+    # 將文字更改為純 "GO"
+    sub_col_btn.button("GO", use_container_width=True, help="點擊套用關鍵字搜尋")
     
     if category_col:
         selected_categories = col2.multiselect("🏷️ 專業類別 (可複選單一標籤)", options=all_categories)
