@@ -1,15 +1,16 @@
 import streamlit as st
 import pandas as pd
 from io import BytesIO
+import os
 
 # --- 1. 網頁基本設定 ---
 st.set_page_config(page_title="世衛&醫教主題會議捕手", layout="wide")
 
-# --- 2. 資料讀取 ---
+# --- 2. 資料讀取 (升級版：加入快取防卡機制) ---
 @st.cache_data
-def load_data():
-    # 已將檔名更新為 LIST.xlsx
-    df = pd.read_excel("LIST.xlsx")
+def load_data(file_path, mtime):
+    # 傳入 mtime 參數，只要檔案一有變動，快取就會自動失效重讀
+    df = pd.read_excel(file_path)
     
     # 智慧偵測：尋找名稱包含「日期」或「時間」的欄位進行格式優化
     date_cols = [col for col in df.columns if '日期' in str(col) or '時間' in str(col)]
@@ -25,7 +26,15 @@ def load_data():
         
     return df.fillna("")
 
-df = load_data()
+# 自動偵測 LIST.xlsx 的最新修改時間
+target_file = "LIST.xlsx"
+try:
+    file_mtime = os.path.getmtime(target_file)
+except:
+    file_mtime = 0
+
+# 將時間戳記餵給函數，確保檔案更新時系統會同步重刷
+df = load_data(target_file, file_mtime)
 
 # 智慧偵測：尋找名稱包含「類別」或「分類」的欄位作為篩選依據
 category_col = next((col for col in df.columns if '類別' in str(col) or '分類' in str(col)), None)
@@ -98,7 +107,7 @@ if selected_categories and category_col:
 
 st.write(f"共找到 **{len(filtered_df)}** 筆資料：")
 
-# --- 🛠️ 核心功能：全自動偵測內容包含網址的欄位並美化成超連結 ---
+# --- 🛠️ 全自動偵測內容包含網址的欄位並美化成超連結 ---
 table_column_config = {}
 for col in filtered_df.columns:
     sample_series = filtered_df[col].astype(str)
