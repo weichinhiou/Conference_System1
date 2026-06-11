@@ -114,10 +114,11 @@ if search_keyword:
 if selected_categories and category_col:
     filtered_df = filtered_df[filtered_df[category_col].apply(lambda x: any(cat in str(x) for cat in selected_categories))]
 
-# 🛠️ 調整：更新專業提示語，明確加入點擊標題列排序（如：月份）的引導
-st.write(f"共找到 **{len(filtered_df)}** 筆資料： *(💡 提示：點擊標題列可進行排序（如：月份），表格支援左右滑動以檢視完整欄位)*")
+# 🛠️ 調整：分行呈現，並修正為您指定的清爽版提示語
+st.write(f"共找到 **{len(filtered_df)}** 筆資料：")
+st.write("*(提示：點擊標題列可進行排序，如月份，表格支援左右滑動以檢視完整欄位)*")
 
-# --- 🛠️ 核心改動：智慧結合網址美化與第 3、4、5 欄置中配置 ---
+# --- 全自動偵測內容包含網址的欄位並美化成超連結與置中配置 ---
 table_column_config = {}
 for idx, col in enumerate(filtered_df.columns):
     sample_series = filtered_df[col].astype(str)
@@ -133,7 +134,6 @@ for idx, col in enumerate(filtered_df.columns):
             alignment="center" if align_center else None
         )
     elif align_center:
-        # 非網址但屬於 3, 4, 5 欄，套用置中設定
         table_column_config[col] = st.column_config.Column(alignment="center")
 
 st.dataframe(
