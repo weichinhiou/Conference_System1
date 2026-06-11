@@ -79,13 +79,26 @@ st.markdown("""
     div[data-testid="stExpander"]:has(input), div[data-testid="stExpander"]:has(select) { border-left: 5px solid #66CC66 !important; }
     div[data-testid="stExpander"]:has(input) summary p, div[data-testid="stExpander"]:has(select) summary p { color: #66CC66 !important; }
     
-    /* 輸入框底色 */
+    /* 輸入框與按鈕底色 */
     div[data-testid="stTextInput"] div[data-baseweb="input"], 
     div[data-testid="stMultiSelect"] div[data-baseweb="select"] {
         background-color: #3e4756 !important;
         border-color: #566175 !important;
     }
     div[data-testid="stTextInput"] input { color: #ffffff !important; }
+    
+    /* 搜尋按鈕微調：讓放大鏡看起來更像整合在欄位旁 */
+    div[data-testid="stButton"] button {
+        background-color: #475569 !important;
+        color: white !important;
+        border: 1px solid #64748b !important;
+        height: 40px;
+        margin-top: 1px;
+    }
+    div[data-testid="stButton"] button:hover {
+        background-color: #64748b !important;
+        border-color: #94a3b8 !important;
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -98,7 +111,15 @@ with st.expander("🚀 高榮-出國經費導航員", expanded=True):
 
 with st.expander("🧪 會議條件篩選", expanded=True):
     col1, col2 = st.columns(2)
-    search_keyword = col1.text_input("🔎 關鍵字搜尋")
+    
+    # 🛠️ 核心改動：將左側切成「輸入框(4/5寬)」與「實體按鈕(1/5寬)」
+    sub_col_input, sub_col_btn = col1.columns([4, 1])
+    search_keyword = sub_col_input.text_input("🔎 關鍵字搜尋")
+    
+    # 透過 HTML 補上對齊標籤的高度，讓按鈕與輸入框完美並排
+    sub_col_btn.markdown("<div style='padding-top: 28px;'></div>", unsafe_allow_html=True)
+    sub_col_btn.button("🔍", use_container_width=True, help="點擊套用關鍵字搜尋")
+    
     if category_col:
         selected_categories = col2.multiselect("🏷️ 專業類別 (可複選單一標籤)", options=all_categories)
     else:
@@ -114,7 +135,6 @@ if search_keyword:
 if selected_categories and category_col:
     filtered_df = filtered_df[filtered_df[category_col].apply(lambda x: any(cat in str(x) for cat in selected_categories))]
 
-# 🛠️ 調整：分行呈現，並修正為您指定的清爽版提示語
 st.write(f"共找到 **{len(filtered_df)}** 筆資料：")
 st.write("*(提示：點擊標題列可進行排序，如月份，表格支援左右滑動以檢視完整欄位)*")
 
