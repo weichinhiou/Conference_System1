@@ -9,21 +9,29 @@ st.set_page_config(page_title="世衛&醫教主題會議捕手", layout="wide")
 @st.cache_data
 def load_data():
     df = pd.read_excel("WHO2026.xlsx")
+    
+    # 智慧偵測：尋找名稱包含「日期」或「時間」的欄位進行格式優化
+    date_cols = [col for col in df.columns if '日期' in str(col) or '時間' in str(col)]
+    
     def fix_date(val):
         if pd.isna(val): return "待公布"
         if isinstance(val, (int, float)): return pd.to_datetime(val, unit='D', origin='1899-12-30').strftime('%Y-%m-%d')
         if hasattr(val, 'strftime'): return val.strftime('%Y-%m-%d')
         return str(val)
-    if '2026 研討會日期' in df.columns:
-        df['2026 研討會日期'] = df['2026 研討會日期'].apply(fix_date)
+        
+    for col in date_cols:
+        df[col] = df[col].apply(fix_date)
+        
     return df.fillna("")
 
 df = load_data()
 
-# 安全地取得分類清單
+# 智慧偵測：尋找名稱包含「類別」或「分類」的欄位作為篩選依據
+category_col = next((col for col in df.columns if '類別' in str(col) or '分類' in str(col)), None)
+
 all_categories = []
-if '專業類別分類' in df.columns:
-    all_categories = sorted(list({item.strip() for items in df['專業類別分類'] if items for item in str(items).split('.')}))
+if category_col:
+    all_categories = sorted(list({item.strip() for items in df[category_col] if items for item in str(items).split('.')}))
 
 # --- 3. 標題區 ---
 st.write("")
@@ -36,7 +44,6 @@ st.write("")
 
 col_meta1, col_meta2 = st.columns(2)
 col_meta1.caption("🔄 更新日期: 2026 / 05 / 25")
-# 調整後的維護資訊顯示順序
 col_meta2.markdown("<p style='text-align: right; color: #868e96; font-size: 14px;'>系統維護：教學研究部 醫學教學科 魏今秀</p>", unsafe_allow_html=True)
 
 # --- 4. CSS ---
@@ -74,37 +81,39 @@ with st.expander("🚀 高榮-出國經費導航員", expanded=True):
 with st.expander("🧪 會議條件篩選", expanded=True):
     col1, col2 = st.columns(2)
     search_keyword = col1.text_input("🔎 關鍵字搜尋")
-    selected_categories = col2.multiselect("🏷️ 專業類別", options=all_categories)
+    if category_col:
+        selected_categories = col2.multiselect("🏷️ 專業類別", options=all_categories)
+    else:
+        selected_categories = []
+        col2.write("\n*(未偵測到帶有「類別」或「分類」關鍵字之欄位)*")
 
 # --- 6. 呈現 ---
 filtered_df = df.copy()
 if search_keyword:
     mask = filtered_df.astype(str).apply(lambda x: x.str.contains(search_keyword, case=False)).any(axis=1)
     filtered_df = filtered_df[mask]
-if selected_categories and '專業類別分類' in filtered_df.columns:
-    filtered_df = filtered_df[filtered_df['專業類別分類'].apply(lambda x: any(cat in str(x) for cat in selected_categories))]
+if selected_categories and category_col:
+    filtered_df = filtered_df[filtered_df[category_col].apply(lambda x: any(cat in str(x) for cat in selected_categories))]
 
 st.write(f"共找到 **{len(filtered_df)}** 筆資料：")
 
-# --- 🛠️ 核心改動：自動偵測 G, H, I 欄並轉為超連結 ---
+# --- 🛠️ 核心改動：精確將 Excel 中的 G、H、I 欄（第 7, 8, 9 欄）轉為點擊超連結 ---
 table_column_config = {}
 
-# 檢查並將 Excel 中的 G 欄 (Python 索引 6) 設定為超連結
+# 依照欄位索引位置 (Index 6=G欄, 7=H欄, 8=I欄) 動態綁定，完全不受欄位名稱異動影響
 if len(filtered_df.columns) >= 7:
     col_g_name = filtered_df.columns[6]
     table_column_config[col_g_name] = st.column_config.LinkColumn(col_g_name, display_text="🔗 點擊前往")
 
-# 檢查並將 Excel 中的 H 欄 (Python 索引 7) 設定為超連結
 if len(filtered_df.columns) >= 8:
     col_h_name = filtered_df.columns[7]
     table_column_config[col_h_name] = st.column_config.LinkColumn(col_h_name, display_text="🔗 點擊前往")
 
-# 檢查並將 Excel 中的 I 欄 (Python 索引 8) 設定為超連結
 if len(filtered_df.columns) >= 9:
     col_i_name = filtered_df.columns[8]
     table_column_config[col_i_name] = st.column_config.LinkColumn(col_i_name, display_text="🔗 點擊前往")
 
-# 套用設定顯示 DataFrame
+# 套用全新 13 欄配置與超連結顯示 DataFrame
 st.dataframe(
     filtered_df, 
     use_container_width=True, 
