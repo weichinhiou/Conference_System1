@@ -97,23 +97,15 @@ if selected_categories and category_col:
 
 st.write(f"共找到 **{len(filtered_df)}** 筆資料：")
 
-# --- 🛠️ 核心改動：精確將 Excel 中的 G、H、I 欄（第 7, 8, 9 欄）轉為點擊超連結 ---
+# --- 🛠️ 核心改動：全自動偵測內容包含網址的欄位並美化成超連結 ---
 table_column_config = {}
+for col in filtered_df.columns:
+    # 檢查該欄位底下的資料，是否含有 http:// 或 https:// 或 www. 的特徵
+    sample_series = filtered_df[col].astype(str)
+    if sample_series.str.contains('http://|https://|www\.', case=False, regex=True).any():
+        table_column_config[col] = st.column_config.LinkColumn(col, display_text="🔗 點擊前往")
 
-# 依照欄位索引位置 (Index 6=G欄, 7=H欄, 8=I欄) 動態綁定，完全不受欄位名稱異動影響
-if len(filtered_df.columns) >= 7:
-    col_g_name = filtered_df.columns[6]
-    table_column_config[col_g_name] = st.column_config.LinkColumn(col_g_name, display_text="🔗 點擊前往")
-
-if len(filtered_df.columns) >= 8:
-    col_h_name = filtered_df.columns[7]
-    table_column_config[col_h_name] = st.column_config.LinkColumn(col_h_name, display_text="🔗 點擊前往")
-
-if len(filtered_df.columns) >= 9:
-    col_i_name = filtered_df.columns[8]
-    table_column_config[col_i_name] = st.column_config.LinkColumn(col_i_name, display_text="🔗 點擊前往")
-
-# 套用全新 13 欄配置與超連結顯示 DataFrame
+# 呈現全新 A~L (共 12 欄) 的智慧配置表格
 st.dataframe(
     filtered_df, 
     use_container_width=True, 
