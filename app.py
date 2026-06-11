@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 from io import BytesIO
 import os
+import re
 
 # --- 1. 網頁基本設定 ---
 st.set_page_config(page_title="世衛&醫教主題會議捕手", layout="wide")
@@ -36,9 +37,18 @@ df = load_data(target_file, file_mtime)
 # 智慧偵測：尋找名稱包含「類別」或「分類」的欄位作為篩選依據
 category_col = next((col for col in df.columns if '類別' in str(col) or '分類' in str(col)), None)
 
+# 🛠️ 核心改動：萬能分隔符號拆解技術，把既有組合打散成單一標籤
 all_categories = []
 if category_col:
-    all_categories = sorted(list({item.strip() for items in df[category_col] if items for item in str(items).split('.')}))
+    cat_set = set()
+    for items in df[category_col]:
+        if pd.notna(items) and str(items).strip():
+            # 自動識別並切開：頓號、斜線、英文逗號、中文逗號、分號、句點及各式空格
+            tokens = re.split(r'[.,、\/;；，\s]+', str(items))
+            for token in tokens:
+                if token.strip():
+                    cat_set.add(token.strip())
+    all_categories = sorted(list(cat_set))
 
 # --- 3. 標題區 ---
 st.write("")
@@ -89,7 +99,7 @@ with st.expander("🧪 會議條件篩選", expanded=True):
     col1, col2 = st.columns(2)
     search_keyword = col1.text_input("🔎 關鍵字搜尋")
     if category_col:
-        selected_categories = col2.multiselect("🏷️ 專業類別", options=all_categories)
+        selected_categories = col2.multiselect("🏷️ 專業類別 (可複選單一標籤)", options=all_categories)
     else:
         selected_categories = []
         col2.write("\n*(未偵測到帶有「類別」或「分類」關鍵字之欄位)*")
@@ -99,10 +109,11 @@ filtered_df = df.copy()
 if search_keyword:
     mask = filtered_df.astype(str).apply(lambda x: x.str.contains(search_keyword, case=False)).any(axis=1)
     filtered_df = filtered_df[mask]
+    
+# 🛠️ 修正篩選邏輯：只要包含使用者點選的任一標籤，就符合條件
 if selected_categories and category_col:
     filtered_df = filtered_df[filtered_df[category_col].apply(lambda x: any(cat in str(x) for cat in selected_categories))]
 
-# 🛠️ 調整：增加專業提示語，優化寬螢幕與手機板的閱讀體驗
 st.write(f"共找到 **{len(filtered_df)}** 筆資料： *(💡 提示：表格支援左右滑動/滾動以檢視完整欄位)*")
 
 # --- 全自動偵測內容包含網址的欄位並美化成超連結 ---
