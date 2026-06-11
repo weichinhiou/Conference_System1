@@ -8,7 +8,8 @@ st.set_page_config(page_title="世衛&醫教主題會議捕手", layout="wide")
 # --- 2. 資料讀取 ---
 @st.cache_data
 def load_data():
-    df = pd.read_excel("WHO2026.xlsx")
+    # 已將檔名更新為 LIST.xlsx
+    df = pd.read_excel("LIST.xlsx")
     
     # 智慧偵測：尋找名稱包含「日期」或「時間」的欄位進行格式優化
     date_cols = [col for col in df.columns if '日期' in str(col) or '時間' in str(col)]
@@ -97,15 +98,14 @@ if selected_categories and category_col:
 
 st.write(f"共找到 **{len(filtered_df)}** 筆資料：")
 
-# --- 🛠️ 核心改動：全自動偵測內容包含網址的欄位並美化成超連結 ---
+# --- 🛠️ 核心功能：全自動偵測內容包含網址的欄位並美化成超連結 ---
 table_column_config = {}
 for col in filtered_df.columns:
-    # 檢查該欄位底下的資料，是否含有 http:// 或 https:// 或 www. 的特徵
     sample_series = filtered_df[col].astype(str)
     if sample_series.str.contains('http://|https://|www\.', case=False, regex=True).any():
         table_column_config[col] = st.column_config.LinkColumn(col, display_text="🔗 點擊前往")
 
-# 呈現全新 A~L (共 12 欄) 的智慧配置表格
+# 呈現全新 A~L 欄位的智慧配置表格
 st.dataframe(
     filtered_df, 
     use_container_width=True, 
