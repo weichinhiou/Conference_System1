@@ -132,8 +132,21 @@ with st.expander("🧪 會議條件篩選", expanded=True):
                 with st.spinner("AI 正在研讀您的摘要並媒合全球會議類別..."):
                     try:
                         from openai import OpenAI
-                        api_key_to_use = st.secrets.get("OPENAI_API_KEY") or st.secrets.get("GEMINI_API_KEY")
-                        client = OpenAI(api_key=api_key_to_use)
+                        
+                        # 讀取金鑰
+                        openai_key = st.secrets.get("OPENAI_API_KEY")
+                        gemini_key = st.secrets.get("GEMINI_API_KEY")
+                        
+                        # 🛠️ 智慧動態導流：根據填寫的金鑰類型，自動切換通道與模型
+                        if gemini_key:
+                            client = OpenAI(
+                                api_key=gemini_key,
+                                base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+                            )
+                            model_to_use = "gemini-2.5-flash"
+                        else:
+                            client = OpenAI(api_key=openai_key)
+                            model_to_use = "gpt-4o-mini"
                         
                         prompt = f"""
                         你是一位資深的國際醫學會議召集人。請閱讀以下使用者的論文摘要，並從「可選類別清單」中，
@@ -151,7 +164,7 @@ with st.expander("🧪 會議條件篩選", expanded=True):
                         """
                         
                         response = client.chat.completions.create(
-                            model="gpt-4o-mini",
+                            model=model_to_use,
                             messages=[{"role": "user", "content": prompt}],
                             temperature=0.2
                         )
@@ -159,7 +172,7 @@ with st.expander("🧪 會議條件篩選", expanded=True):
                         import json
                         raw_reply = response.choices[0].message.content.strip()
                         
-                        # 🛠️ 徹底修復：用最安全、不帶任何反引號的字串清理法，確保複製完全不卡死
+                        # 清理可能夾帶的符號
                         raw_reply = raw_reply.lstrip("`").rstrip("`")
                         if raw_reply.lower().startswith("json"):
                             raw_reply = raw_reply[4:].strip()
@@ -175,7 +188,7 @@ with st.expander("🧪 會議條件篩選", expanded=True):
                             st.info("AI 研讀了摘要，但目前現有會議分類中沒有完美契合的標籤，建議使用關鍵字搜尋。")
                             
                     except Exception as e:
-                        st.error(f"AI 媒合失敗，請確認 st.secrets 中已配置 API 密鑰。錯誤訊息: {str(e)}")
+                        st.error(f"AI 媒合失敗，請確認 st.secrets 中已配置正確的 API 密鑰。錯誤訊息: {str(e)}")
                         
     st.markdown("<div style='margin: 15px 0; border-top: 1px dashed #3e4756;'></div>", unsafe_allow_html=True)
 
@@ -190,7 +203,6 @@ with st.expander("🧪 會議條件篩選", expanded=True):
     sub_col_btn.button("GO", use_container_width=True, help="點擊套用關鍵字搜尋")
     
     if category_col:
-        # 將 AI 的建議標籤設定為預設勾選項目
         selected_categories = col2.multiselect(
             "🏷️ 專業類別 (可複選)", 
             options=all_categories,
