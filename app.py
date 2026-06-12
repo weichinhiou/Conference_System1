@@ -5,7 +5,7 @@ import os
 import re
 
 # --- 1. 網頁基本設定 ---
-st.set_page_config(page_title="世衛&醫教主題會議捕手", layout="wide")
+st.set_page_config(page_title="高榮國際任意門", layout="wide")
 
 # --- 2. 資料讀取 ---
 @st.cache_data
@@ -55,12 +55,12 @@ if category_col:
 st.write("")
 col_t1, col_t2, col_t3 = st.columns([1, 8, 1])
 with col_t2:
-    st.markdown("<div style='text-align: center; font-size: 32px; font-weight: bold; color: #f1f5f9;'>世衛&醫教主題會議捕手</div>", unsafe_allow_html=True)
-    st.markdown("<div style='text-align: center; font-size: 20px; color: #94a3b8;'>WHO & MedEd Thematic Conf Catcher</div>", unsafe_allow_html=True)
+    st.markdown("<div style='text-align: center; font-size: 32px; font-weight: bold; color: #f1f5f9;'>高榮國際任意門</div>", unsafe_allow_html=True)
+    st.markdown("<div style='text-align: center; font-size: 20px; color: #94a3b8;'>KSVGH Abroad Anywhere Door</div>", unsafe_allow_html=True)
     st.markdown("<div style='text-align: center; font-size: 14px; color: #64748b;'>GLOBAL MEDICAL EDUCATION PLATFORM</div>", unsafe_allow_html=True)
 st.write("")
 
-st.caption("🔄 更新日期: 2026 / 05 / 25")
+st.caption("🔄 更新日期: 2026 / 06 / 12")
 
 # --- 4. CSS ---
 st.markdown("""
@@ -77,9 +77,18 @@ st.markdown("""
     div[data-testid="stExpander"]:has(a[href*="1Hmt10muecDgjKXs0dNU9kaasEdFpPRhU"]) { border-left: 5px solid #c5a880 !important; background-color: #24211c !important; }
     div[data-testid="stExpander"]:has(a[href*="1Hmt10muecDgjKXs0dNU9kaasEdFpPRhU"]) summary p { color: #e6dfd5 !important; }
     
-    /* 篩選條件面板 (蘋果綠) */
+    /* 篩選條件面板最外層 (蘋果綠) */
     div[data-testid="stExpander"]:has(input), div[data-testid="stExpander"]:has(select) { border-left: 5px solid #66CC66 !important; }
     div[data-testid="stExpander"]:has(input) summary p, div[data-testid="stExpander"]:has(select) summary p { color: #66CC66 !important; }
+    
+    /* 🛠️ 核心優化：讓「內嵌子區塊（第二層）」強制維持精緻灰色框，建立漂亮層次感 */
+    div[data-testid="stExpander"] div[data-testid="stExpander"] { 
+        border-left: 5px solid #64748b !important; 
+        background-color: #1a1d24 !important;
+    }
+    div[data-testid="stExpander"] div[data-testid="stExpander"] summary p { 
+        color: #94a3b8 !important; 
+    }
     
     /* 輸入框與下拉選單底色 */
     div[data-testid="stTextInput"] div[data-baseweb="input"], 
@@ -89,7 +98,7 @@ st.markdown("""
     }
     div[data-testid="stTextInput"] input { color: #ffffff !important; }
     
-    /* GO 按鈕淡綠色與下邊距外觀調校 */
+    /* GO 按鈕外觀與間距 */
     div[data-testid="stButton"] {
         margin-bottom: 10px;
     }
@@ -113,20 +122,20 @@ st.markdown("""
 with st.expander("💡 有關本系統", expanded=False):
     st.markdown("<p style='font-size: 14.5px; margin: 0;'>系統維護：教學研究部 醫學教學科 魏今秀</p>", unsafe_allow_html=True)
 
-with st.expander("🚀 出國經費導航員", expanded=True):
+with st.expander("🚀 出國經費導航員", expanded=False):
     st.markdown("<p style='font-size: 14.5px; margin: 0;'><a href='https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing' style='color: #d8b4fe; font-weight: bold; text-decoration: underline;'>戳我一下，看看有哪些經費補助可以申請~</a></p>", unsafe_allow_html=True)
 
-with st.expander("🏈 出國進修知識大腦", expanded=True):
+with st.expander("🏈 出國進修知識大腦", expanded=False):
     st.markdown("<p style='font-size: 14.5px; margin: 0;'><a href='https://gemini.google.com/gem/1Hmt10muecDgjKXs0dNU9kaasEdFpPRhU?usp=sharing' style='color: #f3e8ee; font-weight: bold; text-decoration: underline;'>點擊這裡，讓出國進修知識大腦為您解答所有公費公假、法規與申請流程疑問！</a></p>", unsafe_allow_html=True)
 
-# 🌍 主區塊：世衛&醫教主題會議捕手
-with st.expander("🌍 世衛&醫教主題會議捕手", expanded=True):
+# 🌍 主區塊：世衛&醫教主題會議捕手 (高榮國際任意門核心功能)
+with st.expander("🌍 世衛&醫教主題會議捕手", expanded=False):
     
     # 🤖 AI 智慧推薦狀態初始化
     if "ai_suggested_cats" not in st.session_state:
         st.session_state.ai_suggested_cats = []
 
-    # 子區塊 A：AI 智慧媒合
+    # 子區塊 A：AI 智慧媒合 (預設內縮灰色框)
     with st.expander("🧪 AI 論文摘要/研究主題智慧媒合 (免盲搜)", expanded=False):
         user_abstract = st.text_area(
             "貼上您的英文論文摘要 (Abstract) 或研究大綱：", 
@@ -142,11 +151,9 @@ with st.expander("🌍 世衛&醫教主題會議捕手", expanded=True):
                     try:
                         from openai import OpenAI
                         
-                        # 讀取金鑰
                         openai_key = st.secrets.get("OPENAI_API_KEY")
                         gemini_key = st.secrets.get("GEMINI_API_KEY")
                         
-                        # 🛠️ 智慧動態導流
                         if gemini_key:
                             client = OpenAI(
                                 api_key=gemini_key,
@@ -198,11 +205,11 @@ with st.expander("🌍 世衛&醫教主題會議捕手", expanded=True):
                     except Exception as e:
                         st.error(f"AI 媒合失敗，請確認 st.secrets 中已配置正確的 API 密鑰。錯誤訊息: {str(e)}")
                         
-    # 子區塊 B：傳統會議條件篩選
-    with st.expander("🧪 會議條件篩選", expanded=True):
+    # 子區塊 B：傳統會議條件篩選 (已修正為預設內縮灰色框，完美保持階層感)
+    with st.expander("🧪 會議條件篩選", expanded=False):
         col1, col2 = st.columns(2)
         
-        # 關鍵字搜尋區 (5:1 比例) - 使用 vertical_alignment="bottom" 完美兼顧手機與網頁版排版
+        # 關鍵字搜尋區 (底部對齊，完美支援手機排版)
         sub_col_input, sub_col_btn = col1.columns([5, 1], vertical_alignment="bottom")
         search_keyword = sub_col_input.text_input("🔎 關鍵字搜尋")
         sub_col_btn.button("GO", use_container_width=True, help="點擊套用關鍵字搜尋")
@@ -217,7 +224,7 @@ with st.expander("🌍 世衛&醫教主題會議捕手", expanded=True):
             selected_categories = []
             col2.write("\n*(未偵測到帶有「類別」或「分類」關鍵字之欄位)*")
 
-    # 🌍 主區塊最底部的說明文字 (篩選區塊外，主區塊之內)
+    # 主區塊底部的組織公告說明
     st.markdown("<p style='font-size: 14px; color: #94a3b8; margin-top: 15px; margin-bottom: 5px;'>關於系統收錄的 223 個國際組織：以下匯集 WHO 及國際重要醫學教育機構資料，供同仁交流參考，最新會期與變更狀況請以官網為準。</p>", unsafe_allow_html=True)
 
 # --- 6. 呈現 ---
@@ -238,7 +245,6 @@ for idx, col in enumerate(filtered_df.columns):
     sample_series = filtered_df[col].astype(str)
     is_link = sample_series.str.contains('http://|https://|www\.', case=False, regex=True).any()
     
-    # 判斷是否為第 3, 4, 5 欄 (Python 索引值對應為 2, 3, 4)
     align_center = idx in [2, 3, 4]
     
     if is_link:
