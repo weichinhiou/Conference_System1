@@ -112,20 +112,21 @@ st.markdown("""
 with st.expander("💡 關於系統收錄的 223 個國際組織"):
     st.markdown("<p style='font-size: 14.5px; margin: 0;'>本系統匯集 WHO 及國際重要醫學教育機構資料，供同仁交流參考。最新會期請以官網為準。</p>", unsafe_allow_html=True)
 
-with st.expander("🚀 高榮-出國經費導航員", expanded=True):
+with st.expander("🚀 出國經費導航員", expanded=True):
     st.markdown("<p style='font-size: 14.5px; margin: 0;'><a href='https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing' style='color: #d8b4fe; font-weight: bold; text-decoration: underline;'>戳我一下，看看有哪些經費補助可以申請~</a></p>", unsafe_allow_html=True)
 
-with st.expander("🏈 高榮-出國進修知識大腦", expanded=True):
+with st.expander("🏈 出國進修知識大腦", expanded=True):
     st.markdown("<p style='font-size: 14.5px; margin: 0;'><a href='https://gemini.google.com/gem/1Hmt10muecDgjKXs0dNU9kaasEdFpPRhU?usp=sharing' style='color: #f3e8ee; font-weight: bold; text-decoration: underline;'>點擊這裡，讓出國進修知識大腦為您解答所有公費公假、法規與申請流程疑問！</a></p>", unsafe_allow_html=True)
 
-with st.expander("🧪 會議條件篩選", expanded=True):
+# 🌍 主區塊：世衛&醫教主題會議捕手
+with st.expander("🌍 世衛&醫教主題會議捕手", expanded=True):
     
     # 🤖 AI 智慧推薦狀態初始化
     if "ai_suggested_cats" not in st.session_state:
         st.session_state.ai_suggested_cats = []
 
-    # 建立一個精緻的內部折疊面板供 AI 使用
-    with st.expander("🤖 AI 論文摘要/研究主題智慧媒合 (免盲搜)", expanded=False):
+    # 子區塊 A：AI 智慧媒合
+    with st.expander("🧪 AI 論文摘要/研究主題智慧媒合 (免盲搜)", expanded=False):
         user_abstract = st.text_area(
             "貼上您的英文論文摘要 (Abstract) 或研究大綱：", 
             placeholder="例如：We aim to investigate the impact of portfolio systems on medical faculty evaluation workflows...",
@@ -144,7 +145,7 @@ with st.expander("🧪 會議條件篩選", expanded=True):
                         openai_key = st.secrets.get("OPENAI_API_KEY")
                         gemini_key = st.secrets.get("GEMINI_API_KEY")
                         
-                        # 🛠️ 智慧動態導流：根據填寫的金鑰類型，自動切換通道與模型
+                        # 🛠️ 智慧動態導流
                         if gemini_key:
                             client = OpenAI(
                                 api_key=gemini_key,
@@ -179,7 +180,6 @@ with st.expander("🧪 會議條件篩選", expanded=True):
                         import json
                         raw_reply = response.choices[0].message.content.strip()
                         
-                        # 清理可能夾帶的符號
                         raw_reply = raw_reply.lstrip("`").rstrip("`")
                         if raw_reply.lower().startswith("json"):
                             raw_reply = raw_reply[4:].strip()
@@ -197,27 +197,26 @@ with st.expander("🧪 會議條件篩選", expanded=True):
                     except Exception as e:
                         st.error(f"AI 媒合失敗，請確認 st.secrets 中已配置正確的 API 密鑰。錯誤訊息: {str(e)}")
                         
-    st.markdown("<div style='margin: 15px 0; border-top: 1px dashed #3e4756;'></div>", unsafe_allow_html=True)
-
-    # 傳統篩選控制項
-    col1, col2 = st.columns(2)
-    
-    # 關鍵字搜尋區 (5:1 比例)
-    sub_col_input, sub_col_btn = col1.columns([5, 1])
-    search_keyword = sub_col_input.text_input("🔎 關鍵字搜尋")
-    
-    sub_col_btn.markdown("<div style='padding-top: 28px;'></div>", unsafe_allow_html=True)
-    sub_col_btn.button("GO", use_container_width=True, help="點擊套用關鍵字搜尋")
-    
-    if category_col:
-        selected_categories = col2.multiselect(
-            "🏷️ 專業類別 (可複選)", 
-            options=all_categories,
-            default=st.session_state.ai_suggested_cats
-        )
-    else:
-        selected_categories = []
-        col2.write("\n*(未偵測到帶有「類別」或「分類」關鍵字之欄位)*")
+    # 子區塊 B：傳統會議條件篩選
+    with st.expander("🧪 會議條件篩選", expanded=True):
+        col1, col2 = st.columns(2)
+        
+        # 關鍵字搜尋區 (5:1 比例)
+        sub_col_input, sub_col_btn = col1.columns([5, 1])
+        search_keyword = sub_col_input.text_input("🔎 關鍵字搜尋")
+        
+        sub_col_btn.markdown("<div style='padding-top: 28px;'></div>", unsafe_allow_html=True)
+        sub_col_btn.button("GO", use_container_width=True, help="點擊套用關鍵字搜尋")
+        
+        if category_col:
+            selected_categories = col2.multiselect(
+                "🏷️ 專業類別 (可複選)", 
+                options=all_categories,
+                default=st.session_state.ai_suggested_cats
+            )
+        else:
+            selected_categories = []
+            col2.write("\n*(未偵測到帶有「類別」或「分類」關鍵字之欄位)*")
 
 # --- 6. 呈現 ---
 filtered_df = df.copy()
