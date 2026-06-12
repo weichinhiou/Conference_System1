@@ -56,7 +56,7 @@ st.write("")
 col_t1, col_t2, col_t3 = st.columns([1, 8, 1])
 with col_t2:
     st.markdown("<div style='text-align: center; font-size: 32px; font-weight: bold; color: #f1f5f9;'>高榮國際任意門</div>", unsafe_allow_html=True)
-    st.markdown("<div style='text-align: center; font-size: 20px; color: #94a3b8;'>KSVGH Abroad Anywhere Door</div>", unsafe_allow_html=True)
+    st.markdown("<div style='text-align: center; font-size: 20px; color: #94a3b8;'>KSVGH Abroad Anywhere Door 🚪✨</div>", unsafe_allow_html=True)
     st.markdown("<div style='text-align: center; font-size: 14px; color: #64748b;'>GLOBAL MEDICAL EDUCATION PLATFORM</div>", unsafe_allow_html=True)
 st.write("")
 
@@ -81,7 +81,7 @@ st.markdown("""
     div[data-testid="stExpander"]:has(input), div[data-testid="stExpander"]:has(select) { border-left: 5px solid #66CC66 !important; }
     div[data-testid="stExpander"]:has(input) summary p, div[data-testid="stExpander"]:has(select) summary p { color: #66CC66 !important; }
     
-    /* 🛠️ 核心優化：讓「內嵌子區塊（第二層）」強制維持精緻灰色框，建立漂亮層次感 */
+    /* 讓「內嵌子區塊（第二層）」強制維持精緻灰色框 */
     div[data-testid="stExpander"] div[data-testid="stExpander"] { 
         border-left: 5px solid #64748b !important; 
         background-color: #1a1d24 !important;
@@ -118,6 +118,10 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# 狀態管理：記錄使用者是否已經進行了互動
+if "user_has_searched" not in st.session_state:
+    st.session_state.user_has_searched = False
+
 # --- 5. 功能區 ---
 with st.expander("💡 有關本系統", expanded=False):
     st.markdown("<p style='font-size: 14.5px; margin: 0;'>系統維護：教學研究部 醫學教學科 魏今秀</p>", unsafe_allow_html=True)
@@ -128,14 +132,13 @@ with st.expander("🚀 出國經費導航員", expanded=False):
 with st.expander("🏈 出國進修知識大腦", expanded=False):
     st.markdown("<p style='font-size: 14.5px; margin: 0;'><a href='https://gemini.google.com/gem/1Hmt10muecDgjKXs0dNU9kaasEdFpPRhU?usp=sharing' style='color: #f3e8ee; font-weight: bold; text-decoration: underline;'>點擊這裡，讓出國進修知識大腦為您解答所有公費公假、法規與申請流程疑問！</a></p>", unsafe_allow_html=True)
 
-# 🌍 主區塊：世衛&醫教主題會議捕手 (高榮國際任意門核心功能)
+# 🌍 主區塊：世衛&醫教主題會議捕手
 with st.expander("🌍 世衛&醫教主題會議捕手", expanded=False):
     
-    # 🤖 AI 智慧推薦狀態初始化
     if "ai_suggested_cats" not in st.session_state:
         st.session_state.ai_suggested_cats = []
 
-    # 子區塊 A：AI 智慧媒合 (預設內縮灰色框)
+    # 子區塊 A：AI 智慧媒合
     with st.expander("🧪 AI 論文摘要/研究主題智慧媒合 (免盲搜)", expanded=False):
         user_abstract = st.text_area(
             "貼上您的英文論文摘要 (Abstract) 或研究大綱：", 
@@ -197,6 +200,8 @@ with st.expander("🌍 世衛&醫教主題會議捕手", expanded=False):
                         
                         if valid_tags:
                             st.session_state.ai_suggested_cats = valid_tags
+                            # 🎯 AI 觸發成功，解鎖表單顯示
+                            st.session_state.user_has_searched = True
                             st.success(f"💡 AI 替您精選了標籤：{', '.join(valid_tags)}！已自動為您勾選下方選單。")
                             st.rerun()
                         else:
@@ -205,14 +210,16 @@ with st.expander("🌍 世衛&醫教主題會議捕手", expanded=False):
                     except Exception as e:
                         st.error(f"AI 媒合失敗，請確認 st.secrets 中已配置正確的 API 密鑰。錯誤訊息: {str(e)}")
                         
-    # 子區塊 B：傳統會議條件篩選 (已修正為預設內縮灰色框，完美保持階層感)
+    # 子區塊 B：傳統會議條件篩選
     with st.expander("🧪 會議條件篩選", expanded=False):
         col1, col2 = st.columns(2)
         
-        # 關鍵字搜尋區 (底部對齊，完美支援手機排版)
         sub_col_input, sub_col_btn = col1.columns([5, 1], vertical_alignment="bottom")
         search_keyword = sub_col_input.text_input("🔎 關鍵字搜尋")
-        sub_col_btn.button("GO", use_container_width=True, help="點擊套用關鍵字搜尋")
+        
+        # 當使用者點擊 GO 時，觸發解鎖
+        if sub_col_btn.button("GO", use_container_width=True, help="點擊套用關鍵字搜尋"):
+            st.session_state.user_has_searched = True
         
         if category_col:
             selected_categories = col2.multiselect(
@@ -220,52 +227,60 @@ with st.expander("🌍 世衛&醫教主題會議捕手", expanded=False):
                 options=all_categories,
                 default=st.session_state.ai_suggested_cats
             )
+            # 如果使用者手動選擇了類別，同樣判定為開始查詢，解鎖表單
+            if selected_categories:
+                st.session_state.user_has_searched = True
         else:
             selected_categories = []
             col2.write("\n*(未偵測到帶有「類別」或「分類」關鍵字之欄位)*")
+            
+        # 如果使用者手動輸入了關鍵字，同樣判定為開始查詢，解鎖表單
+        if search_keyword.strip():
+            st.session_state.user_has_searched = True
 
     # 主區塊底部的組織公告說明
     st.markdown("<p style='font-size: 14px; color: #94a3b8; margin-top: 15px; margin-bottom: 5px;'>關於系統收錄的 223 個國際組織：以下匯集 WHO 及國際重要醫學教育機構資料，供同仁交流參考，最新會期與變更狀況請以官網為準。</p>", unsafe_allow_html=True)
 
-# --- 6. 呈現 ---
-filtered_df = df.copy()
-if search_keyword:
-    mask = filtered_df.astype(str).apply(lambda x: x.str.contains(search_keyword, case=False)).any(axis=1)
-    filtered_df = filtered_df[mask]
-    
-if selected_categories and category_col:
-    filtered_df = filtered_df[filtered_df[category_col].apply(lambda x: any(cat in str(x) for cat in selected_categories))]
+# --- 6. 呈現與結果區 (只有當 user_has_searched 為 True 時才驚喜現身) ---
+if st.session_state.user_has_searched:
+    filtered_df = df.copy()
+    if search_keyword:
+        mask = filtered_df.astype(str).apply(lambda x: x.str.contains(search_keyword, case=False)).any(axis=1)
+        filtered_df = filtered_df[mask]
+        
+    if selected_categories and category_col:
+        filtered_df = filtered_df[filtered_df[category_col].apply(lambda x: any(cat in str(x) for cat in selected_categories))]
 
-st.write(f"共找到 **{len(filtered_df)}** 筆資料：")
-st.write("*(提示：點擊標題列可進行排序，如月份，表格支援左右滑動以檢視完整欄位)*")
+    st.write(f"共找到 **{len(filtered_df)}** 筆資料：")
+    st.write("*(提示：點擊標題列可進行排序，如月份，表格支援左右滑動以檢視完整欄位)*")
 
-# --- 全自動偵測內容包含網址的欄位並美化成超連結與置中配置 ---
-table_column_config = {}
-for idx, col in enumerate(filtered_df.columns):
-    sample_series = filtered_df[col].astype(str)
-    is_link = sample_series.str.contains('http://|https://|www\.', case=False, regex=True).any()
-    
-    align_center = idx in [2, 3, 4]
-    
-    if is_link:
-        table_column_config[col] = st.column_config.LinkColumn(
-            col, 
-            display_text="🔗 點擊前往", 
-            alignment="center" if align_center else None
-        )
-    elif align_center:
-        table_column_config[col] = st.column_config.Column(alignment="center")
+    # 全自動網址美化與置中
+    table_column_config = {}
+    for idx, col in enumerate(filtered_df.columns):
+        sample_series = filtered_df[col].astype(str)
+        is_link = sample_series.str.contains('http://|https://|www\.', case=False, regex=True).any()
+        
+        align_center = idx in [2, 3, 4]
+        
+        if is_link:
+            table_column_config[col] = st.column_config.LinkColumn(
+                col, 
+                display_text="🔗 點擊前往", 
+                alignment="center" if align_center else None
+            )
+        elif align_center:
+            table_column_config[col] = st.column_config.Column(alignment="center")
 
-st.dataframe(
-    filtered_df, 
-    use_container_width=True, 
-    hide_index=True,
-    column_config=table_column_config
-)
+    st.dataframe(
+        filtered_df, 
+        use_container_width=True, 
+        hide_index=True,
+        column_config=table_column_config
+    )
 
-# --- 7. 下載 ---
-if not filtered_df.empty:
-    output = BytesIO()
-    with pd.ExcelWriter(output, engine='openpyxl') as writer:
-        filtered_df.to_excel(writer, index=False)
-    st.download_button("📥 下載本次查詢結果", data=output.getvalue(), file_name="會議查詢結果.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    # --- 7. 下載 ---
+    if not filtered_df.empty:
+        output = BytesIO()
+        with pd.ExcelWriter(output, engine='openpyxl') as writer:
+            filtered_df.to_excel(writer, index=False)
+        st.download_button("📥 下載本次查詢結果", data=output.getvalue(), file_name="會議查詢結果.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
