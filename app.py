@@ -162,7 +162,7 @@ with st.expander("🧪 會議條件篩選", expanded=True):
                         【使用者的論文摘要】
                         {user_abstract}
                         
-                        【可選類別清單}
+                        【可選類別清單】
                         {all_categories}
                         
                         【嚴格輸出規則】
