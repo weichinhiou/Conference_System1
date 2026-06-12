@@ -118,7 +118,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 狀態管理：記錄使用者是否已經進行了互動
+# 狀態管理
 if "user_has_searched" not in st.session_state:
     st.session_state.user_has_searched = False
 
@@ -130,7 +130,7 @@ with st.expander("🚀 出國經費導航員", expanded=False):
     st.markdown("<p style='font-size: 14.5px; margin: 0;'><a href='https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing' style='color: #d8b4fe; font-weight: bold; text-decoration: underline;'>戳我一下，看看有哪些經費補助可以申請~</a></p>", unsafe_allow_html=True)
 
 with st.expander("🏈 出國進修知識大腦", expanded=False):
-    st.markdown("<p style='font-size: 14.5px; margin: 0;'><a href='https://gemini.google.com/gem/1Hmt10muecDgjKXs0dNU9kaasEdFpPRhU?usp=sharing' style='color: #f3e8ee; font-weight: bold; text-decoration: underline;'>點擊這裡，讓出國進修知識大腦為您解答所有公費公假、法規與申請流程疑問！</a></p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-size: 14.5px; margin: 0;'><a href='https://gemini.google.com/gem/1Hmt10muecDgjKXs0dNU9kaasEdFpPRhU?usp=sharing' style='color: #f3e8ee; font-weight: bold; text-decoration: underline;'>不知道怎麼開始規劃進修嗎，來問問結訓返國的學長姊吧~</a></p>", unsafe_allow_html=True)
 
 # 🌍 主區塊：世衛&醫教主題會議捕手
 with st.expander("🌍 世衛&醫教主題會議捕手", expanded=False):
@@ -200,7 +200,6 @@ with st.expander("🌍 世衛&醫教主題會議捕手", expanded=False):
                         
                         if valid_tags:
                             st.session_state.ai_suggested_cats = valid_tags
-                            # 🎯 AI 觸發成功，解鎖表單顯示
                             st.session_state.user_has_searched = True
                             st.success(f"💡 AI 替您精選了標籤：{', '.join(valid_tags)}！已自動為您勾選下方選單。")
                             st.rerun()
@@ -208,7 +207,7 @@ with st.expander("🌍 世衛&醫教主題會議捕手", expanded=False):
                             st.info("AI 研讀了摘要，但目前現有會議分類中沒有完美契合的標籤，建議使用關鍵字搜尋。")
                             
                     except Exception as e:
-                        st.error(f"AI 媒合失敗，請確認 st.secrets 中已配置正確的 API 密鑰。錯誤訊息: {str(e)}")
+                        st.error(f"AI 媒合失败，請確認 st.secrets 中已配置正確的 API 密鑰。錯誤訊息: {str(e)}")
                         
     # 子區塊 B：傳統會議條件篩選
     with st.expander("🧪 會議條件篩選", expanded=False):
@@ -217,7 +216,6 @@ with st.expander("🌍 世衛&醫教主題會議捕手", expanded=False):
         sub_col_input, sub_col_btn = col1.columns([5, 1], vertical_alignment="bottom")
         search_keyword = sub_col_input.text_input("🔎 關鍵字搜尋")
         
-        # 當使用者點擊 GO 時，觸發解鎖
         if sub_col_btn.button("GO", use_container_width=True, help="點擊套用關鍵字搜尋"):
             st.session_state.user_has_searched = True
         
@@ -227,21 +225,19 @@ with st.expander("🌍 世衛&醫教主題會議捕手", expanded=False):
                 options=all_categories,
                 default=st.session_state.ai_suggested_cats
             )
-            # 如果使用者手動選擇了類別，同樣判定為開始查詢，解鎖表單
             if selected_categories:
                 st.session_state.user_has_searched = True
         else:
             selected_categories = []
             col2.write("\n*(未偵測到帶有「類別」或「分類」關鍵字之欄位)*")
             
-        # 如果使用者手動輸入了關鍵字，同樣判定為開始查詢，解鎖表單
         if search_keyword.strip():
             st.session_state.user_has_searched = True
 
     # 主區塊底部的組織公告說明
     st.markdown("<p style='font-size: 14px; color: #94a3b8; margin-top: 15px; margin-bottom: 5px;'>關於系統收錄的 223 個國際組織：以下匯集 WHO 及國際重要醫學教育機構資料，供同仁交流參考，最新會期與變更狀況請以官網為準。</p>", unsafe_allow_html=True)
 
-# --- 6. 呈現與結果區 (只有當 user_has_searched 為 True 時才驚喜現身) ---
+# --- 6. 呈現與結果區 ---
 if st.session_state.user_has_searched:
     filtered_df = df.copy()
     if search_keyword:
