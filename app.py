@@ -113,10 +113,10 @@ with st.expander("💡 關於系統收錄的 223 個國際組織"):
     st.markdown("<p style='font-size: 14.5px; margin: 0;'>本系統匯集 WHO 及國際重要醫學教育機構資料，供同仁交流參考。最新會期請以官網為準。</p>", unsafe_allow_html=True)
 
 with st.expander("🚀 高榮-出國經費導航員", expanded=True):
-    st.markdown("<p style='font-size: 14.5px; margin: 0;'><a href='https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing' style='color: #60a5fa; font-weight: bold; text-decoration: underline;'>戳我一下，看看有哪些經費補助可以申請~</a></p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-size: 14.5px; margin: 0;'><a href='https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing' style='color: #d8b4fe; font-weight: bold; text-decoration: underline;'>戳我一下，看看有哪些經費補助可以申請~</a></p>", unsafe_allow_html=True)
 
 with st.expander("🏈 高榮-出國進修知識大腦", expanded=True):
-    st.markdown("<p style='font-size: 14.5px; margin: 0;'><a href='https://gemini.google.com/gem/1Hmt10muecDgjKXs0dNU9kaasEdFpPRhU?usp=sharing' style='color: #f3e8ee; font-weight: bold; text-decoration: underline;'>點擊這裡，讓出國進修知識大腦為您解答所有公費公假、法規與申請流程流程疑問！</a></p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-size: 14.5px; margin: 0;'><a href='https://gemini.google.com/gem/1Hmt10muecDgjKXs0dNU9kaasEdFpPRhU?usp=sharing' style='color: #f3e8ee; font-weight: bold; text-decoration: underline;'>點擊這裡，讓出國進修知識大腦為您解答所有公費公假、法規與申請流程疑問！</a></p>", unsafe_allow_html=True)
 
 with st.expander("🧪 會議條件篩選", expanded=True):
     
@@ -162,7 +162,7 @@ with st.expander("🧪 會議條件篩選", expanded=True):
                         【使用者的論文摘要】
                         {user_abstract}
                         
-                        【可選類別清單】
+                        【可選類別清單}
                         {all_categories}
                         
                         【嚴格輸出規則】
