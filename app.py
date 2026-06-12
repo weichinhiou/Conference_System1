@@ -1,12 +1,127 @@
-# ==================== 🤖 AI 摘要智慧媒合區 (新加入) ====================
-    # 初始化 session_state，用來控制多選選單的預設值
+import streamlit as st
+import pandas as pd
+from io import BytesIO
+import os
+import re
+
+# --- 1. 網頁基本設定 ---
+st.set_page_config(page_title="世衛&醫教主題會議捕手", layout="wide")
+
+# --- 2. 資料讀取 ---
+@st.cache_data
+def load_data(file_path, mtime):
+    df = pd.read_excel(file_path)
+    
+    # 智慧偵測：尋找名稱包含「日期」或「時間」的欄位進行格式優化
+    date_cols = [col for col in df.columns if '日期' in str(col) or '時間' in str(col)]
+    
+    def fix_date(val):
+        if pd.isna(val): return "待公布"
+        if isinstance(val, (int, float)): return pd.to_datetime(val, unit='D', origin='1899-12-30').strftime('%Y-%m-%d')
+        if hasattr(val, 'strftime'): return val.strftime('%Y-%m-%d')
+        return str(val)
+        
+    for col in date_cols:
+        df[col] = df[col].apply(fix_date)
+        
+    return df.fillna("")
+
+target_file = "LIST.xlsx"
+try:
+    file_mtime = os.path.getmtime(target_file)
+except:
+    file_mtime = 0
+
+df = load_data(target_file, file_mtime)
+
+# 智慧偵測：尋找名稱包含「類別」或「分類」的欄位作為篩選依據
+category_col = next((col for col in df.columns if '類別' in str(col) or '分類' in str(col)), None)
+
+# 拆解標籤，並自動過濾「與、及、and」等無效連接詞
+all_categories = []
+if category_col:
+    cat_set = set()
+    for items in df[category_col]:
+        if pd.notna(items) and str(items).strip():
+            # 自動識別並切開各式分隔符號
+            tokens = re.split(r'[.,、\/;；，\s]+', str(items))
+            for token in tokens:
+                t = token.strip()
+                if t and t not in ['與', '及', 'and', '&']:
+                    cat_set.add(t)
+    all_categories = sorted(list(cat_set))
+
+# --- 3. 標題區 ---
+st.write("")
+col_t1, col_t2, col_t3 = st.columns([1, 8, 1])
+with col_t2:
+    st.markdown("<div style='text-align: center; font-size: 32px; font-weight: bold; color: #f1f5f9;'>世衛&醫教主題會議捕手</div>", unsafe_allow_html=True)
+    st.markdown("<div style='text-align: center; font-size: 20px; color: #94a3b8;'>WHO & MedEd Thematic Conf Catcher</div>", unsafe_allow_html=True)
+    st.markdown("<div style='text-align: center; font-size: 14px; color: #64748b;'>GLOBAL MEDICAL EDUCATION PLATFORM</div>", unsafe_allow_html=True)
+st.write("")
+
+col_meta1, col_meta2 = st.columns(2)
+col_meta1.caption("🔄 更新日期: 2026 / 05 / 25")
+col_meta2.markdown("<p style='text-align: right; color: #868e96; font-size: 14px;'>系統維護：教學研究部 醫學教學科 魏今秀</p>", unsafe_allow_html=True)
+
+# --- 4. CSS ---
+st.markdown("""
+    <style>
+    /* 基礎外觀 */
+    div[data-testid="stExpander"] { background-color: #1e222b; border: 1px solid #2d323f; border-radius: 12px; margin-bottom: 20px; border-left: 5px solid #64748b; }
+    div[data-testid="stExpander"] summary p { font-weight: bold; color: #94a3b8; }
+    
+    /* 經費導航員顏色 (紫) */
+    div[data-testid="stExpander"]:has(a) { border-left: 5px solid #a855f7; }
+    div[data-testid="stExpander"]:has(a) summary p { color: #d8b4fe; }
+    
+    /* 篩選條件面板 (蘋果綠) */
+    div[data-testid="stExpander"]:has(input), div[data-testid="stExpander"]:has(select) { border-left: 5px solid #66CC66 !important; }
+    div[data-testid="stExpander"]:has(input) summary p, div[data-testid="stExpander"]:has(select) summary p { color: #66CC66 !important; }
+    
+    /* 輸入框與下拉選單底色 */
+    div[data-testid="stTextInput"] div[data-baseweb="input"], 
+    div[data-testid="stMultiSelect"] div[data-baseweb="select"] {
+        background-color: #3e4756 !important;
+        border-color: #566175 !important;
+    }
+    div[data-testid="stTextInput"] input { color: #ffffff !important; }
+    
+    /* GO 按鈕淡綠色 */
+    div[data-testid="stButton"] button {
+        background-color: #66CC66 !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 8px !important;
+        height: 40px !important;
+        font-weight: bold !important;
+        font-size: 14px !important;
+        transition: background-color 0.2s ease;
+    }
+    div[data-testid="stButton"] button:hover {
+        background-color: #4da64d !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+# --- 5. 功能區 ---
+with st.expander("💡 關於系統收錄的 223 個國際組織"):
+    st.markdown("<p style='font-size: 14.5px; margin: 0;'>本系統匯集 WHO 及國際重要醫學教育機構資料，供同仁交流參考。最新會期請以官網為準。</p>", unsafe_allow_html=True)
+
+with st.expander("🚀 高榮-出國經費導航員", expanded=True):
+    st.markdown("<p style='font-size: 14.5px; margin: 0;'><a href='https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing' style='color: #60a5fa; font-weight: bold; text-decoration: underline;'>戳我一下，看看有哪些經費補助可以申請~</a></p>", unsafe_allow_html=True)
+
+with st.expander("🧪 會議條件篩選", expanded=True):
+    
+    # 🤖 AI 智慧推薦狀態初始化
     if "ai_suggested_cats" not in st.session_state:
         st.session_state.ai_suggested_cats = []
 
-    with st.inner_expander("🤖 AI 論文摘要/研究主題智慧媒合 (免盲搜)"):
+    # 建立一個精緻的內部折疊面板供 AI 使用
+    with st.expander("🤖 AI 論文摘要/研究主題智慧媒合 (免盲搜)", expanded=False):
         user_abstract = st.text_area(
             "貼上您的英文論文摘要 (Abstract) 或研究大綱：", 
-            placeholder="例如：We terms to investigate the impact of AI-driven portfolios on medical faculty evaluation workflows...",
+            placeholder="例如：We aim to investigate the impact of portfolio systems on medical faculty evaluation workflows...",
             height=100
         )
         
@@ -16,10 +131,11 @@
             else:
                 with st.spinner("AI 正在研讀您的摘要並媒合全球會議類別..."):
                     try:
-                        # 這裡使用標準 API 呼叫 (請確保環境變數或 st.secrets 有設定 KEY)
-                        # 如果是用 Gemini API，可替換成 genai 的對應寫法
+                        # 呼叫 OpenAI API (若改用 Gemini API 亦可替換)
                         from openai import OpenAI
-                        client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+                        # 自 Streamlit 的 Secrets 中安全讀取金鑰
+                        api_key_to_use = st.secrets.get("OPENAI_API_KEY") or st.secrets.get("GEMINI_API_KEY")
+                        client = OpenAI(api_key=api_key_to_use)
                         
                         prompt = f"""
                         你是一位資深的國際醫學會議召集人。請閱讀以下使用者的論文摘要，並從「可選類別清單」中，
@@ -32,46 +148,97 @@
                         {all_categories}
                         
                         【嚴格輸出規則】
-                        請只回傳一個 JSON 陣列，裡面包含挑選出的類別字串，不要任何 Markdown 標記、解釋或說明。
+                        請只回傳一個 JSON 陣列，裡面包含挑選出的類別字串，不要任何 Markdown 標記（如 ```json ）、解釋或說明。
                         範例：["人權", "性別"]
                         """
                         
                         response = client.chat.completions.create(
-                            model="gpt-4o-mini", # 或使用 gemini-2.5-flash
+                            model="gpt-4o-mini",
                             messages=[{"role": "user", "content": prompt}],
                             temperature=0.2
                         )
                         
-                        # 解析 AI 回傳的標籤字串
                         import json
                         raw_reply = response.choices[0].message.content.strip()
-                        # 清理可能夾帶的 ```json 標籤
                         cleaned_reply = re.sub(r'
 ```json|```', '', raw_reply).strip()
                         suggested_tags = json.loads(cleaned_reply)
                         
-                        # 過濾掉不在現有清單中的幻覺標籤
                         valid_tags = [tag for tag in suggested_tags if tag in all_categories]
                         
                         if valid_tags:
                             st.session_state.ai_suggested_cats = valid_tags
                             st.success(f"💡 AI 替您精選了標籤：{', '.join(valid_tags)}！已自動為您勾選下方選單。")
-                            st.rerun() # 重新整理網頁以套用篩選
+                            st.rerun()
                         else:
                             st.info("AI 研讀了摘要，但目前現有會議分類中沒有完美契合的標籤，建議使用關鍵字搜尋。")
                             
                     except Exception as e:
-                        st.error(f"AI 媒合失敗，請檢查 API 金鑰設定。錯誤訊息: {str(e)}")
+                        st.error(f"AI 媒合失敗，請確認 st.secrets 中已配置 API 密鑰。錯誤訊息: {str(e)}")
                         
-    st.markdown("---") # 分隔線
-    # =====================================================================
+    st.markdown("<div style='margin: 15px 0; border-top: 1px dashed #3e4756;'></div>", unsafe_allow_html=True)
 
-    # 修改妳原本的 multiselect 欄位，加上 default 參數連動 session_state
-    # 原本是：selected_categories = col2.multiselect("🏷️ 專業類別 (可複選)", options=all_categories)
-    # 改成下方這樣：
+    # 傳統篩選控制項
+    col1, col2 = st.columns(2)
+    
+    # 關鍵字搜尋區 (5:1 比例)
+    sub_col_input, sub_col_btn = col1.columns([5, 1])
+    search_keyword = sub_col_input.text_input("🔎 關鍵字搜尋")
+    
+    sub_col_btn.markdown("<div style='padding-top: 28px;'></div>", unsafe_allow_html=True)
+    sub_col_btn.button("GO", use_container_width=True, help="點擊套用關鍵字搜尋")
+    
     if category_col:
+        # 將 AI 的建議標籤設定為預設勾選項目
         selected_categories = col2.multiselect(
             "🏷️ 專業類別 (可複選)", 
             options=all_categories,
-            default=st.session_state.ai_suggested_cats # 🔗 讓 AI 的推薦直接變成預設勾選
+            default=st.session_state.ai_suggested_cats
         )
+    else:
+        selected_categories = []
+        col2.write("\n*(未偵測到帶有「類別」或「分類」關鍵字之欄位)*")
+
+# --- 6. 呈現 ---
+filtered_df = df.copy()
+if search_keyword:
+    mask = filtered_df.astype(str).apply(lambda x: x.str.contains(search_keyword, case=False)).any(axis=1)
+    filtered_df = filtered_df[mask]
+    
+if selected_categories and category_col:
+    filtered_df = filtered_df[filtered_df[category_col].apply(lambda x: any(cat in str(x) for cat in selected_categories))]
+
+st.write(f"共找到 **{len(filtered_df)}** 筆資料：")
+st.write("*(提示：點擊標題列可進行排序，如月份，表格支援左右滑動以檢視完整欄位)*")
+
+# --- 全自動偵測內容包含網址的欄位並美化成超連結與置中配置 ---
+table_column_config = {}
+for idx, col in enumerate(filtered_df.columns):
+    sample_series = filtered_df[col].astype(str)
+    is_link = sample_series.str.contains('http://|https://|www\.', case=False, regex=True).any()
+    
+    # 判斷是否為第 3, 4, 5 欄 (Python 索引值對應為 2, 3, 4)
+    align_center = idx in [2, 3, 4]
+    
+    if is_link:
+        table_column_config[col] = st.column_config.LinkColumn(
+            col, 
+            display_text="🔗 點擊前往", 
+            alignment="center" if align_center else None
+        )
+    elif align_center:
+        table_column_config[col] = st.column_config.Column(alignment="center")
+
+st.dataframe(
+    filtered_df, 
+    use_container_width=True, 
+    hide_index=True,
+    column_config=table_column_config
+)
+
+# --- 7. 下載 ---
+if not filtered_df.empty:
+    output = BytesIO()
+    with pd.ExcelWriter(output, engine='openpyxl') as writer:
+        filtered_df.to_excel(writer, index=False)
+    st.download_button("📥 下載本次查詢結果", data=output.getvalue(), file_name="會議查詢結果.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
