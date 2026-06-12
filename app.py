@@ -146,7 +146,7 @@ with st.expander("🧪 會議條件篩選", expanded=True):
                         {all_categories}
                         
                         【嚴格輸出規則】
-                        請只回傳一個 JSON 陣列，裡面包含挑選出的類別字串，不要任何解釋或額外說明。
+                        請只回傳一個標準的 JSON 陣列，裡面包含挑選出的類別字串，絕對不要包含 Markdown 語法標記。
                         範例：["人權", "性別"]
                         """
                         
@@ -159,18 +159,10 @@ with st.expander("🧪 會議條件篩選", expanded=True):
                         import json
                         raw_reply = response.choices[0].message.content.strip()
                         
-                        # 🛠️ 修正點：改用更安全的字串切除，完全避免反引號語法衝突
-                        if raw_reply.startswith("```"):
-                            # 移除可能存在的 ```json 或 
-``` 標記
-                            lines = raw_reply.splitlines()
-                            if len(lines) >= 2:
-                                if lines[0].startswith("```"):
-                                    lines = lines[1:]
-                                if lines[-1].startswith("
-```"):
-                                    lines = lines[:-1]
-                            raw_reply = "\n".join(lines).strip()
+                        # 🛠️ 徹底修復：用最安全、不帶任何反引號的字串清理法，確保複製完全不卡死
+                        raw_reply = raw_reply.lstrip("`").rstrip("`")
+                        if raw_reply.lower().startswith("json"):
+                            raw_reply = raw_reply[4:].strip()
                             
                         suggested_tags = json.loads(raw_reply)
                         valid_tags = [tag for tag in suggested_tags if tag in all_categories]
