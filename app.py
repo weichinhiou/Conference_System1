@@ -5,7 +5,7 @@ import os
 import re
 
 # --- 1. 網頁基本設定 ---
-st.set_page_config(page_title="高榮國際任意門", layout="wide")
+st.set_page_config(page_title="高榮無界任意門", layout="wide")
 
 # --- 2. 資料讀取 ---
 @st.cache_data
@@ -51,12 +51,12 @@ if category_col:
                     cat_set.add(t)
     all_categories = sorted(list(cat_set))
 
-# --- 3. 標題區 ---
+# --- 3. 標題區 (全新升級：高榮無界任意門) ---
 st.write("")
 col_t1, col_t2, col_t3 = st.columns([1, 8, 1])
 with col_t2:
-    st.markdown("<div style='text-align: center; font-size: 32px; font-weight: bold; color: #f1f5f9;'>高榮國際任意門</div>", unsafe_allow_html=True)
-    st.markdown("<div style='text-align: center; font-size: 20px; color: #94a3b8;'>KSVGH Abroad Anywhere Door 🚪✨</div>", unsafe_allow_html=True)
+    st.markdown("<div style='text-align: center; font-size: 32px; font-weight: bold; color: #f1f5f9;'>高榮無界任意門</div>", unsafe_allow_html=True)
+    st.markdown("<div style='text-align: center; font-size: 20px; color: #94a3b8;'>KSVGH Borderless Anywhere Door 🚪✨</div>", unsafe_allow_html=True)
     st.markdown("<div style='text-align: center; font-size: 14px; color: #64748b;'>GLOBAL MEDICAL EDUCATION PLATFORM</div>", unsafe_allow_html=True)
 st.write("")
 
@@ -207,7 +207,7 @@ with st.expander("🌍 世衛&醫教主題會議捕手", expanded=False):
                             st.info("AI 研讀了摘要，但目前現有會議分類中沒有完美契合的標籤，建議使用關鍵字搜尋。")
                             
                     except Exception as e:
-                        st.error(f"AI 媒合失败，請確認 st.secrets 中已配置正確的 API 密鑰。錯誤訊息: {str(e)}")
+                        st.error(f"AI 媒合失敗，請確認 st.secrets 中已配置正確的 API 密鑰。錯誤訊息: {str(e)}")
                         
     # 子區塊 B：傳統會議條件篩選
     with st.expander("🧪 會議條件篩選", expanded=False):
