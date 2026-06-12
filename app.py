@@ -69,7 +69,7 @@ st.markdown("""
     div[data-testid="stExpander"] { background-color: #1e222b; border: 1px solid #2d323f; border-radius: 12px; margin-bottom: 20px; border-left: 5px solid #64748b; }
     div[data-testid="stExpander"] summary p { font-weight: bold; color: #94a3b8; }
     
-    /* 經費導航員顏色 (紫) */
+    /* 出國資源法規導航員顏色 (紫) */
     div[data-testid="stExpander"]:has(a[href*="18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA"]) { border-left: 5px solid #a855f7 !important; }
     div[data-testid="stExpander"]:has(a[href*="18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA"]) summary p { color: #d8b4fe !important; }
     
@@ -124,13 +124,21 @@ if "user_has_searched" not in st.session_state:
 
 # --- 5. 功能區 ---
 with st.expander("💡 有關本系統", expanded=False):
-    st.markdown("<p style='font-size: 14.5px; margin: 0;'>系統維護：教學研究部 醫學教學科 魏今秀</p>", unsafe_allow_html=True)
+    st.markdown("""
+    <p style='font-size: 15px; color: #cbd5e1; line-height: 1.6; margin: 0;'>
+    👋 <b>嗨！高榮的學術航海王們！</b><br>
+    出國進修、論文投稿、搞懂公費公假法規，是不是常常讓你想大喊『救命，萬事起頭難』？🤯<br>
+    免緊張！這裡就是專為高榮人打造的學術羅盤。我們在 2026年6月開啟了這場 <b>Vibe Code 的行政數位轉型大冒險</b>，目前系統正處於超好玩的 MVP（最小可行產品）初始雛型階段！<br><br>
+    無論你是想一鍵捕捉世衛與醫教組織的關鍵會議，還是想找回國的學長姐取經，點開下方任意門，一秒打通與世界接軌的通道，讓你的國際發表與進修之路從此不再迷路！🚀✨<br>
+    <span style='color: #64748b; font-size: 13px;'>系統維護單位：教學研究部 醫學教學科</span>
+    </p>
+    """, unsafe_allow_html=True)
 
-with st.expander("🚀 出國經費導航員", expanded=False):
-    st.markdown("<p style='font-size: 14.5px; margin: 0;'><a href='https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing' style='color: #d8b4fe; font-weight: bold; text-decoration: underline;'>戳我一下，看看有哪些經費補助可以申請~</a></p>", unsafe_allow_html=True)
+with st.expander("🚀 出國資源法規導航員", expanded=False):
+    st.markdown("<p style='font-size: 14.5px; margin: 0;'><a href='https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing' style='color: #d8b4fe; font-weight: bold; text-decoration: underline;'>戳我一下，看看有哪些經費補助和公假可以申請&相關規範與流程來查詢~</a></p>", unsafe_allow_html=True)
 
 with st.expander("🏈 出國進修知識大腦", expanded=False):
-    st.markdown("<p style='font-size: 14.5px; margin: 0;'><a href='https://gemini.google.com/gem/1Hmt10muecDgjKXs0dNU9kaasEdFpPRhU?usp=sharing' style='color: #f3e8ee; font-weight: bold; text-decoration: underline;'>不知道怎麼開始規劃進修嗎，來問問結訓返國的學長姊吧~</a></p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-size: 14.5px; margin: 0;'><a href='https://gemini.google.com/gem/1Hmt10muecDgjKXs0dNU9kaasEdFpPRhU?usp=sharing' style='color: #f3e8ee; font-weight: bold; text-decoration: underline;'>不知道怎麼開始規劃進修嗎，來問問結訓返國有豐富經驗的學長姊吧~</a></p>", unsafe_allow_html=True)
 
 # 🌍 主區塊：世衛&醫教主題會議捕手
 with st.expander("🌍 世衛&醫教主題會議捕手", expanded=False):
