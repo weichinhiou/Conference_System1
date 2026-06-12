@@ -60,9 +60,7 @@ with col_t2:
     st.markdown("<div style='text-align: center; font-size: 14px; color: #64748b;'>GLOBAL MEDICAL EDUCATION PLATFORM</div>", unsafe_allow_html=True)
 st.write("")
 
-col_meta1, col_meta2 = st.columns(2)
-col_meta1.caption("🔄 更新日期: 2026 / 05 / 25")
-col_meta2.markdown("<p style='text-align: right; color: #868e96; font-size: 14px;'>系統維護：教學研究部 醫學教學科 魏今秀</p>", unsafe_allow_html=True)
+st.caption("🔄 更新日期: 2026 / 05 / 25")
 
 # --- 4. CSS ---
 st.markdown("""
@@ -91,7 +89,10 @@ st.markdown("""
     }
     div[data-testid="stTextInput"] input { color: #ffffff !important; }
     
-    /* GO 按鈕淡綠色 */
+    /* GO 按鈕淡綠色與下邊距外觀調校 */
+    div[data-testid="stButton"] {
+        margin-bottom: 10px;
+    }
     div[data-testid="stButton"] button {
         background-color: #66CC66 !important;
         color: white !important;
@@ -109,8 +110,8 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # --- 5. 功能區 ---
-with st.expander("💡 關於系統收錄的 223 個國際組織"):
-    st.markdown("<p style='font-size: 14.5px; margin: 0;'>本系統匯集 WHO 及國際重要醫學教育機構資料，供同仁交流參考。最新會期請以官網為準。</p>", unsafe_allow_html=True)
+with st.expander("💡 有關本系統", expanded=False):
+    st.markdown("<p style='font-size: 14.5px; margin: 0;'>系統維護：教學研究部 醫學教學科 魏今秀</p>", unsafe_allow_html=True)
 
 with st.expander("🚀 出國經費導航員", expanded=True):
     st.markdown("<p style='font-size: 14.5px; margin: 0;'><a href='https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing' style='color: #d8b4fe; font-weight: bold; text-decoration: underline;'>戳我一下，看看有哪些經費補助可以申請~</a></p>", unsafe_allow_html=True)
@@ -201,11 +202,9 @@ with st.expander("🌍 世衛&醫教主題會議捕手", expanded=True):
     with st.expander("🧪 會議條件篩選", expanded=True):
         col1, col2 = st.columns(2)
         
-        # 關鍵字搜尋區 (5:1 比例)
-        sub_col_input, sub_col_btn = col1.columns([5, 1])
+        # 關鍵字搜尋區 (5:1 比例) - 使用 vertical_alignment="bottom" 完美兼顧手機與網頁版排版
+        sub_col_input, sub_col_btn = col1.columns([5, 1], vertical_alignment="bottom")
         search_keyword = sub_col_input.text_input("🔎 關鍵字搜尋")
-        
-        sub_col_btn.markdown("<div style='padding-top: 28px;'></div>", unsafe_allow_html=True)
         sub_col_btn.button("GO", use_container_width=True, help="點擊套用關鍵字搜尋")
         
         if category_col:
@@ -217,6 +216,9 @@ with st.expander("🌍 世衛&醫教主題會議捕手", expanded=True):
         else:
             selected_categories = []
             col2.write("\n*(未偵測到帶有「類別」或「分類」關鍵字之欄位)*")
+
+    # 🌍 主區塊最底部的說明文字 (篩選區塊外，主區塊之內)
+    st.markdown("<p style='font-size: 14px; color: #94a3b8; margin-top: 15px; margin-bottom: 5px;'>關於系統收錄的 223 個國際組織：以下匯集 WHO 及國際重要醫學教育機構資料，供同仁交流參考，最新會期與變更狀況請以官網為準。</p>", unsafe_allow_html=True)
 
 # --- 6. 呈現 ---
 filtered_df = df.copy()
