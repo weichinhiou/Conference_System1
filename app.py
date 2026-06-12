@@ -123,14 +123,15 @@ if "user_has_searched" not in st.session_state:
     st.session_state.user_has_searched = False
 
 # --- 5. 功能區 ---
-with st.expander("💡 有關本系統", expanded=False):
+with st.expander("🐾有關本系統", expanded=False):
     st.markdown("""
     <p style='font-size: 15px; color: #cbd5e1; line-height: 1.6; margin: 0;'>
-    👋 <b>嗨！高榮的學術航海王們！</b><br>
-    出國進修、論文投稿、搞懂公費公假法規，是不是常常讓你想大喊『救命，萬事起頭難』？🤯<br>
+    🌊<b>嗨！高榮的學術航海王們！</b><br>
+    出國進修、論文投稿、搞懂公費公假法規，是不是常常讓你想大喊『救命，萬事起頭難』？💫<br>
     免緊張！這裡就是專為高榮人打造的學術羅盤。我們在 2026年6月開啟了這場 <b>Vibe Code 的行政數位轉型大冒險</b>，目前系統正處於超好玩的 MVP（最小可行產品）初始雛型階段！<br><br>
-    無論你是想一鍵捕捉世衛與醫教組織的關鍵會議，還是想找回國的學長姐取經，點開下方任意門，一秒打通與世界接軌的通道，讓你的國際發表與進修之路從此不再迷路！🚀✨<br>
-    <span style='color: #64748b; font-size: 13px;'>系統維護單位：教學研究部 醫學教學科</span>
+    無論你是想一鍵捕捉世衛與醫教組織的關鍵會議，還是想找回國的學長姐取經，點開下方任意門，一秒打通與世界接軌的通道，讓你的國際發表與進修之路從此不再迷路！🐬<br>
+    <span style='color: #64748b; font-size: 13px;'>BY 教學研究部 醫學教學科</span>
+    <br>
     </p>
     """, unsafe_allow_html=True)
 
