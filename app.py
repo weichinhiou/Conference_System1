@@ -131,9 +131,7 @@ with st.expander("🧪 會議條件篩選", expanded=True):
             else:
                 with st.spinner("AI 正在研讀您的摘要並媒合全球會議類別..."):
                     try:
-                        # 呼叫 OpenAI API (若改用 Gemini API 亦可替換)
                         from openai import OpenAI
-                        # 自 Streamlit 的 Secrets 中安全讀取金鑰
                         api_key_to_use = st.secrets.get("OPENAI_API_KEY") or st.secrets.get("GEMINI_API_KEY")
                         client = OpenAI(api_key=api_key_to_use)
                         
@@ -148,7 +146,7 @@ with st.expander("🧪 會議條件篩選", expanded=True):
                         {all_categories}
                         
                         【嚴格輸出規則】
-                        請只回傳一個 JSON 陣列，裡面包含挑選出的類別字串，不要任何 Markdown 標記（如 ```json ）、解釋或說明。
+                        請只回傳一個 JSON 陣列，裡面包含挑選出的類別字串，不要任何解釋或額外說明。
                         範例：["人權", "性別"]
                         """
                         
@@ -160,10 +158,21 @@ with st.expander("🧪 會議條件篩選", expanded=True):
                         
                         import json
                         raw_reply = response.choices[0].message.content.strip()
-                        cleaned_reply = re.sub(r'
-```json|```', '', raw_reply).strip()
-                        suggested_tags = json.loads(cleaned_reply)
                         
+                        # 🛠️ 修正點：改用更安全的字串切除，完全避免反引號語法衝突
+                        if raw_reply.startswith("```"):
+                            # 移除可能存在的 ```json 或 
+``` 標記
+                            lines = raw_reply.splitlines()
+                            if len(lines) >= 2:
+                                if lines[0].startswith("```"):
+                                    lines = lines[1:]
+                                if lines[-1].startswith("
+```"):
+                                    lines = lines[:-1]
+                            raw_reply = "\n".join(lines).strip()
+                            
+                        suggested_tags = json.loads(raw_reply)
                         valid_tags = [tag for tag in suggested_tags if tag in all_categories]
                         
                         if valid_tags:
