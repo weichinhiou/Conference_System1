@@ -72,8 +72,12 @@ st.markdown("""
     div[data-testid="stExpander"] summary p { font-weight: bold; color: #94a3b8; }
     
     /* 經費導航員顏色 (紫) */
-    div[data-testid="stExpander"]:has(a) { border-left: 5px solid #a855f7; }
-    div[data-testid="stExpander"]:has(a) summary p { color: #d8b4fe; }
+    div[data-testid="stExpander"]:has(a[href*="18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA"]) { border-left: 5px solid #a855f7 !important; }
+    div[data-testid="stExpander"]:has(a[href*="18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA"]) summary p { color: #d8b4fe !important; }
+    
+    /* 出國進修知識大腦顏色 (優雅淡褐色) */
+    div[data-testid="stExpander"]:has(a[href*="1Hmt10muecDgjKXs0dNU9kaasEdFpPRhU"]) { border-left: 5px solid #c5a880 !important; background-color: #24211c !important; }
+    div[data-testid="stExpander"]:has(a[href*="1Hmt10muecDgjKXs0dNU9kaasEdFpPRhU"]) summary p { color: #e6dfd5 !important; }
     
     /* 篩選條件面板 (蘋果綠) */
     div[data-testid="stExpander"]:has(input), div[data-testid="stExpander"]:has(select) { border-left: 5px solid #66CC66 !important; }
@@ -110,6 +114,9 @@ with st.expander("💡 關於系統收錄的 223 個國際組織"):
 
 with st.expander("🚀 高榮-出國經費導航員", expanded=True):
     st.markdown("<p style='font-size: 14.5px; margin: 0;'><a href='https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing' style='color: #60a5fa; font-weight: bold; text-decoration: underline;'>戳我一下，看看有哪些經費補助可以申請~</a></p>", unsafe_allow_html=True)
+
+with st.expander("🏈 高榮-出國進修知識大腦", expanded=True):
+    st.markdown("<p style='font-size: 14.5px; margin: 0;'><a href='https://gemini.google.com/gem/1Hmt10muecDgjKXs0dNU9kaasEdFpPRhU?usp=sharing' style='color: #f3e8ee; font-weight: bold; text-decoration: underline;'>點擊這裡，讓出國進修知識大腦為您解答所有公費公假、法規與申請流程流程疑問！</a></p>", unsafe_allow_html=True)
 
 with st.expander("🧪 會議條件篩選", expanded=True):
     
