@@ -60,7 +60,7 @@ with col_t2:
     st.markdown("<div style='text-align: center; font-size: 14px; color: #64748b;'>GLOBAL MEDICAL EDUCATION PLATFORM</div>", unsafe_allow_html=True)
 st.write("")
 
-st.caption("🔄 更新日期: 2026 / 06 / 12")
+st.caption("🔄 更新日期: 2026 / 06 / 14")
 
 # --- 4. CSS ---
 st.markdown("""
