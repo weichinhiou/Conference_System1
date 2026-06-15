@@ -150,7 +150,7 @@ with st.expander("🌍 世衛&醫教主題會議捕手", expanded=False):
     # 子區塊 A：AI 智慧媒合
     with st.expander("🧪 AI 論文摘要/研究主題智慧媒合 (免盲搜)", expanded=False):
         user_abstract = st.text_area(
-            "貼上您的英文論文摘要 (Abstract) 或研究大綱：", 
+            "貼上您的中英文論文摘要 (Abstract) 或研究大綱：", 
             placeholder="例如：We aim to investigate the impact of portfolio systems on medical faculty evaluation workflows...",
             height=100
         )
