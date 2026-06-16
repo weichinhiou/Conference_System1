@@ -139,7 +139,7 @@ with st.expander("🚀 出國資源法規導航員", expanded=False):
     # 超連結部分保留 HTML 調整顏色與底線
     st.markdown("<a href='https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing' style='color: #d8b4fe; font-weight: bold; text-decoration: underline;'>戳我一下，看看有哪些經費補助和公假可以申請&相關規範與流程來查詢~</a>", unsafe_allow_html=True)
     # 提醒事項直接用 Markdown 寫，結構更清晰
-    st.markdown("**🚩NEW!!時程提醒~開始本年度臨時出國會議申請囉~出國賸餘款採隨到隨審!!**")
+    st.markdown("**🚩NEW!!時程提醒>> 開始本年度臨時出國會議申請囉~出國賸餘款採隨到隨審!!**")
 
 with st.expander("🏈 出國進修知識大腦", expanded=False):
     st.markdown("<p style='font-size: 14.5px; margin: 0;'><a href='https://gemini.google.com/gem/1Hmt10muecDgjKXs0dNU9kaasEdFpPRhU?usp=sharing' style='color: #f3e8ee; font-weight: bold; text-decoration: underline;'>不知道怎麼開始規劃進修嗎，來問問結訓返國有豐富經驗的學長姊吧~</a></p>", unsafe_allow_html=True)
