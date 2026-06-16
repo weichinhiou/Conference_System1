@@ -67,7 +67,10 @@ st.markdown("""
     <style>
     /* 基礎外觀 */
     div[data-testid="stExpander"] { background-color: #1e222b; border: 1px solid #2d323f; border-radius: 12px; margin-bottom: 20px; border-left: 5px solid #64748b; }
-    div[data-testid="stExpander"] summary p { font-weight: bold; color: #94a3b8; }
+    
+    /* 調整主要功能大標題的字型大小與內距 */
+    div[data-testid="stExpander"] summary { padding-top: 12px !important; padding-bottom: 12px !important; }
+    div[data-testid="stExpander"] summary p { font-size: 20px !important; font-weight: bold; color: #94a3b8; line-height: 1.4 !important; }
     
     /* 出國資源法規導航員顏色 (紫) */
     div[data-testid="stExpander"]:has(a[href*="18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA"]) { border-left: 5px solid #a855f7 !important; }
@@ -81,12 +84,13 @@ st.markdown("""
     div[data-testid="stExpander"]:has(input), div[data-testid="stExpander"]:has(select) { border-left: 5px solid #66CC66 !important; }
     div[data-testid="stExpander"]:has(input) summary p, div[data-testid="stExpander"]:has(select) summary p { color: #66CC66 !important; }
     
-    /* 讓「內嵌子區塊（第二層）」強制維持精緻灰色框 */
+    /* 讓「內嵌子區塊（第二層）」強制維持精緻灰色框與正常稍小字體，避免受大標影響 */
     div[data-testid="stExpander"] div[data-testid="stExpander"] { 
         border-left: 5px solid #64748b !important; 
         background-color: #1a1d24 !important;
     }
     div[data-testid="stExpander"] div[data-testid="stExpander"] summary p { 
+        font-size: 16px !important;
         color: #94a3b8 !important; 
     }
     
