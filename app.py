@@ -142,7 +142,7 @@ with st.expander("🚀 出國資源法規導航員", expanded=False):
             <a href='https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing' style='color: #d8b4fe; font-weight: bold; text-decoration: underline;'>
                 戳我一下，看看有哪些經費補助和公假可以申請&相關規範與流程來查詢~
             </a>
-            <br>
+            <br><br>
             <b>🚩NEW!!時程提醒~開始本年度臨時出國會議申請囉~出國賸餘款採隨到隨審!!</b>
         </p>
         """, 
