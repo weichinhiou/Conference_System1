@@ -142,7 +142,7 @@ with st.expander("🚀 出國資源法規導航員", expanded=False):
     st.markdown("**🚩NEW!!時程提醒>> 開始本年度臨時出國會議申請囉~出國賸餘款採隨到隨審!!**")
 
 with st.expander("🏈 出國進修知識大腦", expanded=False):
-    st.markdown("<p style='font-size: 14.5px; margin: 0;'><a href='https://gemini.google.com/gem/1Hmt10muecDgjKXs0dNU9kaasEdFpPRhU?usp=sharing' style='color: #f3e8ee; font-weight: bold; text-decoration: underline;'>不知道怎麼開始規劃進修嗎，來問問結訓返國有豐富經驗的學長姊吧~</a></p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-size: 15px; margin: 0;'><a href='https://gemini.google.com/gem/1Hmt10muecDgjKXs0dNU9kaasEdFpPRhU?usp=sharing' style='color: #f3e8ee; font-weight: bold; text-decoration: underline;'>不知道怎麼開始規劃進修嗎，來問問結訓返國有豐富經驗的學長姊吧~</a></p>", unsafe_allow_html=True)
 
 # 🌍 主區塊：世衛&醫教主題會議捕手
 with st.expander("🌍 世衛&醫教主題會議捕手", expanded=False):
