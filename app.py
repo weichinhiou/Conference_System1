@@ -46,34 +46,39 @@ if category_col:
                 if t and t not in ['與', '及', 'and', '&']: cat_set.add(t)
     all_categories = sorted(list(cat_set))
 
-# --- 4. 標題區 ---
+# --- 4. 標題與 CSS ---
 col_t1, col_t2, col_t3 = st.columns([1, 8, 1])
 with col_t2:
     st.markdown("<div style='text-align: center; font-size: 32px; font-weight: bold; color: #f1f5f9;'>高榮無界任意門</div>", unsafe_allow_html=True)
     st.markdown("<div style='text-align: center; font-size: 20px; color: #94a3b8;'>KSVGH Borderless Anywhere Door 🚪✨</div>", unsafe_allow_html=True)
 st.caption("🔄 更新日期: 2026 / 06 / 15")
 
-# --- 5. CSS (修正引號配對) ---
-st.markdown("""
-    <style>
-    div[data-testid="stExpander"] { background-color: #1e222b; border: 1px solid #2d323f; border-radius: 12px; margin-bottom: 20px; border-left: 5px solid #64748b; }
-    div[data-testid="stExpander"] summary { padding: 12px !important; }
+st.markdown("""<style>
+    div[data-testid="stExpander"] { background-color: #1e222b; border: 1px solid #2d323f; border-radius: 12px; border-left: 5px solid #64748b; }
     div[data-testid="stExpander"] summary p { font-size: 20px !important; font-weight: bold; color: #94a3b8; }
-    div[data-testid="stExpander"] div[data-testid="stExpander"] summary p { font-size: 16px !important; }
-    div[data-testid="stButton"] button { background-color: #66CC66 !important; color: white !important; }
-    </style>
-""", unsafe_allow_html=True)
+    </style>""", unsafe_allow_html=True)
 
-# --- 6. 功能區 ---
+# --- 5. 功能與搜尋 ---
 if "user_has_searched" not in st.session_state: st.session_state.user_has_searched = False
+if "ai_suggested_cats" not in st.session_state: st.session_state.ai_suggested_cats = []
 
-with st.expander("🐾 有關本系統"):
-    st.markdown("這裡放置系統說明...")
+with st.expander("🌍 世衛&醫教主題會議捕手", expanded=True):
+    with st.expander("🧪 AI 論文摘要/研究主題智慧媒合"):
+        user_abstract = st.text_area("貼上摘要：")
+        if st.button("🪄 AI 媒合"):
+            st.session_state.user_has_searched = True # 這裡會接上原本的 AI 邏輯
+    
+    with st.expander("🧪 會議條件篩選", expanded=True):
+        col1, col2 = st.columns(2)
+        search_keyword = col1.text_input("🔎 關鍵字搜尋")
+        selected_categories = col2.multiselect("🏷️ 專業類別", options=all_categories)
+        if st.button("GO"): st.session_state.user_has_searched = True
 
-with st.expander("🚀 出國資源法規導航員"):
-    st.markdown("[點我前往正式版](https://ksvgh-anywhere-door.vercel.app/)")
-
-with st.expander("🌍 世衛&醫教主題會議捕手"):
-    st.write("功能開發中...")
-
-# (你可以接著把原本的 search_keyword 與 DataFrame 邏輯貼在下面)
+# --- 6. 結果顯示 ---
+if st.session_state.user_has_searched:
+    filtered_df = df.copy()
+    if search_keyword:
+        mask = filtered_df.astype(str).apply(lambda x: x.str.contains(search_keyword, case=False)).any(axis=1)
+        filtered_df = filtered_df[mask]
+    st.write(f"共找到 {len(filtered_df)} 筆資料：")
+    st.dataframe(filtered_df, use_container_width=True)
