@@ -13,7 +13,6 @@ st.error("""
 正式版網頁已全面啟用，功能更穩定、速度更快！請同仁移步至正式版頁面使用：
 [👉 點我前往：高榮無界任意門 (正式版)](https://ksvgh-anywhere-door.vercel.app/)
 """, icon="📢")
-st.divider()
 
 # --- 3. 資料讀取 ---
 @st.cache_data
@@ -46,32 +45,44 @@ if category_col:
                 if t and t not in ['與', '及', 'and', '&']: cat_set.add(t)
     all_categories = sorted(list(cat_set))
 
-# --- 4. 標題與 CSS ---
+# --- 4. 標題與 CSS 注入 ---
 col_t1, col_t2, col_t3 = st.columns([1, 8, 1])
 with col_t2:
     st.markdown("<div style='text-align: center; font-size: 32px; font-weight: bold; color: #f1f5f9;'>高榮無界任意門</div>", unsafe_allow_html=True)
     st.markdown("<div style='text-align: center; font-size: 20px; color: #94a3b8;'>KSVGH Borderless Anywhere Door 🚪✨</div>", unsafe_allow_html=True)
 st.caption("🔄 更新日期: 2026 / 06 / 15")
 
-st.markdown("""<style>
-    div[data-testid="stExpander"] { background-color: #1e222b; border: 1px solid #2d323f; border-radius: 12px; border-left: 5px solid #64748b; }
+st.markdown("""
+    <style>
+    div[data-testid="stExpander"] { background-color: #1e222b; border: 1px solid #2d323f; border-radius: 12px; margin-bottom: 20px; border-left: 5px solid #64748b; }
+    div[data-testid="stExpander"] summary { padding: 12px !important; }
     div[data-testid="stExpander"] summary p { font-size: 20px !important; font-weight: bold; color: #94a3b8; }
-    </style>""", unsafe_allow_html=True)
+    div[data-testid="stExpander"] div[data-testid="stExpander"] { border-left: 5px solid #64748b !important; background-color: #1a1d24 !important; }
+    div[data-testid="stExpander"] div[data-testid="stExpander"] summary p { font-size: 16px !important; color: #94a3b8 !important; }
+    div[data-testid="stButton"] button { background-color: #66CC66 !important; color: white !important; }
+    div[data-testid="stExpander"]:has(a[href*="18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA"]) { border-left: 5px solid #a855f7 !important; }
+    div[data-testid="stExpander"]:has(input) { border-left: 5px solid #66CC66 !important; }
+    </style>
+""", unsafe_allow_html=True)
 
-# --- 5. 功能與搜尋 ---
+# --- 5. 狀態與功能區 ---
 if "user_has_searched" not in st.session_state: st.session_state.user_has_searched = False
 if "ai_suggested_cats" not in st.session_state: st.session_state.ai_suggested_cats = []
 
+with st.expander("🐾 有關本系統"):
+    st.write("這是專為高榮人打造的學術羅盤，輔助同仁媒合國際會議...")
+
+with st.expander("🚀 出國資源法規導航員"):
+    st.markdown("[點我前往資源查詢](https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing)")
+
 with st.expander("🌍 世衛&醫教主題會議捕手", expanded=True):
-    with st.expander("🧪 AI 論文摘要/研究主題智慧媒合"):
+    with st.expander("🧪 AI 智慧媒合"):
         user_abstract = st.text_area("貼上摘要：")
-        if st.button("🪄 AI 媒合"):
-            st.session_state.user_has_searched = True # 這裡會接上原本的 AI 邏輯
+        if st.button("🪄 AI 媒合"): st.session_state.user_has_searched = True
     
-    with st.expander("🧪 會議條件篩選", expanded=True):
-        col1, col2 = st.columns(2)
-        search_keyword = col1.text_input("🔎 關鍵字搜尋")
-        selected_categories = col2.multiselect("🏷️ 專業類別", options=all_categories)
+    with st.expander("🧪 會議條件篩選"):
+        search_keyword = st.text_input("🔎 關鍵字搜尋")
+        selected_categories = st.multiselect("🏷️ 專業類別", options=all_categories)
         if st.button("GO"): st.session_state.user_has_searched = True
 
 # --- 6. 結果顯示 ---
