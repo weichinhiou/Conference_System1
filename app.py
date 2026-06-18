@@ -70,7 +70,7 @@ if "user_has_searched" not in st.session_state: st.session_state.user_has_search
 if "ai_suggested_cats" not in st.session_state: st.session_state.ai_suggested_cats = []
 
 with st.expander("🐾 有關本系統"):
-    st.write("正式版已啟用，本版將不再更新囉~~請移駕https://ksvgh-anywhere-door.vercel.app/")
+    st.write("正式版已啟用，本測試版將不再更新囉~~請移駕https://ksvgh-anywhere-door.vercel.app/ 謝謝!!")
 
 with st.expander("🚀 出國資源法規導航員"):
     st.markdown("[點我前往資源查詢](https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing)")
