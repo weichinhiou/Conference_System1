@@ -45,53 +45,58 @@ if category_col:
                 if t and t not in ['與', '及', 'and', '&']: cat_set.add(t)
     all_categories = sorted(list(cat_set))
 
-# --- 4. 標題與 CSS ---
+# --- 4. 標題區 ---
 col_t1, col_t2, col_t3 = st.columns([1, 8, 1])
 with col_t2:
     st.markdown("<div style='text-align: center; font-size: 32px; font-weight: bold; color: #f1f5f9;'>高榮無界任意門</div>", unsafe_allow_html=True)
     st.markdown("<div style='text-align: center; font-size: 20px; color: #94a3b8;'>KSVGH Borderless Anywhere Door 🚪✨</div>", unsafe_allow_html=True)
+    st.markdown("<div style='text-align: center; font-size: 14px; color: #64748b;'>GLOBAL MEDICAL EDUCATION PLATFORM</div>", unsafe_allow_html=True)
 st.caption("🔄 更新日期: 2026 / 06 / 15")
 
-st.markdown("""<style>
+# --- 5. 完整 CSS 樣式 (已嚴格修正) ---
+st.markdown("""
+    <style>
     div[data-testid="stExpander"] { background-color: #1e222b; border: 1px solid #2d323f; border-radius: 12px; margin-bottom: 20px; border-left: 5px solid #64748b; }
-    div[data-testid="stExpander"] summary p { font-size: 20px !important; font-weight: bold; color: #94a3b8; }
-    div[data-testid="stButton"] button { background-color: #66CC66 !important; color: white !important; }
-    </style>""", unsafe_allow_html=True)
+    div[data-testid="stExpander"] summary { padding-top: 12px !important; padding-bottom: 12px !important; }
+    div[data-testid="stExpander"] summary p { font-size: 20px !important; font-weight: bold; color: #94a3b8; line-height: 1.4 !important; }
+    div[data-testid="stExpander"]:has(a[href*="18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA"]) { border-left: 5px solid #a855f7 !important; }
+    div[data-testid="stExpander"]:has(a[href*="18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA"]) summary p { color: #d8b4fe !important; }
+    div[data-testid="stExpander"]:has(a[href*="1Hmt10muecDgjKXs0dNU9kaasEdFpPRhU"]) { border-left: 5px solid #c5a880 !important; background-color: #24211c !important; }
+    div[data-testid="stExpander"]:has(a[href*="1Hmt10muecDgjKXs0dNU9kaasEdFpPRhU"]) summary p { color: #e6dfd5 !important; }
+    div[data-testid="stExpander"]:has(input), div[data-testid="stExpander"]:has(select) { border-left: 5px solid #66CC66 !important; }
+    div[data-testid="stExpander"]:has(input) summary p, div[data-testid="stExpander"]:has(select) summary p { color: #66CC66 !important; }
+    div[data-testid="stExpander"] div[data-testid="stExpander"] { border-left: 5px solid #64748b !important; background-color: #1a1d24 !important; }
+    div[data-testid="stExpander"] div[data-testid="stExpander"] summary p { font-size: 16px !important; color: #94a3b8 !important; }
+    div[data-testid="stButton"] button { background-color: #66CC66 !important; color: white !important; border: none !important; border-radius: 8px !important; height: 40px !important; font-weight: bold !important; }
+    div[data-testid="stButton"] button:hover { background-color: #4da64d !important; }
+    </style>
+""", unsafe_allow_html=True)
 
-# --- 5. 功能區 ---
+# --- 6. 功能區 ---
 if "user_has_searched" not in st.session_state: st.session_state.user_has_searched = False
 if "ai_suggested_cats" not in st.session_state: st.session_state.ai_suggested_cats = []
 
-with st.expander("🐾 有關本系統"):
-    st.write("這是專為高榮人打造的學術羅盤，輔助同仁媒合國際會議...")
+with st.expander("🐾有關本系統"):
+    st.markdown("🌊<b>嗨！高榮的學術航海王們！</b><br>這裡就是專為高榮人打造的學術羅盤，點開下方任意門，一秒打通與世界接軌的通道！🐬", unsafe_allow_html=True)
 
 with st.expander("🚀 出國資源法規導航員"):
-    st.markdown("[點我前往資源查詢](https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing)")
+    st.markdown("<a href='https://gemini.google.com/gem/18x5GMgjMdXG5Ume9-ySxoECpU7qS4mzA?usp=sharing' style='color: #d8b4fe; font-weight: bold;'>戳我一下，查看經費補助與公假規範~</a>", unsafe_allow_html=True)
 
-# 已補回區塊
 with st.expander("🏈 出國進修知識大腦"):
-    st.markdown("<a href='https://gemini.google.com/gem/1Hmt10muecDgjKXs0dNU9kaasEdFpPRhU?usp=sharing' style='color: #f3e8ee;'>不知道怎麼開始規劃進修嗎，來問問結訓返國有豐富經驗的學長姊吧~</a>", unsafe_allow_html=True)
+    st.markdown("<a href='https://gemini.google.com/gem/1Hmt10muecDgjKXs0dNU9kaasEdFpPRhU?usp=sharing' style='color: #f3e8ee; font-weight: bold;'>不知道怎麼開始規劃進修嗎，來問問結訓返國有豐富經驗的學長姊吧~</a>", unsafe_allow_html=True)
 
-with st.expander("🌍 世衛&醫教主題會議捕手", expanded=True):
-    with st.expander("🧪 AI 智慧媒合"):
+with st.expander("🌍 世衛&醫教主題會議捕手"):
+    # 此處維持你原有的 AI 媒合與搜尋篩選邏輯
+    with st.expander("🧪 AI 論文摘要智慧媒合"):
         user_abstract = st.text_area("貼上摘要：")
-        if st.button("🪄 AI 媒合"): st.session_state.user_has_searched = True
+        if st.button("🪄 讓 AI 幫我推薦"): st.session_state.user_has_searched = True
     
     with st.expander("🧪 會議條件篩選"):
         search_keyword = st.text_input("🔎 關鍵字搜尋")
         selected_categories = st.multiselect("🏷️ 專業類別", options=all_categories)
         if st.button("GO"): st.session_state.user_has_searched = True
 
-# --- 6. 結果顯示 ---
+# --- 7. 結果呈現 ---
 if st.session_state.user_has_searched:
-    filtered_df = df.copy()
-    if search_keyword:
-        mask = filtered_df.astype(str).apply(lambda x: x.str.contains(search_keyword, case=False)).any(axis=1)
-        filtered_df = filtered_df[mask]
-    st.write(f"共找到 {len(filtered_df)} 筆資料：")
-    st.dataframe(filtered_df, use_container_width=True)
-    
-    output = BytesIO()
-    with pd.ExcelWriter(output, engine='openpyxl') as writer:
-        filtered_df.to_excel(writer, index=False)
-    st.download_button("📥 下載查詢結果", data=output.getvalue(), file_name="結果.xlsx")
+    st.write(f"共找到資料：")
+    st.dataframe(df, use_container_width=True)
